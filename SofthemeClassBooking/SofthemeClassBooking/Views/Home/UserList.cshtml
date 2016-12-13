@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section stylesDeclarationInHeader
+{
+    @Styles.Render("~/bundles/styles/users")
+}
+
+@using PagedList.Mvc
+@model PagedList.IPagedList<SofthemeClassBooking.Models.ApplicationUser>
+
+<div></div>
+<p id="users-title">
+    Список пользователей
+</p>
+<p id="users-list-count">Всего:  3</p>
+<div id="users">
+    <table cellspacing="5" cellpadding="10">
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    <p> @user.UserName </p>
+                </td>
+                <td>
+                    <p>@user.Email</p>
+                </td>
+                <td>
+                    <p> 23</p>
+                </td>
+            </tr>
+        }
+    </table>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>

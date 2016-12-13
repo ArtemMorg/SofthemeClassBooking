@@ -1,105 +1,112 @@
-﻿   body,
-        html {
-         
-            color: #4a5158;
-        }
-        
-        .wrapper {
-            width: 900px;
-            margin: auto;
-        }
-        
-        .clear {
-            clear: both;
-        }
-        
-        .nav {
-            height: 60px;
-            width: 100%;
-            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
-        }
-        
-        .nav img.logo {
-            margin-top: 12px;
-        }
-        
-        .nav .wrapper>div {
-            display: inline-block;
-            height: 57px;
-        }
-        
-        .nav .wrapper div:first-child {
-            float: left;
-        }
-        
-        .nav .wrapper div:last-child {
-            float: right;
-        }
-        
-        .nav ul.logo {
-            margin: 0;
-            line-height: 57px;
-            padding: 0;
-        }
-        
-        .nav ul li {
-            display: inline-block;
-            padding: 0 20px;
-        }
-        
-        .nav ul li:first-child {
-            background: url(plus.png) no-repeat center center;
-            color: transparent;
-        }
-        
-        .nav ul li:last-child {
-            background: #f4f6fb url(chel.png) no-repeat;
-            background-position: 18px center;
-            padding-left: 45px;
-            background-size: 15%;
-            border-bottom: 3px solid red;
-        }
-        
-        .nav ul li:hover {
-            border-bottom: 3px solid red;
-            background-color: #f4f6fb;
-        }
-        
-        #exit,
-        #change {
-            width: 140px;
-            height: 35px;
-            line-height: 35px;
-            padding: 0;
-            border: 0;
-            margin-top: 20px;
-            float: right;
-            border-radius: 20px;
-            background-color: #c8ceda;
-        }
-        
-        #change {
-            float: none;
-            margin: auto;
-            display: block;
-            margin-top: 40px;
-        }
-        
-        .content {
-            margin-top: 20px;
-        }
-        
-        .info {
-            height: 300px;
-            width: 320px;
-            float: left;
-        }
-        
-        .info h1 {
-            font-weight: 100;
-        }
-        
-        .info h1 sup {
+﻿.wrapper {
+    width: 900px;
+    margin: auto;
+}
+
+.clear {
+    clear: both;
+}
+
+.nav {
+    height: 60px;
+    width: 100%;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+    .nav img.logo {
+        margin-top: 12px;
+    }
+
+    .nav .wrapper > div {
+        display: inline-block;
+        height: 57px;
+    }
+
+    .nav .wrapper div:first-child {
+        float: left;
+    }
+
+.navtext img {
+    position: relative;
+    left: -55px;
+}
+
+.UserName {
+    position: relative;
+    top: 2px;
+    left: 0px;
+    width: 127px;
+}
+
+.nav .wrapper div:last-child {
+    float: right;
+}
+
+.content #exit {
+    margin-bottom: 0;
+    width: 150px;
+    padding: 0;
+    background: #c8ceda;
+    position: relative;
+    top: -13px;
+    left: -133px;
+}
+
+
+
+
+#exit,
+#change {
+    width: 140px;
+    height: 35px;
+    line-height: 35px;
+    padding: 0;
+    border: 0;
+    margin-top: 20px;
+    float: right;
+    border-radius: 20px;
+    background-color: #c8ceda;
+    color: #6D737C;
+}
+
+#change {
+    float: none;
+    margin: auto;
+    display: block;
+    margin-top: 40px;
+    position: relative;
+    top: 3px;
+    left: -6px;
+    width: 148px;
+}
+
+.content {
+    margin-top: 20px;
+}
+
+.info {
+    height: 300px;
+    width: 320px;
+    float: left;
+    position: relative;
+    top: 5px;
+    left: 137px;
+}
+
+    .info p:first-child {
+        font-size: 30px;
+        position: relative;
+        top: 1px;
+    }
+
+    .info p {
+        position: relative;
+        top: 5px;
+        left: 0px;
+        font-size: 15px;
+    }
+
+        .info p sup {
             color: white;
             font-size: 11px;
             background: #f95752;
@@ -107,74 +114,146 @@
             padding: 4px 12px 5px;
             font-weight: 100;
         }
-        
-        .pass {
-            float: right;
-            width: 450px;
-            height: 320px;
-            background: #ebeef7;
-            text-align: center;
-        }
-        
-        .pass h2 {
-            margin-top: 30px;
-        }
-        
-        .pass form input{
-            display: block;
-            margin: auto;
-            border: 0;
-            margin-bottom: 20px;
-            height: 35px;
-            width: 260px;
-            border-radius: 20px;
-            padding-left: 20px;
-            outline: none;
 
-        }
-        .changeuser form input {
-            display: block;
-            margin: auto;
-            border-width: 2px;
-            margin-bottom: 20px;
-            height: 35px;
-            width: 260px;
-            border-radius: 20px;
-            padding-left: 20px;
-            outline: none;
-           
-            border: 2px solid  #F2F4FA;
-        }
-        .changeuser {
-            margin-top: 100px;
-        }
-        .pass form input[type=submit], .changeuser form input[type=submit]{
-            margin-bottom: 0;
-            width: 140px;
-            padding: 0;
-            background: #c8ceda;
-        }
-        #exit {
-            
-            margin-bottom: 0;
-            width: 140px;
-            padding: 0;
-            background: #c8ceda;
-        
-        }
-        
-.button-OK{
-    background-Color : #F95752 !important; 
-     border: none;
+.pass {
+    float: right;
+    width: 481px;
+    height: 318px;
+    background: #ebeef7;
+    text-align: center;
+    Position: relative;
+    left: -135px;
+    top: 3px;
 }
-.button-refuse {
-    background-Color: #C8CDD9!important;
+
+    .pass p {
+        margin-top: 30px;
+        font-size: 23px;
+        position: relative;
+        top: 8px;
+        left: -3px;
+    }
+
+    .pass form input {
+        font-size: 14px;
+        display: block;
+        margin: auto;
+        border: 0;
+        margin-bottom: 20px;
+        height: 35px;
+        margin-top: -2px;
+        border-radius: 20px;
+        padding-left: 10px;
+        outline: none;
+        position: relative;
+        top: 5px;
+        left: 7px;
+        width: 266px;
+    }
+
+form input[type=submit], #info input[type=submit] {
+    color: #6D737C;
+}
+
+.changeuser form input {
+    display: block;
+    margin: auto;
+    border-width: 2px;
+    margin-bottom: 13px;
+    height: 35px;
+    width: 260px;
+    border-radius: 20px;
+    padding-left: 20px;
+    outline: none;
+    border: 2px solid #F2F4FA;
+}
+
+    .changeuser form input[type=submit] {
+        position: relative;
+        top: 9px;
+        left: -35px;
+        height: 40px;
+        width: 155px;
+        color: white;
+    }
+
+.changeuser {
+    position: relative;
+    top: 28px;
+    left: -58px;
+}
+
+    .changeuser input[type=text], .changeuser input[type=email] {
+        width: 332px;
+        position: relative;
+        top: 3px;
+        left: 32px;
+        height: 33px;
+    }
+
+    .pass form input[type=submit], .changeuser form input[type=submit] {
+        margin: -7px 167px;
+        width: 151px;
+        padding: 0;
+        background: #c8ceda;
+    }
+
+#exit {
+    margin-bottom: 0;
+    width: 140px;
+    padding: 0;
+    background: #c8ceda;
+}
+
+.button-OK {
+    background-Color: #F95752 !important;
+    color: white !important;
     border: none;
+    cursor: pointer !important;
 }
-.changepassword-success 
-{
-        margin: 2px;
+
+.button-refuse {
+    background-Color: #C8CDD9 !important;
+    border: none;
+    color: #6A7179 !important;
+    cursor: pointer !important;
+}
+
+#changepassword-success p {
+    margin: 2px;
     height: 12px;
-    font-size: 10px;
- 
+    font-size: 14px;
+    position: relative;
+    top: -16px;
+}
+
+#changepassword-success img {
+    position: relative;
+    top: 5px;
+    left: -4px;
+}
+
+#changepassword-success {
+    position: relative;
+    top: 29px;
+}
+
+.changeuser #Admin_toogle {
+    position: relative;
+    top: 3px;
+    left: 35px;
+}
+
+.changeuser span {
+    color: #8F9295;
+    font-size: 14px;
+    position: relative;
+    top: 4px;
+    left: 10px;
+}
+
+#AdminForm #changeName {
+    position: relative;
+    top: 27px;
+    left: -32px;
 }

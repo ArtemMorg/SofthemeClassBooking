@@ -1,23 +1,22 @@
 ﻿#map-section {
-    height: 442px;
+    height: 416px;
     width: 100%;
 }
 
 #plan-section {
     position: relative;
     top: -5px;
-    height: 517px;
+    height: 522px;
     width: 100%;
     background-color: #EBEEF7;
 }
 
 .plan-stage {
     position: absolute;
-    left: 47%;
-    top: 11%;
+    left: 587px;
+    top: 58px;
     padding: 0;
     margin: 0;
-    font-family: 'Arial';
     font-size: 35px;
     z-index: 1;
     color: #4A5158;

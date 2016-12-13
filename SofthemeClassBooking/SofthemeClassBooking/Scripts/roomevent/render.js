@@ -8,8 +8,8 @@ var roomEventHeader = $('.roomevent-header-date-section');
 
 //var roomNames = ['Einstein Classroom', 'Tesla Classroom', 'Newton Classroom'];
 
-var fisrtTimeCellWidth = 126;
-var timeCellWidth = 124;
+var fisrtTimeCellWidth = 102;
+var timeCellWidth = 122;
 var minutePerPixel = (timeCellWidth / 60);
 
 var firstTimeCellHour;
@@ -176,14 +176,14 @@ function renderTime(timeCellCount, resetTime) {
     };
 
     headerTime.empty();
-    headerTime.append('<div class="roomevent-time-cell"></div>');
+    headerTime.append('<div class="roomevent-time-cell roomevent-cell-first "></div>');
 
     firstTimeCellDate = 'hour-cell-' + renderDate.year + '-' + renderDate.month + '-' + renderDate.day + '-' + renderDate.hour;
     firstTimeCellHour = renderDate.hour;
 
     for (var cell = 1; cell <= timeCellCount; cell++) {
         var hourCellId = 'hour-cell-' + renderDate.year + '-' + renderDate.month + '-' + renderDate.day + '-' + renderDate.hour;
-        headerTime.append('<div id="' + hourCellId + '" class="roomevent-time-cell roomevent-time-cell-middle">' + renderTimeMinutes(renderDate.hour, 0) + '</div>');
+        headerTime.append('<div id="' + hourCellId + '" class="roomevent-time-cell roomevent-time-cell-middle"><div class="text">' + renderTimeMinutes(renderDate.hour, 0) + '</div></div>');
 
         addValueToDate(renderDate, { hour: 1 }, true);
     }
@@ -220,8 +220,8 @@ function renderRooms(timeCellCount, resetTime) {
             roomSection.append('<div id="room-row-' + currentRoomId + '"></div>');
 
             var currentRow = $('#room-row-' + currentRoomId);
-            currentRow.append('<div class="roomevent-room-cell">' +
-                                     '<div class="roomdiv">' + renderClassRooms[currentRoom - 1].Name + '</div>' +
+            currentRow.append('<div class="roomevent-room-cell roomevent-cell-first">' +
+                                     '<div class="roomdiv"><div class="text">' + renderClassRooms[currentRoom - 1].Name + '</div></div>' +
                                      '</div>');
 
             for (var cell = 0; cell < timeCellCount; cell++) {
@@ -375,7 +375,7 @@ function renderEventAdd(currentRoomCellObject) {
 
 function renderSliders(timeCellCount) {
     headerTime.append('<div id="header-time-slider-zone"></div>');
-    $('#header-time-slider-zone').css('width', 124 * timeCellCount);
+    $('#header-time-slider-zone').css('width', timeCellWidth * timeCellCount);
 
     $('#header-time-slider-zone').append(
     '<div id="slider-static">' +
@@ -391,7 +391,7 @@ function renderSliders(timeCellCount) {
             '<div class="slider-time"></div>' +
             '</div>');
 
-    $('#slider, #slider-static').css('height', ((renderClassRooms.length * 48) + 44));
+    $('#slider, #slider-static').css('height', ((renderClassRooms.length * 47) + 43));
     $('.slider-time').html(renderTimeMinutes(firstTimeCellHour, 0));
     $('#slider').draggable({
         axis: "x",

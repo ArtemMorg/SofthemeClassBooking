@@ -4,7 +4,7 @@ var calendarTodayNavigationValue = $('#roomevent-calendar-today');
 
 var dayNames = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 var monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
-var monthNamesAccusative = ["Января", "Февраля", "Марта", "Апреля", "Майа", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"];
+var monthNamesAccusative = ["Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"];
 
 
 
@@ -41,7 +41,7 @@ function renderCalendar(month) {
 
     var selectedCalendarMonth = month || dateNow.month;
 
-    var maxRowCalendarSize = 6;
+    var maxRowCalendarSize = 5;
     var maxCellCalendarSize = 7;
 
     var firstDayOfWeekInMonth = getDayOfWeek(new Date(currentCalendarYear + '-' + selectedCalendarMonth + '-01').getDay());

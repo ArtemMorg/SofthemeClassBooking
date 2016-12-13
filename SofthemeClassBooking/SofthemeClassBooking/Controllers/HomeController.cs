@@ -16,40 +16,17 @@ namespace SofthemeClassBooking.Controllers
         {
             return View();
         }
-          [Authorize]
+
+       [Authorize]
         public ActionResult UserProfile()
         {
             return View("Profile");
-        }
-        
-
-        public ActionResult Schedule()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View("Index");
-        }
-
-        [HttpGet]
-        public ActionResult PlanPartial()
-        {
-            //Thread.Sleep(2000);
-            return PartialView();
         }
 
         [HttpGet]
         public ActionResult MapPartial()
         {
-            //Thread.Sleep(2000);
             return PartialView();
         }
-
-        [HttpGet]
-        public ActionResult CalenderPartial()
-        {
-            //Thread.Sleep(2000);
-            return PartialView();
-        }
-       
     }
 }

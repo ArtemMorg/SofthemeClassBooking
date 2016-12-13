@@ -15,7 +15,7 @@
         margin: 0;
         padding: 0;
         overflow: hidden;
-        padding-right: 134px;
+        padding-right: 111px;
     }
 
     nav .fa-plus-square {
@@ -23,7 +23,7 @@
         font-size: 47px;
         line-height: 61px;
         color: #9FA6B6;
-        margin-right: 20px;
+        margin: 0 21px 0 0;
     }
 
     nav li {
@@ -32,21 +32,26 @@
     }
 
         nav li a, nav li .a-user {
+            font: 14px/21px Arial, Helvetica;
             height: 61px;
             display: block;
             color: #4A5158;
             text-decoration: none;
             text-align: center;
-            padding-left: 19px;
-            padding-right: 19px;
+            padding: 0 22px 0 19px;
             text-decoration: none;
+        }
+
+        nav li .a-user {
+            position: relative;
+            left: 7px;
         }
 
         nav .li-user {
             position: relative;
-            left: 11px;
+            left: 21px;
             font-size: 24px;
-            line-height: 56px;
+            line-height: 59px;
             color: #4A5158;
         }
 
@@ -70,7 +75,7 @@
 nav .nav-text {
     height: inherit;
     display: inherit;
-    padding-top: 20px;
+    padding: 20px 0 0 0;
 }
 
 
@@ -98,7 +103,7 @@ nav .containerLogo {
     nav .containerLogo img {
         display: block;
         padding-top: 16px;
-        padding-left: 112px;
+        padding-left: 124px;
     }
 
 nav .containerNav {
@@ -112,16 +117,16 @@ footer {
     right: 0;
     bottom: 0;
     left: 0;
-    height: 145px;
+    height: 128px;
     background-color: #F4F6FB;
 }
 
     footer .line {
-        padding-top: 10px;
+        padding-top: 14px;
     }
 
     footer .image {
-        padding-top: 30px;
+        padding-top: 28px;
     }
 
     footer hr {
@@ -133,13 +138,13 @@ footer {
     footer .container {
         margin: 0 auto;
         height: inherit;
-        width: 188px;
+        width: 162px;
         align-content: center;
     }
 
     footer .text {
-        font-size: 14px;
+        font-size: 12px;
         color: #CFD4E1;
         text-align: center;
-        padding-top: 5px;
+        padding-top: 10px;
     }

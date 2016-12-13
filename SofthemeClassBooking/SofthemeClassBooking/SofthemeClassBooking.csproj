@@ -118,6 +118,14 @@
       <HintPath>..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -237,6 +245,7 @@
     <Content Include="Content\css\registration.css" />
     <Content Include="Content\css\reset.css" />
     <Content Include="Content\css\roomevent.css" />
+    <Content Include="Content\css\users.css" />
     <Content Include="Content\images\addEvent.png" />
     <Content Include="Content\images\addinfo\icon-board.png" />
     <Content Include="Content\images\addinfo\icon-laptop.png" />
@@ -279,6 +288,7 @@
     <Content Include="Content\images\walls.png" />
     <Content Include="Content\css\layout.css" />
     <Content Include="Content\css\plan.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -373,6 +383,7 @@
     <Content Include="Views\Home\Profile.cshtml" />
     <Content Include="Views\Home\ChangeUserNameEmail.cshtml" />
     <Content Include="Views\Event\Create.cshtml" />
+    <Content Include="Views\Home\UserList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

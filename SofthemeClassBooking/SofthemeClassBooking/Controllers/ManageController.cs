@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using PagedList;
 using SofthemeClassBooking.Models;
 
 namespace SofthemeClassBooking.Controllers
@@ -16,8 +17,19 @@ namespace SofthemeClassBooking.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+
         public ManageController()
         {
+        }
+
+
+        [Authorize]
+        [Authorize(Roles = "admin")]
+        public ActionResult UserList(int? page)
+        {
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View("~/Views/Home/UserList.cshtml", UserManager.Users.ToList().ToPagedList(pageNumber, pageSize));
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
