@@ -33,7 +33,7 @@ namespace SofthemeClassBooking_DAL
 
         public DateTime EndingDate { get; set; }
 
-        [StringLength(200)]
+        [StringLength(300)]
         public string Description { get; set; }
 
         public bool IsPrivate { get; set; }

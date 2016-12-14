@@ -19,8 +19,13 @@ namespace SofthemeClassBooking.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
+
+            if (id != null)
+            {
+                ViewBag.SelectedRoomId = id;
+            }
             return PartialView(_classRoomService.Get());
         }
 

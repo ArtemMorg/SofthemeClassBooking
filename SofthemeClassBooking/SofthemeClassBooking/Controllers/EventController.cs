@@ -14,6 +14,7 @@ using Newtonsoft.Json.Converters;
 using SofthemeClassBooking.Models;
 using SofthemeClassBooking_BOL.Contract.Services;
 using SofthemeClassBooking_BOL.Models;
+using SofthemeClassBooking.Localization;
 
 namespace SofthemeClassBooking.Controllers
 {
@@ -31,27 +32,46 @@ namespace SofthemeClassBooking.Controllers
 
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult Brief()
         {
             var eventsBriefJson = JsonConvert.SerializeObject(_eventService.GetBrief(), Formatting.None, new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd-HH-mm-ss" });
             return Json(eventsBriefJson, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult Index(int id)
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(ApplicationDbContext.Create()));
             var eventInfo = _eventService.Get(id);
             eventInfo.Id = id;
 
+            var author = userManager.FindById(eventInfo.UserId).UserName;
+
+            if (User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]) ||
+                User.Identity.GetUserId() == eventInfo.UserId)
+            {
+                return View("EventOwner", new EventViewModel
+                {
+                    Event = eventInfo,
+                    Participants = _participantService.Get(id),
+                    Author = author
+                });
+            }
+
             return View(new EventViewModel
             {
                 Event = eventInfo,
                 ParticipantCount = _participantService.GetCount(id),
-                Author = userManager.FindById(eventInfo.UserId).UserName
+                Author = author
             });
 
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult InfoVerbose(int id)
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(ApplicationDbContext.Create()));
@@ -88,15 +108,15 @@ namespace SofthemeClassBooking.Controllers
                 }
                 catch (InvalidOperationException)
                 {
-                    return Json(new {message = WebConfigurationManager.AppSettings["RoomIsBusy"], success = false});
+                    return Json(new {message = Localization.Localization.ErrorRoomIsBusy, success = false});
                 }
                 catch (Exception)
                 {
-                    return Json(new { message = WebConfigurationManager.AppSettings["GeneralException"] , success = false });
+                    return Json(new { message = Localization.Localization.ErrorGeneralException , success = false });
                 }
             }
 
-            return Json(new {message = WebConfigurationManager.AppSettings["EventAddedSuccess"], success = true });
+            return Json(new {message = Localization.Localization.InfoEventAddedSuccess, success = true });
         }
 
     }

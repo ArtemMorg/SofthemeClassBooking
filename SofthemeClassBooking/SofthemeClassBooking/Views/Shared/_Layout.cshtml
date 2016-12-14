@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    
+
     @Styles.Render("~/bundles/styles/general")
     @Scripts.Render("~/bundles/scripts/jquery")
     @Scripts.Render("~/bundles/scripts/general")
@@ -23,8 +23,8 @@
             </a>
 
         </div>
-        
-      
+
+
         <div class="containerNav">
             <div>
                 @Html.Partial("_LoginPartial")
@@ -35,19 +35,21 @@
         @RenderBody()
     </div>
 
-<footer>
-    <div class="container">
-        <div class="image">
-            <img src="~/Content/images/logo-gray.png" alt="Softheme" />
+    <div id="lock" class="modal-background"></div>
+    <div id="event-modal-position"></div>
+    <footer>
+        <div class="container">
+            <div class="image">
+                <img src="~/Content/images/logo-gray.png" alt="Softheme" />
+            </div>
+            <div class="line">
+                <hr />
+            </div>
+            <div class="text">
+                Все права защищены &copy;2016
+            </div>
         </div>
-        <div class="line">
-            <hr />
-        </div>
-        <div class="text">
-            Все права защищены &copy;2016
-        </div>
-    </div>
-</footer>
+    </footer>
 
     @RenderSection("scriptDeclarationAfterFooter", required: false)
 </body>

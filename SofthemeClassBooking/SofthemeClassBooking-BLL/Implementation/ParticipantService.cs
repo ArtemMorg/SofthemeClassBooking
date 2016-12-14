@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using SofthemeClassBooking_BOL.Contract.Services;
 using SofthemeClassBooking_DAL;
 using SofthemeClassBooking_BOL.Models;
+using SofthemeClassBooking_BOL.Exceptions;
 
 namespace SofthemeClassBooking_BLL.Implementation
 {
@@ -14,6 +15,26 @@ namespace SofthemeClassBooking_BLL.Implementation
         {
             using (var context = new ClassBookingContext())
             {
+                var duplicatedEmails = context.Participants
+                                        .Count(p => p.EventId == participaModel.EventId && 
+                                               p.Email == participaModel.Email);
+
+                if (duplicatedEmails > 0)
+                {
+                    throw new ParticipantAlreadyRegisteredException();
+                }
+
+                var alreadyRegisteredCount = context.Participants.Count(p => p.EventId == participaModel.EventId);
+                var roomId =
+                    context.Events.Where(e => e.Id == participaModel.Id).Select(e => e.ClassRoomId).FirstOrDefault();
+                var roomCapacity =
+                    context.ClassRooms.Where(c => c.Id == roomId).Select(c => c.Capacity).FirstOrDefault();
+
+                if (alreadyRegisteredCount > roomCapacity)
+                {
+                    throw new ParticipantCountReachedMaximumRoomCapacityException();
+                }
+
                 context.Participants.Add(new Participants
                 {
                     Email = participaModel.Email,

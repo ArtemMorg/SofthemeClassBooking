@@ -10,127 +10,84 @@
 
         <div class="title">@Model.Event.Title</div>
 
-        <div class="author">
+        <div class="author noselect-text">
             <i class="fa fa-user"></i>
             <div class="event-creator-name">@Model.Author</div>
         </div>
 
         <div class="description">
-            @Model.Event.Description
+            @if (Model.Event.Description == null)
+            {
+                <span class="no-description">Описание не указано</span>
+            }
         </div>
 
 
-        <div class="participants">
-            <span>Планируют принять участие <span>@Model.ParticipantCount</span> человек</span>
-            @if (@Model.Event.IsParticipantsAllowed)
-            {
-                if (Model.Event.UserId == User.Identity.GetUserId())
+        @if (@Model.Event.IsParticipantsAllowed)
+        {
+
+            <div class="participant-add">
+                <div class="text">Планируют принять участие <span>@Model.ParticipantCount</span> человек</div>
+                <span>@Localization.EventParticipantJoin</span>
+                @if (DateTime.Compare(@Model.Event.EndingDate, DateTime.Now) > 0)
                 {
-                    <input id="Email" name="Email" type="text" placeholder="Вы уже принимаете участие в событии" required disabled />
+
+                    if (Model.Event.UserId == User.Identity.GetUserId())
+                    {
+                        <input id="Email" name="Email" type="text" placeholder="@Localization.ErrorEventAlreadyEnrolledPlaceholder" required disabled />
+                    }
+                    else
+                    {
+                        using (Html.BeginForm("Add", "Participant", FormMethod.Post, new { id = "add-participant-form" }))
+                        {
+                            
+                            <input id="add-participant-email" name="Email" type="text" placeholder="@Localization.EventParticipantJoinPlaceholder" required />
+                            <i id="add-participant-submit" class="fa fa-plus fa-lg"></i>
+                            <input type="hidden" name="EventId" value="@Model.Event.Id" />
+                        }
+
+                    }
                 }
                 else
                 {
-                    using (Html.BeginForm("Add", "Participant", FormMethod.Post, new { id = "add-participant-form" }))
-                    {<div class="participant-add">
-                <span>Присоединиться</span>
-                <input id="add-participant-email" name="Email" type="text" placeholder="Укажите e-mail чтобы присоединиться" required />
-                <i id="add-participant-from-event-submit" class="fa fa-plus fa-lg"></i>
-                <input type="hidden" name="EventId" value="@Model.Event.Id" />
-            </div>
-                    }
+
+                    <input type="text" placeholder="@Localization.ErrorEventPassedPlaceholder" />
+                    <i class="fa fa-plus fa-lg"></i>
                 }
 
-            }
-            else
-            {
-                <input id="Email" name="Email" type="text" placeholder="Событые уже свершилось" required disabled />
-            }
-
-        </div>
+            </div>
+        }
 
 
     </div>
 
-    <div class="eventpage-calendar-section">
+    <div class="eventpage-calendar-section noselect-text">
 
         <div class="eventpage-calendar">
             <div class="eventpage-calendar-header">
 
                 <div class="datetime">
-                    <div class="cell-icon">
-                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                    </div><!----><div class="cell">
-                        <div class="up"><i class="fa fa-sort-up"></i></div>
-                        <div class="value">18</div>
-                        <div class="down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
-                    </div><!----><div class="delimeter">
-                        <span>.</span>
-                    </div><!----><div class="cell">
-                        <div class="up"><i class="fa fa-sort-up"></i></div>
-                        <div class="value">05</div>
-                        <div class="down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
-                    </div><!----><div class="delimeter">
-                        <span>.</span>
-                    </div><!----><div class="cell">
-                        <div class="up"><i class="fa fa-sort-up"></i></div>
-                        <div class="value">16</div>
-                        <div class="down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    <div class="event-time-simple">
+                        <div class="text">18.05.16</div>
                     </div>
-
                 </div>
 
 
                 <div class="datetime">
-                    <div class="cell-icon-time">
-                        <i class="fa fa-clock-o" aria-hidden="true"></i>
-                    </div><!----><div class="cell">
-                        <div class="up"><i class="fa fa-sort-up"></i></div>
-                        <div class="value">18</div>
-                        <div class="down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
-                    </div><!----><div class="delimeter">
-                        <span>:</span>
-                    </div><!----><div class="cell">
-                        <div class="up"><i class="fa fa-sort-up"></i></div>
-                        <div class="value">05</div>
-                        <div class="down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
-                    </div><!----><div class="time-delimeter">
-                        <span>-</span>
-                    </div><!----><div class="cell">
-                        <div class="up"><i class="fa fa-sort-up"></i></div>
-                        <div class="value">16</div>
-                        <div class="down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
-                    </div><!----><div class="delimeter">
-                        <span>:</span>
-                    </div><!----><div class="cell">
-                        <div class="up"><i class="fa fa-sort-up"></i></div>
-                        <div class="value">05</div>
-                        <div class="down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    <div class="event-time-simple">
+                        <div class="text">18:00&nbsp;-&nbsp;18:30</div>
                     </div>
 
                 </div>
 
-            </div>
-
-            <div class="icon-section">
-                <div class="icon-position">
-                    <i class="fa fa-calendar-plus-o"></i>
-                    <i class="fa fa-envelope-o"></i>
-                    <i class="fa fa-print"></i>
-                </div>
-            </div>
-
-            <div class="button-section">
-                <button class="cancel">Отмена</button>
-                <button class="save">Сохранить</button>
-            </div>
-
-            <div class="error-section">
-                <div class="icon">
-                    <i class="fa fa-frown-o"></i>
-                </div>
-
-                <div class="message">
-                    <span>Эта аудитория занята на выбранное время. Выберите, пожалуйста, другое.</span>
+                <div class="icon-section">
+                    <div class="icon-position">
+                        <i class="fa fa-calendar-plus-o"></i>
+                        <i class="fa fa-envelope-o"></i>
+                        <i class="fa fa-print"></i>
+                    </div>
                 </div>
 
             </div>
@@ -140,104 +97,69 @@
     </div>
 
 
-    <div class="participant-list">
-        <div class="header">Зарегистрирование участники:</div>
-
-        <div class="participant-section">
-
-            <div class="participant">
-                <div class="circle"></div>
-                <div class="email">user1@softheme.com.ua</div>
-                <i class="fa fa-times" aria-hidden="true"></i>
+    <div id="plan-section" class="plan-section plan-section-event">
+        <div id="plan-loading">
+            <div class="plan-loading-section">
+                <div>@Localization.LoadingPlanSection...</div>
+                <div>
+                    <img src="~/Content/images/gif/ajax-loader.gif" />
+                </div>
             </div>
-
-            <div class="participant">
-                <div class="circle"></div>
-                <div class="email">user1@softheme.com.ua</div>
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
-
-            <div class="participant">
-                <div class="circle"></div>
-                <div class="email">user1@softheme.com.ua</div>
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
-
-            <div class="participant">
-                <div class="circle"></div>
-                <div class="email">user1@softheme.com.ua</div>
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
-
         </div>
     </div>
 
+
+    <div class="eventpage-navigation">
+        <div id="schedule-selected-room" class="eventpage-schedule-box">
+
+            <div class="block">
+
+                <div>
+                    <div class="block-element dark"></div>
+                    <div class="block-element dark"></div>
+                </div>
+                <div>
+                    <div class="block-element dark"></div>
+                    <div class="block-element light"></div>
+                </div>
+
+            </div>
+
+            <div class="text">
+                <div>@Localization.EventRoomSchedule</div>
+                <div id="eventpage-room-name" class="second-line"></div>
+            </div>
+
+        </div>
+
+        <div id="schedule-all-rooms" class="eventpage-schedule-box">
+
+            <div class="block">
+
+                <div>
+                    <div class="block-element light"></div>
+                    <div class="block-element light"></div>
+                </div>
+                <div>
+                    <div class="block-element light"></div>
+                    <div class="block-element light"></div>
+                </div>
+
+            </div>
+
+            <div class="text">
+                <div>@Localization.Schedule</div>
+                <div class="second-line">всех аудиторий</div>
+            </div>
+
+        </div>
+
+    </div>
 </div>
-
-
-<div id="plan-section">
-    <div id="plan-loading">
-        <div class="plan-loading-section">
-            <div>Загрузка плана этажа...</div>
-            <div>
-                <img src="~/Content/images/gif/ajax-loader.gif" />
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="eventpage-navigation">
-    <div class="eventpage-schedule-box">
-
-        <div class="block">
-
-            <div>
-                <div class="block-element dark"></div>
-                <div class="block-element dark"></div>
-            </div>
-            <div>
-                <div class="block-element dark"></div>
-                <div class="block-element light"></div>
-            </div>
-
-        </div>
-
-        <div class="text">
-            <div>Расписание аудитории</div>
-            <div>Tesla classroom</div>
-        </div>
-
-    </div>
-
-    <div class="eventpage-schedule-box">
-
-        <div class="block">
-
-            <div>
-                <div class="block-element light"></div>
-                <div class="block-element light"></div>
-            </div>
-            <div>
-                <div class="block-element light"></div>
-                <div class="block-element light"></div>
-            </div>
-
-        </div>
-
-        <div class="text">
-            <div>Расписание</div>
-            <div>всех аудиторий</div>
-        </div>
-
-    </div>
-
-</div>
-
 <div id="map-section">
     <div id="map-loading">
         <div class="plan-loading-section">
-            <div>Загрузка карты...</div>
+            <div>@Localization.LoadingMapSection...</div>
             <div>
                 <img src="~/Content/images/gif/ajax-loader.gif" />
             </div>
@@ -249,10 +171,58 @@
 
     (function ($, window, document) {
 
-        $(function () {
+        $.ajax({
+            url: '@Url.Action("Index","Classroom", new {id = Model.Event.ClassRoomId})',
+            method: 'GET',
+            cache: false,
+            dataType: 'html',
+            success: function (result) {
+                $('#plan-section').html(result);
+                $('#plan-room-path').addClass('plan-room-path-@Model.Event.ClassRoomId');
+                $('#eventpage-room-name').html($('#eventpage-selected-room').val());
+            },
 
+            error: function (result) {
+                $('#plan-section').html(result);
+            },
 
+            function() {
+                $('#plan-loading').hide();
+            }
         });
+
+
+        $('#schedule-all-rooms').click(function () {
+            window.location = '@Url.Action("Index","Home")';
+        });
+
+        $('#schedule-all-rooms').click(function () {
+            window.location = '@Url.Action("Index","Home")';
+        });
+
+        $('#schedule-selected-room').click(function () {
+            window.location = '@Url.Action("RoomPage","Classroom", new {id = Model.Event.ClassRoomId})';
+        });
+
+
+        $.ajax({
+            url: '@Url.Action("MapPartial","Home")',
+            method: 'GET',
+            cache: false,
+            dataType: 'html',
+            success: function (result) {
+                $('#map-section').html(result);
+            },
+
+            error: function (result) {
+                $('#map-section').html(result);
+            },
+
+            function() {
+                $('#map-loading').hide();
+            }
+        });
+
         // The rest of the code goes here!
     }(window.jQuery, window, document));
 

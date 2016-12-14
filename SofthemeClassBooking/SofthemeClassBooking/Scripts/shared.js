@@ -20,6 +20,8 @@ function setEngineUrl(url) {
         RoomIdNameUrl: url.RoomIdNameUrl,
         RoomPageUrl: url.RoomPageUrl,
         RoomEventSectionUrl: url.RoomEventSectionUrl,
+        RoomEditUrl: url.RoomEditUrl,
+        RoomChangeStatusUrl: url.RoomChangeStatusUrl,
         PlanSectionUrl: url.PlanSectionUrl,
         PlanAdditionalUrl: url.PlanAdditionalUrl,
         MapSectionUrl: url.MapSectionUrl,

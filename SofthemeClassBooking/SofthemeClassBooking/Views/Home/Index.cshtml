@@ -2,10 +2,10 @@
     @Styles.Render("~/bundles/styles/plan")
 }
 
-<div id="plan-section">
+<div id="plan-section" class="plan-section">
     <div id="plan-loading">
         <div class="plan-loading-section">
-            <div>Загрузка плана этажа...</div>
+            <div>@Localization.LoadingPlanSection...</div>
             <div>
                 <img src="~/Content/images/gif/ajax-loader.gif" alt="loader" />
             </div>
@@ -17,7 +17,7 @@
 <div id="roomevent-section" style="margin-left: 126px; padding-top: 25px;">
     <div id="roomevent-loading">
         <div class="roomevent-loading-section">
-            <div>Загрузка рассписания...</div>
+            <div>@Localization.LoadingRoomEventSection...</div>
             <div>
                 <img src="~/Content/images/gif/ajax-loader.gif" />
             </div>
@@ -29,16 +29,13 @@
 <div id="map-section">
     <div id="map-loading">
         <div class="plan-loading-section">
-            <div>Загрузка карты...</div>
+            <div>@Localization.LoadingMapSection...</div>
             <div>
                 <img src="~/Content/images/gif/ajax-loader.gif" />
             </div>
         </div>
     </div>
 </div>
-
-<div id="lock" class="modal-background"></div>
-<div id="event-modal-position"></div>
 
 <script type="text/javascript">
 
@@ -52,6 +49,8 @@
             MapSectionUrl: '@Url.Action("MapPartial", "Home")',
             PlanAdditionalUrl: '@Url.Action("AdditionalInfo","Classroom")',
             RoomPageUrl: '@Url.Action("RoomPage","Classroom")',
+            RoomEditUrl: '@Url.Action("Edit","Classroom")',
+            RoomChangeStatusUrl: '@Url.Action("ChangeStatus","Classroom")',
             EventCreateUrl: '@Url.Action("Create", "Event")',
             EventsBriefUrl: '@Url.Action("Brief", "Event")',
             EventUrl: '@Url.Action("Index", "Event")',

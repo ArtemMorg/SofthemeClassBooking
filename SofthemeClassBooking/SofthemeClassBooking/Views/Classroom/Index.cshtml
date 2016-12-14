@@ -1,11 +1,23 @@
 ﻿@model IEnumerable<SofthemeClassBooking_BOL.Models.ClassRoomModel>
+@{
+    string className = String.Empty;
+}
 
-
-<h1 class="plan-stage">Этаж 10</h1>
+<h1 class="plan-stage">@Localization.Stage 10</h1>
 @foreach (var classroom in Model)
 {
     var nameParts = classroom.Name.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-    var className = classroom.IsLocked ? String.Empty : "-available";
+
+    if (ViewBag.SelectedRoomId != null && classroom.Id == ViewBag.SelectedRoomId)
+    {
+        className = "-busy";
+        <input id="eventpage-selected-room" type="hidden" value="@classroom.Name" />
+    }
+    else
+    {
+        className = classroom.IsLocked ? String.Empty : "-available";
+    }
+
     var english = classroom.Id == 8 ? "plan-room-text-8" : "plan-room-text";
 
     <div class="plan-wrapper">

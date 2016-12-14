@@ -41,14 +41,6 @@ namespace SofthemeClassBooking_BLL.Implementation
                 });
                 context.SaveChanges();
             }
-            catch (InvalidOperationException roomIsBusy)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                var exe = ex.ToString();
-            }
             finally
             {
                 context.Dispose();

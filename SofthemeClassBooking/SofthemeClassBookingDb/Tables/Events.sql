@@ -7,7 +7,7 @@
  [Organizer] NVARCHAR (50) NULL,
  [BeginingDate] DATETIME NOT NULL,
  [EndingDate] DATETIME NOT NULL,
- [Description] NVARCHAR(200) NULL,
+ [Description] NVARCHAR(300) NULL,
  [IsPrivate] BIT DEFAULT 1 NOT NULL,
  [IsAuthorShown] BIT DEFAULT 1 NOT NULL, 
  [IsParticipantsAllowed] BIT DEFAULT 1 NOT NULL

@@ -1,9 +1,13 @@
 ﻿.eventpage {
-    min-height: 176px;
+    position: relative;
+    background-color: #FFFFFF;
     width: 100%;
     color: #4A5158;
     font-size: 13px;
-    font-family: 'Arial';
+}
+
+.plan-section-event {
+    top: -17px;
 }
 
     .eventpage .participant-list {
@@ -46,26 +50,42 @@
     width: 710px;
     min-height: inherit;
     padding-left: 125px;
-    padding-top: 45px;
+    padding-top: 46px;
 }
 
     .eventpage-info .title {
         font-size: 28px;
+        line-height: 30px;
         font-weight: normal;
+        max-width: 700px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .eventpage-info .title:hover {
+        overflow: visible;
     }
 
     .eventpage-info .fa-user {
         font-size: 23px;
+        padding: 0 0 0 2px;
     }
 
     .eventpage-info .author {
         padding-top: 16px;
     }
 
-    .eventpage-info .description, .participants {
-        padding-top: 29px;
-        width: 704px;
+    .eventpage-info .description, .eventpage-info .participants {
+        font-size: 14px;
+        padding: 28px 0 17px 0;
+        width: 708px;
         line-height: 18px;
+        height: 72px;
+    }
+
+    .eventpage-info .description .no-description {
+        font-style: italic;
     }
 
     .eventpage-info .participants {
@@ -86,9 +106,22 @@
     }
 
     .eventpage-info .participant-add {
+        position: relative;
+        top: -28px;
+        height: 55px;
+        font-size: 14px;
+        width: 722px;
         display: inline-block;
         vertical-align: top;
-        padding-left: 46px;
+    }
+
+    .eventpage-info .participant-add .text{
+        display: inline-block;
+        padding: 0 46px 0 0;
+    }
+
+    .eventpage-info form {
+        display: inline-block;
     }
 
     .eventpage-info .fa-plus {
@@ -113,10 +146,12 @@
 }
 
 .eventpage-schedule-box {
+    position: relative;
+    top: -5px;
     display: inline-block;
     width: auto;
     height: 100px;
-    margin: 0 90px;
+    margin: 0 97px 0 79px;
 }
 
     .eventpage-schedule-box .block {
@@ -147,8 +182,12 @@
         display: block;
         width: auto;
         font-size: 14px;
-        padding-top: 16px;
+        padding: 16px 2px 0 2px;
         text-align: center;
+    }
+
+    .eventpage-schedule-box .text .second-line {
+        padding: 3px 0 0 0;
     }
 
 
@@ -165,6 +204,18 @@
     width: 287px;
     padding-top: 50px;
     padding-left: 22px;
+}
+
+.event-time-simple {
+    display: inline-block;
+    vertical-align: top;
+    width: auto;
+    font-size: 14px;
+    line-height: 65px;
+}
+
+.event-time-simple .text {
+    padding: 0 0 0 8px;
 }
 
     .eventpage-calendar .icon-section {
@@ -270,8 +321,17 @@
 
     .eventpage-calendar-header .datetime {
         display: inline-block;
+        min-width: 131px;
         vertical-align: top;
         height: auto;
+    }
+
+    .eventpage-calendar-header .datetime .fa-clock-o {
+        margin: 11px 0 0 6px;
+    }
+
+    .eventpage-calendar-header .datetime .fa-calendar {
+        margin: 13px 0 0 16px;
     }
 
     .eventpage-calendar-header .cell-icon, .cell-icon-time {
@@ -399,7 +459,6 @@
         padding-right: 14px;
         padding-top: 11px;
         border-radius: 12px;
-        font-family: 'Arial';
         font-size: 14px;
         resize: none;
     }
