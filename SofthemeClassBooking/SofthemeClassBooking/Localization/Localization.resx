@@ -117,6 +117,33 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ButtonCancel" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="ButtonEdit" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="ButtonSave" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="DialogCancelEventTitle" xml:space="preserve">
+    <value>Вы уверены, что хотите отменить событие?</value>
+  </data>
+  <data name="DialogCancelRoomBody" xml:space="preserve">
+    <value>Все события, запланированные в данной аудитории, будут отменены.</value>
+  </data>
+  <data name="DialogCancelRoomTitle" xml:space="preserve">
+    <value>Вы уверенны,что хотите закрыть эту аудиторию?</value>
+  </data>
+  <data name="DialogNo" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="DialogYes" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="ErrorDialogWindow" xml:space="preserve">
+    <value>Произошла ошибка загрузки диалогового окна</value>
+  </data>
   <data name="ErrorEventAlreadyEnrolledPlaceholder" xml:space="preserve">
     <value>Вы уже принимаете участие в событии</value>
   </data>
@@ -129,6 +156,15 @@
   <data name="ErrorGeneralException" xml:space="preserve">
     <value>Возникла ошибка при выполнении операции. Попробуйте позже</value>
   </data>
+  <data name="ErrorModelValidation" xml:space="preserve">
+    <value>Введены неверные данные.</value>
+  </data>
+  <data name="ErrorNoDescription" xml:space="preserve">
+    <value>Описание не указано</value>
+  </data>
+  <data name="ErrorRoomCapacityLessOne" xml:space="preserve">
+    <value>В аудитории недостаточно места для проведения события.</value>
+  </data>
   <data name="ErrorRoomIsBusy" xml:space="preserve">
     <value>Эта аудитория занята на выбранное время. Выберите, пожалуйста, другое</value>
   </data>
@@ -137,6 +173,12 @@
   </data>
   <data name="EventParticipantJoinPlaceholder" xml:space="preserve">
     <value>Укажите e-mail чтобы присоединиться</value>
+  </data>
+  <data name="EventParticipantsTookPart" xml:space="preserve">
+    <value>Приняли участие</value>
+  </data>
+  <data name="EventPlanningTakePart" xml:space="preserve">
+    <value>Планируют принять участие </value>
   </data>
   <data name="EventRoomSchedule" xml:space="preserve">
     <value>Расписание аудитории</value>
@@ -167,6 +209,12 @@
   </data>
   <data name="LoadingRoomEventSection" xml:space="preserve">
     <value>Загрузка таблицы расписания...</value>
+  </data>
+  <data name="PageRoom" xml:space="preserve">
+    <value>Страница аудитории</value>
+  </data>
+  <data name="People" xml:space="preserve">
+    <value>человек</value>
   </data>
   <data name="Schedule" xml:space="preserve">
     <value>Расписание</value>

@@ -47,16 +47,20 @@ function postFormData(url, form, datatype, successHandler, errorHandler) {
         url: url,
         method: 'POST',
         data: form.serialize(),
-        dataType: 'json' || datatype,
+        dataType: datatype || 'json',
 
-        success: successHandler,
-        error: errorHandler
+        success: function (response) {
+            successHandler(response);
+        },
+        error: function(response) {
+            errorHandler(response);
+        }
     });
 
 }
 
 function postData(url, data, successHandler, errorHandler) {
-
+    debugger;
     $.ajax({
         url: url,
         method: 'POST',

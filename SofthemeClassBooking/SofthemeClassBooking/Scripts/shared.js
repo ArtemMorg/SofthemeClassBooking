@@ -29,8 +29,9 @@ function setEngineUrl(url) {
         EventsBriefUrl: url.EventsBriefUrl,
         EventUrl: url.EventUrl,
         EventInfoVerbose: url.EventInfoVerbose,
-        ParticipantAddUrl: url.ParticipantAddUrl
-    };
+        ParticipantAddUrl: url.ParticipantAddUrl,
+        DialogWindowUrl: url.DialogWindowUrl
+};
 }
 
 function successPlanHandler(result) {
@@ -69,30 +70,12 @@ function getEventsBrief() {
 function getEventInfoVerbose(eventId) {
     return loadSection(ajaxUrl.EventInfoVerbose + '/' + eventId);
 }
-/*
-    $.ajax({
-        url: ajaxUrl.EventInfoVerbose + '/' + eventId,
-        type: 'GET',
-        success: function (result) {
-            debugger;
-            var bla = result;
-        },
-        error: function(result) {
-            debugger;
-            var bla2 = result;
-        }
-    });
-*/
 
 function renderPlanSectionTest() {
-    return loadSection(ajaxUrl.PlanSectionUrl);
+    return loadSection(ajaxUrl.PlanSectionUrl + url, beforeSendHandler(planLoadingDiv), successPlanHandler);
 } 
 
-function renderMapSectionTest() {
-    return loadSection(ajaxUrl.MapSectionUrl);
-} 
-
-function renderPlanSection() {
+function renderPlanSection(additionalUrl) {
     loadSection(ajaxUrl.PlanSectionUrl, beforeSendHandler(planLoadingDiv), successPlanHandler);
 }
 
@@ -303,9 +286,8 @@ function checkCurrentTimeInterval(cancel) {
 
 }
 
-function setNavigarionEventHandlers() {
 
-    $('nav').on('click', '#add-event', function () {
+    $(document).on('click', '#add-event', function () {
         eventWasAdded = false;
         loadSection(ajaxUrl.EventCreateUrl).done(function (result) {
             $('#event-modal-position').html(result);
@@ -357,9 +339,8 @@ function setNavigarionEventHandlers() {
 
     });
 
-    $('#event-modal-position').on('click', '#event-new-close', function () {
+    $(document).on('click', '#event-new-close', function () {
         checkCurrentTimeInterval(true);
-        debugger;
         if (eventWasAdded) {
             renderRooms(currentMode);
         }
@@ -367,21 +348,35 @@ function setNavigarionEventHandlers() {
         $('#lock').hide();
     });
 
-}
+
 
 $(document).on('click', '.fa-link', function () {
-    debugger;
     window.location = ajaxUrl.EventUrl + "/Index/" + $(this).attr('id').split('-')[1];
 });
 
+function addParticipantSubmitCallback(result) {
+    
+    $('#add-participant-email').val('').attr({
+        placeholder: result.message,
+        disabled: true
+    });
+
+    $('#add-participant-submit').attr('disabled', true);
+
+    if (result.success) {
+        $('#participant-count').html(parseInt($('#participant-count').html()) + 1);
+    }
+}
+
 $(document).on('click', '#add-participant-submit', function () {
-
     if ($('#add-participant-email').val().length >= 1) {
-
-        postFormData(ajaxUrl.ParticipantAddUrl, $('#add-participant-form'));
+        postFormData(ajaxUrl.ParticipantAddUrl, $('#add-participant-form'), 'json', addParticipantSubmitCallback, function(message) {
+            console.log(message);
+        });
     }
 
 });
+
 
 
 function fillClassRoomSelectList() {

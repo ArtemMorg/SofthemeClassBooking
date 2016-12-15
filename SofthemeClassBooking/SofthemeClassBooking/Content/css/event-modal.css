@@ -1,13 +1,13 @@
 ﻿.event-modal {
     position: absolute;
-    z-index: 199;
+    z-index: 20;
 }
 
 .event-new {
     position: absolute;
     top: 196px;
     left: 388px;
-    z-index: 1;
+        z-index: 150;
     background-color: #FFFFFF;
     width: 496px;
     border: 1px solid #C0C9D9;

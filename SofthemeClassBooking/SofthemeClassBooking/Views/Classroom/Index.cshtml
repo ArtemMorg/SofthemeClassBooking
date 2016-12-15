@@ -8,10 +8,13 @@
 {
     var nameParts = classroom.Name.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-    if (ViewBag.SelectedRoomId != null && classroom.Id == ViewBag.SelectedRoomId)
+    if (ViewBag.SelectedRoomId != null)
     {
-        className = "-busy";
-        <input id="eventpage-selected-room" type="hidden" value="@classroom.Name" />
+        if (classroom.Id == ViewBag.SelectedRoomId)
+        {
+            className = "-busy";
+            <input id="eventpage-selected-room" type="hidden" value="@classroom.Name" />
+        }
     }
     else
     {

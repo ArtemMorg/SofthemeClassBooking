@@ -4,11 +4,33 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
+    
+    @Scripts.Render("~/bundles/scripts/general")
+    <script type="text/javascript">
+        
+        var url = {
+            RoomIdNameUrl: '@Url.Action("GetNameId","Classroom")',
+            RoomEventSectionUrl: '@Url.Action("Index", "RoomEvent")',
+            PlanSectionUrl: '@Url.Action("Index", "Classroom")',
+            MapSectionUrl: '@Url.Action("MapPartial", "Home")',
+            PlanAdditionalUrl: '@Url.Action("AdditionalInfo","Classroom")',
+            RoomPageUrl: '@Url.Action("RoomPage","Classroom")',
+            RoomEditUrl: '@Url.Action("Edit","Classroom")',
+            RoomChangeStatusUrl: '@Url.Action("ChangeStatus","Classroom")',
+            EventCreateUrl: '@Url.Action("Create", "Event")',
+            EventsBriefUrl: '@Url.Action("Brief", "Event")',
+            EventUrl: '@Url.Action("Index", "Event")',
+            EventInfoVerbose: '@Url.Action("InfoVerbose", "Event")',
+            ParticipantAddUrl: '@Url.Action("Add","Participant")',
+            DialogWindowUrl: '@Url.Action("DialogWindow","Home")'
+        };
+        setEngineUrl(url);
+
+    </script>
 
     @Styles.Render("~/bundles/styles/general")
     @Scripts.Render("~/bundles/scripts/jquery")
-    @Scripts.Render("~/bundles/scripts/general")
-
+   
 
     @RenderSection("stylesDeclarationInHeader", required: false)
     @RenderSection("scriptDeclarationInHeader", required: false)
@@ -35,8 +57,10 @@
         @RenderBody()
     </div>
 
-    <div id="lock" class="modal-background"></div>
-    <div id="event-modal-position"></div>
+    <div id="lock" class="dialog-background"></div>
+    <div id="event-modal-position" class="event-modal-section"></div>
+    <div id="dialog-window-position" class="dialog"></div>
+
     <footer>
         <div class="container">
             <div class="image">
@@ -51,6 +75,6 @@
         </div>
     </footer>
 
-    @RenderSection("scriptDeclarationAfterFooter", required: false)
+@RenderSection("scriptDeclarationAfterFooter", required: false)
 </body>
 </html>

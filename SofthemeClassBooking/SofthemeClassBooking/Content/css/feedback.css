@@ -57,7 +57,7 @@
     width: 500px;
 }
 
-    .feedback-form input[type="text"], button, textarea {
+    .feedback-form input[type="text"], .feedback button, .feedback textarea {
         border: none;
         outline: none;
         border-radius: 19px;

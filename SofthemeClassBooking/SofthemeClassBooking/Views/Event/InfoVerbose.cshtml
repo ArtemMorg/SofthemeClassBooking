@@ -22,8 +22,8 @@
         @if ((User.Identity.GetUserId() == @Model.Event.UserId) || (User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"])))
         {
             <div class="event-buttons">
-                <button class="event-button-change">Изменить</button>
-                <button class="event-button-cancel">Отменить</button>
+                <button class="event-button-change">@Localization.ButtonEdit</button>
+                <button class="event-button-cancel">@Localization.ButtonCancel</button>
             </div>
         }
 
@@ -43,7 +43,7 @@
 
         <div class="event-participant">
             <i class="fa fa-users fa-2x"></i>
-            <div class="event-participants">@Model.ParticipantCount</div>
+            <div class="event-participants" id="participant-count">@Model.ParticipantCount</div>
         </div>
     </div>
 
@@ -55,14 +55,14 @@
             {
                 if (Model.Event.UserId == User.Identity.GetUserId())
                 {
-                    <input id="Email" name="Email" type="text" placeholder="Вы уже принимаете участие в событии" required disabled />
+                    <input id="Email" name="Email" type="text" placeholder="@Localization.ErrorEventAlreadyEnrolledPlaceholder" disabled />
                 }
                 else
                 {
                     using (Html.BeginForm("Add", "Participant", FormMethod.Post, new { id = "add-participant-form" }))
                     {
 
-                        <input id="add-participant-email" name="Email" type="text" placeholder="Укажите e-mail чтобы присоединиться" required />
+                        <input id="add-participant-email" name="Email" type="text" placeholder="@Localization.EventParticipantJoin" required />
                         <i id="add-participant-submit" class="fa fa-plus fa-lg"></i>
                         <input type="hidden" name="EventId" value="@Model.Event.Id"/>
                         
@@ -72,10 +72,8 @@
             }
             else
             {
-                <input id="Email" name="Email" type="text" placeholder="Событые уже свершилось" required  disabled/>
+                <input id="Email" name="Email" type="text" placeholder="@Localization.ErrorEventPassedPlaceholder" disabled/>
             }
-
-
 
         </div>
     }

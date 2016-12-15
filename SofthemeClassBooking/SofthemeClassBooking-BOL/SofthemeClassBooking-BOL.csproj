@@ -44,6 +44,8 @@
     <Compile Include="Enum\PlanSectionLoadParameters.cs" />
     <Compile Include="Exceptions\ParticipantAlreadyRegisteredException.cs" />
     <Compile Include="Exceptions\ParticipantCountReachedMaximumRoomCapacityException.cs" />
+    <Compile Include="Exceptions\RoomCapacityException.cs" />
+    <Compile Include="Exceptions\RoomIsBusyException.cs" />
     <Compile Include="Models\ClassRoomModel.cs" />
     <Compile Include="Contract\Models\IAspNetRole.cs" />
     <Compile Include="Contract\Models\IClassRoom.cs" />

@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using SofthemeClassBooking_BOL.Contract.Services;
+using SofthemeClassBooking_BOL.Exceptions;
 using SofthemeClassBooking_BOL.Models;
 using SofthemeClassBooking_DAL;
 
@@ -18,14 +19,23 @@ namespace SofthemeClassBooking_BLL.Implementation
             try
             {
                 var eventsInSameRange = context.Events
-                    .Count(e => ((e.BeginingDate >= eventModel.BeginingDate && e.BeginingDate <= eventModel.EndingDate)
-                                || (e.EndingDate >= eventModel.BeginingDate && e.EndingDate <= eventModel.EndingDate)
-                                || (e.BeginingDate >= eventModel.BeginingDate && e.EndingDate <= eventModel.EndingDate))
-                                && (e.ClassRoomId == eventModel.ClassRoomId));
+                    .Count(e => ((e.BeginingDate >= eventModel.BeginingDate && e.BeginingDate <= eventModel.EndingDate) || 
+                                 (e.EndingDate >= eventModel.BeginingDate && e.EndingDate <= eventModel.EndingDate) || 
+                                 (e.BeginingDate >= eventModel.BeginingDate && e.EndingDate <= eventModel.EndingDate)) && 
+                                 (e.ClassRoomId == eventModel.ClassRoomId));
 
                 if (eventsInSameRange > 0)
                 {
-                    throw new InvalidOperationException();
+                    throw new RoomIsBusyException();
+                }
+
+                var roomCapacity = context.ClassRooms
+                    .Where(c => c.Id == eventModel.ClassRoomId)
+                    .Select(c => c.Capacity).FirstOrDefault();
+
+                if (roomCapacity < 1)
+                {
+                    throw new RoomCapacityException();
                 }
 
                 var events = MapService.Map(eventModel);

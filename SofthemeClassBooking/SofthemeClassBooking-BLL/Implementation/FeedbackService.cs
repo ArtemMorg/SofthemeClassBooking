@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using SofthemeClassBooking_BOL.Contract.Models;
 using SofthemeClassBooking_BOL.Contract.Services;
 using SofthemeClassBooking_BOL.Models;
 using SofthemeClassBooking_DAL;

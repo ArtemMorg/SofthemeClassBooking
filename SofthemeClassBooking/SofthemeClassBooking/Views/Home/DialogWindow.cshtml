@@ -1,0 +1,24 @@
+﻿@model SofthemeClassBooking.Models.DialogViewModel
+
+<div class="dialog-window">
+
+    <div class="dialog-header">
+        <div class="dialog-header-icon">
+            <i class="fa fa-ban fa-cog fa-2x" aria-hidden="true"></i>
+        </div>
+        <div class="dialog-header-text">
+            <span>@Model.Title</span>
+        </div>
+    </div>
+
+    <div class="dialog-body">
+        <div class="dialog-message">
+            @Model.BodyMessage
+        </div>
+    </div>
+
+    <div class="dialog-buttons">
+        <button id="dialog-answer-no" class="dialog-button-no">@Localization.DialogNo</button>
+        <button id="dialog-answer-yes" class="dialog-button-yes">@Localization.DialogYes</button>
+    </div>
+</div>

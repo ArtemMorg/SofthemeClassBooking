@@ -26,11 +26,11 @@ namespace SofthemeClassBooking_BLL.Implementation
 
                 var alreadyRegisteredCount = context.Participants.Count(p => p.EventId == participaModel.EventId);
                 var roomId =
-                    context.Events.Where(e => e.Id == participaModel.Id).Select(e => e.ClassRoomId).FirstOrDefault();
+                    context.Events.Where(e => e.Id == participaModel.EventId).Select(e => e.ClassRoomId).FirstOrDefault();
                 var roomCapacity =
                     context.ClassRooms.Where(c => c.Id == roomId).Select(c => c.Capacity).FirstOrDefault();
 
-                if (alreadyRegisteredCount > roomCapacity)
+                if (alreadyRegisteredCount >= roomCapacity)
                 {
                     throw new ParticipantCountReachedMaximumRoomCapacityException();
                 }

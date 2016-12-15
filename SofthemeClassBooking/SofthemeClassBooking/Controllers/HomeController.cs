@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
+﻿using System.Web.Mvc;
 using SofthemeClassBooking.Models;
 
 
@@ -17,7 +11,7 @@ namespace SofthemeClassBooking.Controllers
             return View();
         }
 
-       [Authorize]
+        [Authorize]
         public ActionResult UserProfile()
         {
             return View("Profile");
@@ -28,5 +22,11 @@ namespace SofthemeClassBooking.Controllers
         {
             return PartialView();
         }
+
+        public ActionResult DialogWindow(DialogViewModel dialogModel)
+        {
+            return PartialView(dialogModel);
+        }
+
     }
 }

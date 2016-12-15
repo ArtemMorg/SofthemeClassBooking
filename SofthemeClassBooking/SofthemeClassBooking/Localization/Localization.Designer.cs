@@ -61,6 +61,87 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Отменить.
+        /// </summary>
+        public static string ButtonCancel {
+            get {
+                return ResourceManager.GetString("ButtonCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Изменить.
+        /// </summary>
+        public static string ButtonEdit {
+            get {
+                return ResourceManager.GetString("ButtonEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сохранить.
+        /// </summary>
+        public static string ButtonSave {
+            get {
+                return ResourceManager.GetString("ButtonSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы уверены, что хотите отменить событие?.
+        /// </summary>
+        public static string DialogCancelEventTitle {
+            get {
+                return ResourceManager.GetString("DialogCancelEventTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Все события, запланированные в данной аудитории, будут отменены..
+        /// </summary>
+        public static string DialogCancelRoomBody {
+            get {
+                return ResourceManager.GetString("DialogCancelRoomBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы уверенны,что хотите закрыть эту аудиторию?.
+        /// </summary>
+        public static string DialogCancelRoomTitle {
+            get {
+                return ResourceManager.GetString("DialogCancelRoomTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Нет.
+        /// </summary>
+        public static string DialogNo {
+            get {
+                return ResourceManager.GetString("DialogNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Да.
+        /// </summary>
+        public static string DialogYes {
+            get {
+                return ResourceManager.GetString("DialogYes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Произошла ошибка загрузки диалогового окна.
+        /// </summary>
+        public static string ErrorDialogWindow {
+            get {
+                return ResourceManager.GetString("ErrorDialogWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Вы уже принимаете участие в событии.
         /// </summary>
         public static string ErrorEventAlreadyEnrolledPlaceholder {
@@ -97,6 +178,33 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Введены неверные данные..
+        /// </summary>
+        public static string ErrorModelValidation {
+            get {
+                return ResourceManager.GetString("ErrorModelValidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Описание не указано.
+        /// </summary>
+        public static string ErrorNoDescription {
+            get {
+                return ResourceManager.GetString("ErrorNoDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to В аудитории недостаточно места для проведения события..
+        /// </summary>
+        public static string ErrorRoomCapacityLessOne {
+            get {
+                return ResourceManager.GetString("ErrorRoomCapacityLessOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Эта аудитория занята на выбранное время. Выберите, пожалуйста, другое.
         /// </summary>
         public static string ErrorRoomIsBusy {
@@ -120,6 +228,24 @@ namespace SofthemeClassBooking.Localization {
         public static string EventParticipantJoinPlaceholder {
             get {
                 return ResourceManager.GetString("EventParticipantJoinPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Приняли участие.
+        /// </summary>
+        public static string EventParticipantsTookPart {
+            get {
+                return ResourceManager.GetString("EventParticipantsTookPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Планируют принять участие .
+        /// </summary>
+        public static string EventPlanningTakePart {
+            get {
+                return ResourceManager.GetString("EventPlanningTakePart", resourceCulture);
             }
         }
         
@@ -210,6 +336,24 @@ namespace SofthemeClassBooking.Localization {
         public static string LoadingRoomEventSection {
             get {
                 return ResourceManager.GetString("LoadingRoomEventSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Страница аудитории.
+        /// </summary>
+        public static string PageRoom {
+            get {
+                return ResourceManager.GetString("PageRoom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to человек.
+        /// </summary>
+        public static string People {
+            get {
+                return ResourceManager.GetString("People", resourceCulture);
             }
         }
         

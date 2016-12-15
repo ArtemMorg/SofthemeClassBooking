@@ -2,7 +2,7 @@
 
 namespace SofthemeClassBooking_BOL.Exceptions
 {
-    public class ParticipantAlreadyRegisteredException : Exception
+    public class RoomCapacityException : Exception
     {
 
     }

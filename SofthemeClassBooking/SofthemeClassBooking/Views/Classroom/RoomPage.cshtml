@@ -2,7 +2,7 @@
 @model SofthemeClassBooking_BOL.Models.ClassRoomModel
 
 @{
-    ViewBag.Title = "RoomPage";
+    ViewBag.Title = Model.Name;
 }
 
 @section stylesDeclarationInHeader {
@@ -15,8 +15,6 @@
 }
 
 <div style="position: relative;">
-
-    <!--<div id="lock" class="modal-background"></div>-->
 
     <div id="plan-section" class="plan-section">
         <div id="plan-loading">
@@ -46,182 +44,32 @@
         </div>
     }
 
-    <div class="modal-close-room-position">
-        <div id="modal-room-close" class="modal-close-room">
-
-            <div class="modal-header">
-                <div class="modal-header-icon">
-                    <i class="fa fa-ban fa-cog fa-2x" aria-hidden="true"></i>
-                </div>
-                <div class="modal-header-text">
-                    <span>Вы уверенны, что хотите закрыть аудиторию?</span>
-                </div>
-            </div>
-
-            <div class="modal-body">
-                <div class="modal-message">
-                    Все события, запланированные в данной аудитории, будут отмненены.
-                </div>
-            </div>
-
-            <div class="modal-buttons">
-                <button id="modal-answer-no" class="modal-button-no">Нет</button>
-                <button id="modal-answer-yes" class="modal-button-yes">Да</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- <div id="lock" class="modal-background"></div> -->
 </div>
-
 
 <div style="height: 335px">
     calendar goes here
 </div>
-
 <script type="text/javascript">
+
+    classRoomDialogWindow = new DialogWindow ({
+        title: '@Localization.DialogCancelRoomTitle',
+        bodyMessage: '@Localization.DialogCancelRoomBody' });
+
+    currentClassRoom = new ClassRoom(@Model.Id, '@Model.IsLocked');
+    classRoomDialogWindow.setDialogAnswerNoHandler(cancelCloseClassRoom);
+    classRoomDialogWindow.setDialogAnswerYesHandler(closeClassRoom);
+
+    isUserAdmin = '@User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"])';
 
 
     (function ($, window, document) {
 
-
-        // The $ is now locally scoped
-        // Listen for the jQuery ready event on the document
         $(function () {
 
-
-
-            // The DOM is ready!
+            loadRoomPagePlanSection();
 
         });
-
-        $.ajax({
-            url: '@Url.Action("Index", "Classroom")',
-            method: 'GET',
-            cache: false,
-            dataType: 'html',
-            success: function (result) {
-                $('#plan-section').html(result);
-
-                $('#plan-room-path').addClass('plan-room-path-@Model.Id');
-                $('#@Model.Id').addClass('plan-room-@Model.Id-busy');
-                $('#@Model.Id').removeClass('plan-room-@Model.Id-available');
-            },
-
-            error: function (result) {
-                alert('error!');
-            },
-
-            function() {
-                $('#plan-loading').hide();
-            }
-        });
-
-        // The rest of the code goes here!
     }(window.jQuery, window, document));
 
 
-    var isLocked = '@Model.IsLocked';
-    if (isLocked !== 'True') {
-        loadAdditionalInfo(false);
-    }
-
-    function loadAdditionalInfo(change) {
-        var urlTarget;
-        var showClass;
-        if (change === true) {
-            $('#plan-room-showname-@Model.Id').hide();
-            urlTarget = '@Url.Action("AdditionalInfo", "Classroom", new {id = Model.Id, edit = true})';
-            showClass = 'plan-show-additional-info-detail';
-        } else {
-            urlTarget = '@Url.Action("AdditionalInfo", "Classroom", new {id = Model.Id})';
-            showClass = 'plan-show-additional-info-short';
-            $('#plan-room-showname-@Model.Id').show();
-        }
-
-
-
-        $.ajax({
-            url: urlTarget,
-            method: 'GET',
-            data: 'html',
-            cache: false,
-
-            success: function (result) {
-                $('#show').html(result);
-                $('#show').attr('class', showClass);
-                $('#plan-room-line').attr('class', 'plan-room-line-detail-' + @Model.Id);
-                $('#plan-room-line').show();
-                console.log('receiver response');
-            },
-            error: function (response) {
-                alert("Щось пішло не так");
-            }
-        });
-    }
-
-    $(document).on('click','#plan-room-edit-cancel', function() {
-        $('#show').empty();
-        $('#plan-room-line').attr('class','');
-        var isLocked = '@Model.IsLocked';
-        if (isLocked !== 'True') {
-            loadAdditionalInfo(false);
-        }
-    });
-
-    $(document).on('click', '#plan-room-edit-cancel', function () {
-        $('#show').empty();
-        $('#plan-room-line').attr('class', '');
-        var isLocked = '@Model.IsLocked';
-        if (isLocked !== 'True') {
-            loadAdditionalInfo(false);
-        }
-    });
-
-
-    $('#plan-room-edit-open').click(function () {
-            $.ajax({
-                url: '@Url.Action("ChangeStatus","Classroom")',
-                method: 'POST',
-                data: { 'Id' : '@Model.Id', 'ClassRoomStatus' : 0 },
-                dataType: 'json',
-
-                error: function (response) {
-                    alert("Щось пішло не так");
-                },
-                success: function (response) {
-                    location.reload();
-                }
-            });
-        });
-
-
-
-    $(document).on('click', '.plan-room', function() {
-        var roomId = $(this).attr('id');
-    var isUserAdmin = '@User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"])';
-
-        if ($(this).hasClass('-available') || isUserAdmin == 'True') {
-            window.location.href = '@Url.Action("RoomPage", new {id = "/"})' + roomId;
-        }
-});
-
-    $('#modal-answer-yes').click(function () {
-
-        $.ajax({
-            url: ajaxUrl.RoomChangeStatusUrl,
-            method: 'POST',
-            data: { 'Id': '@Model.Id', 'ClassRoomStatus': 1 },
-            dataType: 'json',
-
-            error: function (response) {
-                alert("Щось пішло не так");
-            },
-            success: function (response) {
-                location.reload();
-            }
-        });
-
-        showModal(false);
-    });
 </script>

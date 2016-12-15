@@ -1,10 +1,25 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using System.Web.Configuration
+@using Microsoft.AspNet.Identity
 @model SofthemeClassBooking.Models.EventViewModel
 
 @section stylesDeclarationInHeader {
     @Styles.Render("~/bundles/styles/plan")
     @Styles.Render("~/bundles/styles/event")
 }
+
+@{
+    var showEventOwner = Model.Event.IsAuthorShown ? Model.Author : Model.Event.Organizer;
+    var participantCount = Model.Participants.Count();
+    var eventDescription = Model.Event.Description == null ? Localization.ErrorNoDescription : Model.Event.Description;
+    var editAccess = (User.Identity.GetUserId() == Model.Event.UserId) ||
+                     (User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]));
+}
+
+@section scriptDeclarationInHeader
+{
+    @Scripts.Render("~/bundles/scripts/calendar")
+}
+
 <div class="eventpage">
     <div class="eventpage-info">
 
@@ -12,14 +27,13 @@
 
         <div class="author noselect-text">
             <i class="fa fa-user"></i>
-            <div class="event-creator-name">@Model.Author</div>
+            <div class="event-creator-name">
+                @showEventOwner
+            </div>
         </div>
 
         <div class="description">
-            @if (Model.Event.Description == null)
-            {
-                <span class="no-description">Описание не указано</span>
-            }
+            <span>@eventDescription</span>
         </div>
 
 
@@ -27,20 +41,19 @@
         {
 
             <div class="participant-add">
-                <div class="text">Планируют принять участие <span>@Model.ParticipantCount</span> человек</div>
-                <span>@Localization.EventParticipantJoin</span>
+
                 @if (DateTime.Compare(@Model.Event.EndingDate, DateTime.Now) > 0)
                 {
-
+                    <div class="text">@Localization.EventPlanningTakePart<span id="participant-count">@participantCount</span> @Localization.People</div>
                     if (Model.Event.UserId == User.Identity.GetUserId())
                     {
-                        <input id="Email" name="Email" type="text" placeholder="@Localization.ErrorEventAlreadyEnrolledPlaceholder" required disabled />
+                        <input id="Email" name="Email" type="text" placeholder="@Localization.ErrorEventAlreadyEnrolledPlaceholder" disabled />
                     }
                     else
                     {
+                        <span>@Localization.EventParticipantJoin</span>
                         using (Html.BeginForm("Add", "Participant", FormMethod.Post, new { id = "add-participant-form" }))
                         {
-                            
                             <input id="add-participant-email" name="Email" type="text" placeholder="@Localization.EventParticipantJoinPlaceholder" required />
                             <i id="add-participant-submit" class="fa fa-plus fa-lg"></i>
                             <input type="hidden" name="EventId" value="@Model.Event.Id" />
@@ -50,9 +63,8 @@
                 }
                 else
                 {
-
-                    <input type="text" placeholder="@Localization.ErrorEventPassedPlaceholder" />
-                    <i class="fa fa-plus fa-lg"></i>
+                    <div class="text">@Localization.EventParticipantsTookPart <span id="participant-count">@Model.ParticipantCount</span> @Localization.People</div>
+                    <input type="text" placeholder="@Localization.ErrorEventPassedPlaceholder" disabled />
                 }
 
             </div>
@@ -69,7 +81,7 @@
                 <div class="datetime">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
                     <div class="event-time-simple">
-                        <div class="text">18.05.16</div>
+                        <div id="event-begin-date" class="text"></div>
                     </div>
                 </div>
 
@@ -77,24 +89,61 @@
                 <div class="datetime">
                     <i class="fa fa-clock-o" aria-hidden="true"></i>
                     <div class="event-time-simple">
-                        <div class="text">18:00&nbsp;-&nbsp;18:30</div>
+                        <div class="text"><span id="event-begin-time"></span>&nbsp;-&nbsp;<span id="event-end-time"></span></div>
                     </div>
 
                 </div>
-
-                <div class="icon-section">
-                    <div class="icon-position">
-                        <i class="fa fa-calendar-plus-o"></i>
-                        <i class="fa fa-envelope-o"></i>
-                        <i class="fa fa-print"></i>
-                    </div>
-                </div>
-
             </div>
 
+            <div class="icon-section">
+                <div class="icon-position">
+                    <i class="fa fa-calendar-plus-o"></i>
+                    <i class="fa fa-envelope-o"></i>
+                    <i class="fa fa-print"></i>
+                </div>
+            </div>
+
+            @if (editAccess)
+            {
+                <div class="button-section">
+                    <button id="change-cancel" class="cancel">Отмена</button>
+                    <button id="save-cancel-event" class="save">Сохранить</button>
+                </div>
+
+                <div class="error-section">
+                    <div class="icon">
+                        <i class="fa fa-frown-o"></i>
+                    </div>
+
+                    <div class="message">
+                        <span id="error-mesage"></span>
+                    </div>
+                </div>
+            }
         </div>
 
     </div>
+
+    @if (editAccess)
+    {
+        <div class="participant-list">
+            <div class="header">Зарегистрирование участники:</div>
+
+            <div class="participant-section">
+
+                @foreach (var participant in Model.Participants)
+                {
+                    <div id="participant-@participant.Id" class="participant">
+                        <div class="circle"></div>
+                        <div class="email">@participant.Email</div>
+                        <i id="participant-@participant.Id-remove" class="fa fa-times" aria-hidden="true"></i>
+                    </div>
+                }
+
+            </div>
+        </div>
+    }
+
 
 
     <div id="plan-section" class="plan-section plan-section-event">
@@ -171,61 +220,41 @@
 
     (function ($, window, document) {
 
-        $.ajax({
-            url: '@Url.Action("Index","Classroom", new {id = Model.Event.ClassRoomId})',
-            method: 'GET',
-            cache: false,
-            dataType: 'html',
-            success: function (result) {
+        $(function () {
+
+            //datetime format dd.MM.yyyy HH:mm:SS
+            var eventDateTimeBegin = convertToDateObject('@Model.Event.BeginingDate', dateFormats.CShartDateTime);
+            var eventDateTimeEnd = convertToDateObject('@Model.Event.EndingDate', dateFormats.CShartDateTime);
+
+            $('#event-begin-date').html(eventDateTimeBegin.day + '.' + eventDateTimeBegin.month + '.' + String(eventDateTimeBegin.year).slice(-2));
+            $('#event-begin-time').html(renderTimeMinutes(eventDateTimeBegin.hour, eventDateTimeBegin.minutes));
+            $('#event-end-time').html(renderTimeMinutes(eventDateTimeEnd.hour, eventDateTimeEnd.minutes));
+
+            loadSection('@Url.Action("Index","Classroom", new {id = Model.Event.ClassRoomId})', beforeSendHandler(planLoadingDiv), function (result) {
                 $('#plan-section').html(result);
                 $('#plan-room-path').addClass('plan-room-path-@Model.Event.ClassRoomId');
                 $('#eventpage-room-name').html($('#eventpage-selected-room').val());
-            },
+            });
 
-            error: function (result) {
-                $('#plan-section').html(result);
-            },
+            $('#schedule-all-rooms').click(function () {
+                window.location = '@Url.Action("Index","Home")';
+            });
 
-            function() {
-                $('#plan-loading').hide();
-            }
-        });
+            $('#schedule-all-rooms').click(function () {
+                window.location = '@Url.Action("Index","Home")';
+            });
 
-
-        $('#schedule-all-rooms').click(function () {
-            window.location = '@Url.Action("Index","Home")';
-        });
-
-        $('#schedule-all-rooms').click(function () {
-            window.location = '@Url.Action("Index","Home")';
-        });
-
-        $('#schedule-selected-room').click(function () {
-            window.location = '@Url.Action("RoomPage","Classroom", new {id = Model.Event.ClassRoomId})';
-        });
+            $('#schedule-selected-room').click(function () {
+                window.location = '@Url.Action("RoomPage","Classroom", new {id = Model.Event.ClassRoomId})';
+            });
 
 
-        $.ajax({
-            url: '@Url.Action("MapPartial","Home")',
-            method: 'GET',
-            cache: false,
-            dataType: 'html',
-            success: function (result) {
-                $('#map-section').html(result);
-            },
+            renderMapSection();
 
-            error: function (result) {
-                $('#map-section').html(result);
-            },
-
-            function() {
-                $('#map-loading').hide();
-            }
         });
 
         // The rest of the code goes here!
     }(window.jQuery, window, document));
-
 
 </script>
 

@@ -42,39 +42,19 @@
     // IIFE - Immediately Invoked Function Expression
     (function ($, window, document) {
 
-        var url = {
-            RoomIdNameUrl: '@Url.Action("GetNameId","Classroom")',
-            RoomEventSectionUrl: '@Url.Action("Index", "RoomEvent")',
-            PlanSectionUrl: '@Url.Action("Index", "Classroom")',
-            MapSectionUrl: '@Url.Action("MapPartial", "Home")',
-            PlanAdditionalUrl: '@Url.Action("AdditionalInfo","Classroom")',
-            RoomPageUrl: '@Url.Action("RoomPage","Classroom")',
-            RoomEditUrl: '@Url.Action("Edit","Classroom")',
-            RoomChangeStatusUrl: '@Url.Action("ChangeStatus","Classroom")',
-            EventCreateUrl: '@Url.Action("Create", "Event")',
-            EventsBriefUrl: '@Url.Action("Brief", "Event")',
-            EventUrl: '@Url.Action("Index", "Event")',
-            EventInfoVerbose: '@Url.Action("InfoVerbose", "Event")',
-            ParticipantAddUrl: '@Url.Action("Add","Participant")'
-        };
-        setEngineUrl(url);
-
-        // The $ is now locally scoped
-        // Listen for the jQuery ready event on the document
         $(function () {
 
             // The DOM is ready!
+            renderPlanSection();
+            renderMapSection();
+            renderRoomEventSection();
+
+            setStandartPlanRoomEventHandlers();
+            //setNavigarionEventHandlers();
 
         });
 
 
-
-        renderPlanSection();
-        renderMapSection();
-        renderRoomEventSection();
-
-        setStandartPlanRoomEventHandlers();
-        setNavigarionEventHandlers();
 
         // The rest of the code goes here!
     }(window.jQuery, window, document));

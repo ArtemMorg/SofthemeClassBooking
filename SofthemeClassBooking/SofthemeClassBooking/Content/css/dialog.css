@@ -1,0 +1,97 @@
+﻿.dialog {
+    position: absolute;
+    top: 196px;
+    left: 387px;
+    z-index: 100;
+}
+
+.dialog-window {
+    position: relative;
+    z-index: 2;
+    background-color: #FFFFFF;
+    height: 205px;
+    width: 497px;
+    font-size: 18px;
+    border: 1px solid #C0C9D9;
+}
+
+    .dialog-window button {
+        position: relative;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        width: 150px;
+        height: 36px;
+        padding: 0 1px 2px 1px;
+        border-radius: 15px;
+    }
+
+.dialog .fa-cog {
+    color: #FFFFFF;
+    background-color: transparent;
+}
+
+.dialog-header {
+    display: table;
+    height: 55px;
+    width: 100%;
+    background-color: #9FA6B6;
+    color: #FFFFFF;
+}
+
+.dialog-body {
+    width: 100%;
+}
+
+.dialog-message {
+    width: 100%;
+    text-align: center;
+    color: #4A5158;
+    font-size: 15px;
+    line-height: 16px;
+    width: 347px;
+    padding: 24px 0 0 71px;
+}
+
+.dialog-buttons {
+    text-align: center;
+    padding: 25px 0 0 0;
+}
+
+.dialog-button-no {
+    background-color: #C8CEDA;
+    color: #000000;
+    margin: 0 0 0 8px;
+}
+
+.dialog-button-yes {
+    background-color: #F95752;
+    color: #FFFFFF;
+    margin: 0 0px 0 35px;
+}
+
+.dialog-header-icon {
+    display: inline-block;
+    vertical-align: top;
+    padding: 11px 0 0 20px;
+}
+
+.dialog-header-text {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 55px;
+    font-size: 16px;
+    padding: 0 0 0 14px;
+}
+
+.dialog-background {
+    display: none;
+    position: fixed;
+    background-color: #FFFFFF;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.66;
+    z-index: 90;
+    left: 0;
+    top: 0;
+}

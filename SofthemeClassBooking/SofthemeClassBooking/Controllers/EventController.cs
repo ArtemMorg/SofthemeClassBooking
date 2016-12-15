@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using System.Web.Configuration;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using SofthemeClassBooking.Models;
 using SofthemeClassBooking_BOL.Contract.Services;
 using SofthemeClassBooking_BOL.Models;
-using SofthemeClassBooking.Localization;
+using SofthemeClassBooking_BOL.Exceptions;
 
 namespace SofthemeClassBooking.Controllers
 {
@@ -50,23 +43,30 @@ namespace SofthemeClassBooking.Controllers
 
             var author = userManager.FindById(eventInfo.UserId).UserName;
 
-            if (User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]) ||
-                User.Identity.GetUserId() == eventInfo.UserId)
-            {
-                return View("EventOwner", new EventViewModel
-                {
-                    Event = eventInfo,
-                    Participants = _participantService.Get(id),
-                    Author = author
-                });
-            }
-
             return View(new EventViewModel
             {
                 Event = eventInfo,
-                ParticipantCount = _participantService.GetCount(id),
+                Participants = _participantService.Get(id),
                 Author = author
             });
+
+            //if (User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]) ||
+            //    User.Identity.GetUserId() == eventInfo.UserId)
+            //{
+            //    return View(new EventViewModel
+            //    {
+            //        Event = eventInfo,
+            //        Participants = _participantService.Get(id),
+            //        Author = author
+            //    });
+            //}
+
+            //return View(new EventViewModel
+            //{
+            //    Event = eventInfo,
+            //    ParticipantCount = _participantService.GetCount(id),
+            //    Author = author
+            //});
 
         }
 
@@ -98,22 +98,27 @@ namespace SofthemeClassBooking.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(EventModel eventModel)
         {
-            eventModel.UserId = User.Identity.GetUserId();
-
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    _eventService.Add(eventModel);
-                }
-                catch (InvalidOperationException)
-                {
-                    return Json(new {message = Localization.Localization.ErrorRoomIsBusy, success = false});
-                }
-                catch (Exception)
-                {
-                    return Json(new { message = Localization.Localization.ErrorGeneralException , success = false });
-                }
+                return Json(new { message = Localization.Localization.ErrorModelValidation, success = false });
+            }
+
+            eventModel.UserId = User.Identity.GetUserId();
+            try
+            {
+                _eventService.Add(eventModel);
+            }
+            catch (RoomIsBusyException)
+            {
+                return Json(new { message = Localization.Localization.ErrorRoomIsBusy, success = false });
+            }
+            catch (RoomCapacityException)
+            {
+                return Json(new { message = Localization.Localization.ErrorRoomCapacityLessOne, success = false });
+            }
+            catch (Exception)
+            {
+                return Json(new { message = Localization.Localization.ErrorGeneralException, success = false });
             }
 
             return Json(new {message = Localization.Localization.InfoEventAddedSuccess, success = true });

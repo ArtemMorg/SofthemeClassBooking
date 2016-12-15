@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity.Core;
 using System.Linq;
 using System.Linq.Expressions;
-using SofthemeClassBooking_BOL.Contract.Models;
 using SofthemeClassBooking_BOL.Contract.Services;
 using SofthemeClassBooking_BOL.Enum;
 using SofthemeClassBooking_BOL.Models;
@@ -118,7 +117,17 @@ db.SaveChanges();
 
                     case ClassRoomStatus.Closed:
                         classRoom.IsLocked = true;
-                        break;
+
+                        var eventsToDelete = context.Events.Where(e => e.ClassRoomId == id).ToList();
+                        foreach (var eventToDelete in eventsToDelete)
+                        {
+                            context.Participants.RemoveRange(
+                                context.Participants.Where(p => p.EventId == eventToDelete.Id));
+                        }
+
+                        context.Events.RemoveRange(context.Events.Where(e => e.ClassRoomId == id));
+
+                   break;
                 }
                 entry.Property(e => e.IsLocked).IsModified = true;
                 context.SaveChanges();

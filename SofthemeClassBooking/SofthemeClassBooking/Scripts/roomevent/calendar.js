@@ -6,9 +6,19 @@ var dayNames = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 var monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
 var monthNamesAccusative = ["Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"];
 
-
-
 var date = new Date();
+
+var dateFormats = {
+    CShartDateTime : 0
+}
+
+var datePartsEnum = {
+    year: 0,
+    month: 1,
+    day: 2,
+    hour: 3,
+    minutes: 4
+}
 
 var dateNow = {
     year: date.getFullYear(),
@@ -286,14 +296,27 @@ function convertToDateTime(dateTime) {
             + " " + dateTime.hour + ':' + dateTime.minutes + ':00';
 }
 
-function convertToDateObject(dateTimeString) {
-    var dateParts = dateTimeString.split('-');
+function convertToDateObject(dateTimeString, dateFormat) {
+
+    var dateParts = dateTimeString.replace(/[:. ]/g, '-').split('-');
+
+    if (dateFormat === dateFormats.CShartDateTime) {
+
+        return {
+            year: parseInt(dateParts[2]),
+            month: parseInt(dateParts[1]),
+            day: parseInt(dateParts[0]),
+            hour: parseInt(dateParts[3]),
+            minutes: parseInt(dateParts[4])
+        };
+    }
+
     return {
-        year: parseInt(dateParts[0]),
-        month: parseInt(dateParts[1]),
-        day: parseInt(dateParts[2]),
-        hour: parseInt(dateParts[3]),
-        minutes: parseInt(dateParts[4])
+        year: parseInt(dateParts[datePartsEnum.year]),
+        month: parseInt(dateParts[datePartsEnum.month]),
+        day: parseInt(dateParts[datePartsEnum.day]),
+        hour: parseInt(dateParts[datePartsEnum.hour]),
+        minutes: parseInt(dateParts[datePartsEnum.minutes])
     };
 }
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using SofthemeClassBooking_BOL.Contract.Services;
 using SofthemeClassBooking_BOL.Models;
 using SofthemeClassBooking_BOL.Exceptions;
@@ -29,15 +25,16 @@ namespace SofthemeClassBooking.Controllers
             {
                 _participantService.Add(paricipantModel);
             }
-            catch (ParticipantAlreadyRegisteredException ex)
+            catch (ParticipantAlreadyRegisteredException)
             {
-                return Json(new {message = Localization.Localization.ErrorEventAlreadyEnrolledPlaceholder});
+                return Json(new {message = Localization.Localization.ErrorEventAlreadyEnrolledPlaceholder, success = false });
             }
-            catch (ParticipantCountReachedMaximumRoomCapacityException ex)
+            catch (ParticipantCountReachedMaximumRoomCapacityException)
             {
-                return Json(new { message = Localization.Localization.ErrorEventParticipantReachedMaximumPlaceholder });
+                return Json(new { message = Localization.Localization.ErrorEventParticipantReachedMaximumPlaceholder, success = false });
             }
-            return Json(new {message = "ok"});
+
+            return Json(new {message = Localization.Localization.InfoParticipantAddedSuccess, success = true});
         }
     }
 }
