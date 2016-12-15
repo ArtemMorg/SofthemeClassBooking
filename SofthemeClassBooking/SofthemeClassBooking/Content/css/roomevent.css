@@ -10,14 +10,10 @@
 
 .roomevent-section .fa-caret-left, .roomevent-section .fa-caret-right {
     position: relative;
-    left: -25px;
     color: #9FA6B6;
     font-size: 34px;
 }
 
-.roomevent-section .fa-caret-right {
-    left: -44px;
-}
 
 .roomevent-section .fa-align-justify:hover, .fa-list:hover, .fa-caret-left:hover, .fa-caret-left:hover {
     color: #4A5158;
@@ -38,12 +34,31 @@
     overflow: hidden;
 }
 
-.roomevent-right-block {
+.roomevent-left-block .fa-caret-right {
+    left: 33px;
+}
 
+.roomevent-left-block .fa-caret-left {
+    left: -25px;
+}
+
+.roomevent-right-block {
     display: inline-block;
     vertical-align: top;
-    width: 278px;
 }
+
+.roomevent-right-block .calendar {
+    margin: 0 0 0 48px;
+}
+
+.roomevent-right-block .fa-caret-left {
+    left: -26px;
+}
+
+.roomevent-right-block .fa-caret-right {
+    left: 23px;
+}
+
 
 .roomevent-header {
     height: 34px;
@@ -60,27 +75,37 @@
     display: inline-block;
     padding-top: 4px;
     height: inherit;
-    width: 636px;
     text-align: center;
     color: #9A9EAA;
 }
 
-.roomevent-header-date-section .text {
+.roomevent-header-date-section .text, .roomevent-header-date-section .text-large {
     position: relative;
-    left: -39px;
+    display: inline-block;
+    vertical-align: top;
+    width: 514px;
     font-size: 14px;
     line-height: 34px;
 }
 
+.roomevent-header-date-section .text-large {
+    width: 821px;
+}
+
 .roomevent-calener-date-section {
     display: inline-block;
-    padding-top: 3px;
+    padding: 3px 0 0 0;
     height: 37px;
     line-height: 37px;
-    width: 230px;
     font-size: 14px;
     text-align: center;
     color: #9A9EAA;
+}
+
+.roomevent-calener-date-section .text {
+    display: inline-block;
+    vertical-align: top;
+    width: 200px;
 }
 
 .roomevent-header-switch {
@@ -93,10 +118,7 @@
     border-radius: 17px;
     text-align: center;
 }
-.roomevent-calener-date-section .fa-caret-right {
-    position: relative;
-    left: 27px;
-}
+
 .roomevent-header-switch .fa-align-justify, .roomevent-header-switch .fa-list {
     position: relative;
     top: -1px;
@@ -202,7 +224,7 @@
     text-align: center;
     color: #9FA6B6;
     font-size: 11px;
-    padding: 15px 43px 0 0;
+    padding: 15px 3px 0 0;
 }
 
 .roomevent-now {

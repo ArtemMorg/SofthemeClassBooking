@@ -316,6 +316,7 @@
     <None Include="Properties\PublishProfiles\SofthemeClassBookingAzure.pubxml" />
     <None Include="Scripts\jquery\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\ajax\loader.js" />
+    <Content Include="Scripts\datetime.js" />
     <Content Include="Scripts\dialog.js" />
     <Content Include="Scripts\jquery\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery\jquery-3.1.1.min.js" />

@@ -1,4 +1,8 @@
-﻿@{
+﻿@using PagedList.Mvc
+@using System.Web.Security;
+@model PagedList.IPagedList<SofthemeClassBooking.Models.ApplicationUser>
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section stylesDeclarationInHeader
@@ -6,27 +10,31 @@
     @Styles.Render("~/bundles/styles/users")
 }
 
-@using PagedList.Mvc
-@model PagedList.IPagedList<SofthemeClassBooking.Models.ApplicationUser>
-
 <div></div>
 <p id="users-title">
-    Список пользователей
+    @Localization.AccountUserList
 </p>
-<p id="users-list-count">Всего:  3</p>
+<p id="users-list-count">@Localization.Total:  @Model.Count</p>
 <div id="users">
-    <table cellspacing="5" cellpadding="10">
+    <table>
+
         @foreach (var user in Model)
         {
             <tr>
                 <td>
-                    <p> @user.UserName </p>
+                    @user.UserName
+                    @Html.Action("UserIsAdmin", "Login", new { user })
                 </td>
                 <td>
-                    <p>@user.Email</p>
+                    @user.Email
+
+
                 </td>
                 <td>
-                    <p> 23</p>
+                    <img src="~/Content/images/calendar.png" />  &nbsp;23
+                </td>
+                <td>
+                    <img src="~/Content/images/DeleteUser.png" />
                 </td>
             </tr>
         }

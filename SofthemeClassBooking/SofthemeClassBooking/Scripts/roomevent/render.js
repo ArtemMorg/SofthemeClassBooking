@@ -41,6 +41,8 @@ $(document).on('click', '#large', function () {
         largeView.addClass('fa-selected');
         shortView.removeClass('fa-selected');
 
+        $('#event-date').attr('class', 'text-large');
+
         $('#roomevent-navigation').attr('class', 'roomevent-now-large');
         renderTime(longRoomEventTable);
         renderRooms(longRoomEventTable);
@@ -57,6 +59,7 @@ $(document).on('click', '#short', function () {
         shortView.addClass('fa-selected');
         largeView.removeClass('fa-selected');
 
+        $('#event-date').attr('class', 'text');
         $('#roomevent-navigation').attr('class', 'roomevent-now');
 
         renderTime(shortRoomEventTable);

@@ -13,7 +13,11 @@
         if (classroom.Id == ViewBag.SelectedRoomId)
         {
             className = "-busy";
-            <input id="eventpage-selected-room" type="hidden" value="@classroom.Name" />
+            <input id="eventpage-selected-room" type="hidden" value="@classroom.Name"/>
+        }
+        else
+        {
+            className = "";
         }
     }
     else

@@ -9,6 +9,14 @@
 
 }
 
+body button, input {
+    outline: none;
+}
+
+body button {
+    cursor: pointer;
+}
+
 .display-none {
     display: none !important;
 }

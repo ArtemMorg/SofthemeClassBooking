@@ -29,16 +29,20 @@ body {
     margin-top: 26px;
 }
 
- .select {
+ .registration-logo .select {
     cursor: pointer !important;
     color: #A4ABC0;
+     text-decoration: none;
+     cursor: pointer;
+     font-weight: bold;
    
 }
  
 
-.notselect  {
+ .registration-logo .notselect  {
     color: #ABB1C5;
-   
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .registration-parallelogram {
@@ -104,7 +108,16 @@ body {
     margin-top: 16px !important;
     
 }
-
+#ResetPassword {
+    position: relative;
+    left: 54px;
+}
+#ResetPassword input[type="submit"] {
+    width: 150px;
+    position: relative;
+    left: -10px;
+    top: -1px;
+}
     #Login input:nth-of-type(4) {
         margin-top: 2px;
         width: 149px;
@@ -139,7 +152,11 @@ body {
     border: 2px solid white;
     left: 10px;
 }
-
+#ChangePasswordSuccess {
+    position: relative;
+    top: 13px;
+    left: 93px;
+}
 .registration-form {
     position: absolute;
     top: 285px;
@@ -182,6 +199,9 @@ body {
     position: relative;
   
 }
+#registration input[type="submit"] {
+    width: 178px !important;
+}
 
 .registration-form input::-webkit-input-placeholder {
     color: #C8CDD9 ;
@@ -189,7 +209,40 @@ body {
    
 }
 
+#ForgotPassword p {
+    text-align: center;
+    position: relative;
+    top: -5px;
+    left: -2px;
+}
 
+#ForgotPassword input[type="submit"] {
+        position: relative;
+    top: -3px;
+    left: 5px;
+}
+   #ForgotPassword input[type="email"] {
+       position: relative;
+    top: -12px;
+    left: 6px;
+   } 
+   #ForgotPassword span {
+       position: relative;
+    top: -10px;
+    left: 2px;
+   }
+   .forgot-password-confirmation p {
+       
+    position: relative;
+    top: 15px;
+    left: 80px;
+
+   }
+.forgot-password-title {
+    position: relative;
+    top: -2px;
+    left: -9px;
+}
 
 .button-OK{
     background-Color : #F95752 !important; 

@@ -17,19 +17,8 @@ namespace SofthemeClassBooking.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-
         public ManageController()
         {
-        }
-
-
-        [Authorize]
-        [Authorize(Roles = "admin")]
-        public ActionResult UserList(int? page)
-        {
-            int pageSize = 3;
-            int pageNumber = (page ?? 1);
-            return View("~/Views/Home/UserList.cshtml", UserManager.Users.ToList().ToPagedList(pageNumber, pageSize));
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -52,33 +41,12 @@ namespace SofthemeClassBooking.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
-        {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess
-                    ? "Your password has been changed."
-                    : message == ManageMessageId.SetPasswordSuccess
-                        ? "Your password has been set."
-                        : message == ManageMessageId.SetTwoFactorSuccess
-                            ? "Your two-factor authentication provider has been set."
-                            : message == ManageMessageId.Error
-                                ? "An error has occurred."
-                                : message == ManageMessageId.AddPhoneSuccess
-                                    ? "Your phone number was added."
-                                    : message == ManageMessageId.RemovePhoneSuccess
-                                        ? "Your phone number was removed."
-                                        : "";
 
-            var userId = User.Identity.GetUserId();
-            var model = new IndexViewModel
-            {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
-            };
-            return View(model);
+        public ActionResult index(int? page)
+        {
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            return View("~/Views/Home/UserList.cshtml", UserManager.Users.ToList().ToPagedList(pageNumber, pageSize));
         }
 
         //
@@ -239,12 +207,34 @@ namespace SofthemeClassBooking.Controllers
                 string email = user.Email;
                 string name = user.UserName;
 
+                bool isAdmin = UserManager.IsInRole(user.Id, "admin");
                 return PartialView("~/Views/Home/ChangeUserNameEmail.cshtml",
-                    new ChangeUserNameEmail() {Email = email, UserName = name});
+                    new ChangeUserNameEmail() {Email = email, UserName = name, IsAdmin = isAdmin});
             }
             else throw new Exception("message");
         }
-        
+         [Authorize]
+        public async Task<IdentityResult> EditRole(ApplicationUser user, string role)
+        {
+            if (user != null || role != null)
+            {
+                var oldUser = await UserManager.FindByIdAsync(user.Id);
+                var oldRole = UserManager.GetRoles(oldUser.Id).FirstOrDefault();
+
+
+                if (oldRole != role)
+                {
+                    UserManager.RemoveFromRole(user.Id, oldRole);
+                    UserManager.AddToRole(user.Id, role);
+                }
+
+
+            }
+            else return IdentityResult.Failed();
+
+            return await UserManager.UpdateAsync(user);
+           
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
@@ -257,11 +247,33 @@ namespace SofthemeClassBooking.Controllers
             {
                 user.Email = model.Email;
                 user.UserName = model.UserName;
+                if (model.IsAdmin)
+                {
+                  await  EditRole(user, "admin");
+                }
+                else
+                {
+                
+                    var oldRole = UserManager.GetRoles(user.Id).FirstOrDefault();
+                    string newRole=String.Empty;
+                    if (model.IsAdmin)
+                    {
+                        newRole = "admin";
+                    }
+                    else newRole = "user";
+
+                    if (oldRole != newRole)
+                    {
+                        UserManager.RemoveFromRole(user.Id, oldRole);
+                        UserManager.AddToRole(user.Id, newRole);
+                    }
+                   
+                }
                 var result= UserManager.Update(user);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    
+                    return RedirectToAction("Index", "Home");
                 }
                
             }
@@ -351,6 +363,14 @@ namespace SofthemeClassBooking.Controllers
             return View(model);
         }
 
+        [Authorize]
+        [Authorize(Roles = "admin")]
+        public ActionResult UserList(int? page)
+        {
+              int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            return View("~/Views/Home/UserList.cshtml",UserManager.Users.ToList().ToPagedList(pageNumber, pageSize));
+        }
         //
         // GET: /Manage/ManageLogins
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)

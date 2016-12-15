@@ -11,7 +11,7 @@
  {
     <p id="title"> Регистрация </p>
  }
- @using (Html.BeginForm("SofthemeRegistration", "Login", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @id = "registration", @class = "form-horizontal", role = "form" }))
+ @using (Html.BeginForm("SofthemeRegistration", "Login", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @id = "registration", @class = "form-horizontal", role = "form", autocomplete = "off" }))
  {
      <div id="result-message" class="registration-inner-error">
          @if (ViewData["Registration"] != null)
@@ -29,11 +29,11 @@
         </div>
         @Html.TextBoxFor(m => m.Email, new { @id = "emailBox", placeholder = "Адрес электронной почты" })
         <div class="registration-form-incorrect-block">
-            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "registration-form-incorrect-block" });
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "registration-form-incorrect-block" })
         </div>
         @Html.TextBoxFor(m => m.Password, new { @id = "Password", placeholder = "Пароль", type = "password" })
         <div class="registration-form-incorrect-block">
-            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new {  @class = "registration-form-incorrect-block" });
+            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new {  @class = "registration-form-incorrect-block" })
         </div>
         @Html.TextBoxFor(m => m.ConfirmPassword, new { @id = "ConfirmPassword", placeholder = "Пароль", type = "password" })
         <input style="width:140px" class="button-refuse" type="submit" value="Зарегистрироваться" id="mysubmit" />
@@ -43,12 +43,12 @@
         @section Menu
 
         {
-            <p> @Html.ActionLink("Вход", "Index", "Login", null, new {style = "cursor: pointer;text-decoration: none;", @class = "notselect"})</p>
-            <p>@Html.ActionLink("Регистрация", "Registration", "Login", null, new {style = "cursor: pointer; text-decoration: none;font-weight: bold", @class = "select"})</p>
-            <p>@Html.ActionLink("Смена пароля", "ForgotPassword", "Login", null, new {style = "cursor: pointer; text-decoration: none;", @class = "notselect"})</p>
+            <p> @Html.ActionLink("Вход", "Index", "Login", null, new { @class = "notselect"})</p>
+            <p>@Html.ActionLink("Регистрация", "Registration", "Login", null, new { @class = "select"})</p>
+            <p>@Html.ActionLink("Смена пароля", "ForgotPassword", "Login", null, new { @class = "notselect"})</p>
         }
 
-@Scripts.Render("~/bundles/scripts/jqueryval")
+@Scripts.Render("~/bundles/jqueryval")
     <script>
         $(document)
             .ready(function () {

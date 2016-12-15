@@ -1,5 +1,6 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="ajax/loader.js" />
+/// <reference path="datetime.js" />
 /// <reference path="dialog.js" />
 /// <reference path="jquery/jquery-3.1.1.min.js" />
 /// <reference path="jquery/jquery-ui.js" />

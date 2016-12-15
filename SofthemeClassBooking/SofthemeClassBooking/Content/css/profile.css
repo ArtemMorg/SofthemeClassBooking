@@ -1,13 +1,189 @@
-﻿.wrapper {
-    width: 900px;
-    margin: auto;
+﻿.button-logout {
+    height: 30px;
+    padding: 25px 124px 0 0;
+    text-align: right;
+    font-size: 14px;
 }
 
-.clear {
-    clear: both;
+    .button-logout button {
+        width: 150px;
+        height: 35px;
+        line-height: 35px;
+        padding: 0;
+        border: 0;
+        border-radius: 20px;
+        background-color: #c8ceda;
+        padding: 0 7px 0 0;
+        color: #6D737C;
+    }
+
+.roomevent-profile {
+    margin: 84px 0 0 125px;
 }
 
-.nav {
+.user-profile .left-section, .user-profile .right-section {
+    display: inline-block;
+    vertical-align: top;
+    padding: 21px 0 0 0;
+}
+
+.user-profile {
+    font-size: 14px;
+}
+
+    .user-profile .left-section {
+        width: 645px;
+    }
+
+    .user-profile .right-section {
+        width: auto;
+        padding-left: 16px;
+    }
+
+    .user-profile .user-info-section {
+        width: 355px;
+        margin: 37px auto;
+        text-align: left;
+    }
+
+        .user-profile .user-info-section .username {
+            font-size: 28px;
+        }
+
+            .user-profile .user-info-section .username sup {
+                position: relative;
+                color: white;
+                font-size: 11px;
+                background: #f95752;
+                border-radius: 20px;
+                padding: 4px 12px 5px;
+                top: 3px;
+                font-weight: 100;
+                vertical-align: top;
+            }
+
+        .user-profile .user-info-section .email-section {
+            margin: 37px 0 0 0;
+        }
+
+            .user-profile .user-info-section .email-section .text,
+            .user-profile .user-info-section .email-section .email,
+            .user-profile .user-info-section .event-count-section .event-count,
+            .user-profile .user-info-section .event-count-section .text {
+                display: inline-block;
+                vertical-align: top;
+                font-size: 14px;
+            }
+
+            .user-profile .user-info-section .email-section .text {
+                font-weight: bold;
+            }
+
+            .user-profile .user-info-section .email-section .email {
+                padding: 0 0 0 3px;
+                font-size: 14px;
+            }
+
+        .user-profile .user-info-section .event-count-section {
+            margin: 23px 0 0 0;
+        }
+
+            .user-profile .user-info-section .event-count-section .text {
+                font-weight: bold;
+            }
+
+        .user-profile .user-info-section .button-change {
+            margin: 36px 0 0 0;
+        }
+
+            .user-profile .user-info-section .button-change #change {
+                font-size: 14px;
+                width: 150px;
+                height: 35px;
+                line-height: 35px;
+                padding: 0;
+                border: 0;
+                border-radius: 20px;
+                background-color: #c8ceda;
+                color: #6D737C;
+                padding: 0 3px 0 0;
+                margin: 0 0 0 80px;
+            }
+
+.change-password-section {
+    width: 481px;
+    height: 318px;
+    background-color: #EBEEF7;
+}
+
+    .change-password-section .text {
+        padding: 41px 12px 0 0;
+        text-align: center;
+        font-size: 23px;
+    }
+
+    .change-password-section form {
+        padding: 20px 0 0 0;
+    }
+
+    .change-password-section input {
+        border: none;
+        display: block;
+        margin: 0 auto 19px 105px;
+        font-size: 14px;
+        height: 36px;
+        border-radius: 20px;
+        outline: none;
+    }
+
+    .change-password-section .confirm-password {
+        position: relative;
+        top: -6px;
+    }
+
+    .change-password-section input[type="password"] {
+        width: 277px;
+        text-indent: 18px;
+    }
+
+
+.user-profile input[type=submit] {
+    cursor: pointer;
+    color: #6D737C;
+    position: relative;
+    top: 9px;
+    height: 36px;
+    width: 155px;
+    background-color: #c8ceda;
+    border: none;
+    margin: 0 auto 0 171px;
+    top: -12px;
+}
+
+.changeuser form {
+        margin: 10px 0 0 0;
+}
+
+.changeuser form input {
+    display: block;
+    border-width: 2px;
+    height: 35px;
+    width: 260px;
+    border-radius: 20px;
+    padding-left: 20px;
+    outline: none;
+    border: 2px solid #F2F4FA;
+}
+
+.changeuser input[type=text], .changeuser input[type=email] {
+    width: 332px;
+    position: relative;
+    top: 3px;
+    left: 32px;
+    height: 33px;
+}
+
+/*.nav {
     height: 60px;
     width: 100%;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
@@ -42,47 +218,7 @@
     float: right;
 }
 
-.content #exit {
-    margin-bottom: 0;
-    width: 150px;
-    padding: 0;
-    background: #c8ceda;
-    position: relative;
-    top: -13px;
-    left: -133px;
-}
 
-
-
-
-#exit,
-#change {
-    width: 140px;
-    height: 35px;
-    line-height: 35px;
-    padding: 0;
-    border: 0;
-    margin-top: 20px;
-    float: right;
-    border-radius: 20px;
-    background-color: #c8ceda;
-    color: #6D737C;
-}
-
-#change {
-    float: none;
-    margin: auto;
-    display: block;
-    margin-top: 40px;
-    position: relative;
-    top: 3px;
-    left: -6px;
-    width: 148px;
-}
-
-.content {
-    margin-top: 20px;
-}
 
 .info {
     height: 300px;
@@ -155,18 +291,7 @@ form input[type=submit], #info input[type=submit] {
     color: #6D737C;
 }
 
-.changeuser form input {
-    display: block;
-    margin: auto;
-    border-width: 2px;
-    margin-bottom: 13px;
-    height: 35px;
-    width: 260px;
-    border-radius: 20px;
-    padding-left: 20px;
-    outline: none;
-    border: 2px solid #F2F4FA;
-}
+
 
     .changeuser form input[type=submit] {
         position: relative;
@@ -197,13 +322,6 @@ form input[type=submit], #info input[type=submit] {
         padding: 0;
         background: #c8ceda;
     }
-
-#exit {
-    margin-bottom: 0;
-    width: 140px;
-    padding: 0;
-    background: #c8ceda;
-}
 
 .button-OK {
     background-Color: #F95752 !important;
@@ -256,4 +374,4 @@ form input[type=submit], #info input[type=submit] {
     position: relative;
     top: 27px;
     left: -32px;
-}
+}*/

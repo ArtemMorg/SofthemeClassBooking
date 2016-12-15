@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using System.Web.Configuration
+@using Microsoft.AspNet.Identity
 @using SofthemeClassBooking.Models
 
 @model ChangePasswordViewModel
@@ -6,70 +7,109 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 @section stylesDeclarationInHeader
 {
     @Styles.Render("~/bundles/styles/profile")
 }
 
-<div class="content">
-    <div class="clear"></div>
-
-
+<div class="button-logout">
     @using (Html.BeginForm("LogOff", "Login", FormMethod.Post))
-    {@Html.AntiForgeryToken()
-
-        <button id="exit" value="Login/LogOff">Выйти</button>
-
+    {
+        @Html.AntiForgeryToken()
     }
+    <button id="exit" value="Login/LogOff">Выйти</button>
+</div>
 
-    <div class="clear"></div>
 
-    <div class="info">
-        <div id="info">
-            <p id="UserName">
-                @User.Identity.Name @if (@User.IsInRole("admin"))
+<div class="user-profile">
+
+
+    <div class="left-section">
+
+        <div class="user-info-section">
+            <div id="user-info">
+
+                <div class="username">
+                    @User.Identity.Name
+                        @if (User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]))
+                        {
+                            <sup>admin</sup>
+                        }
+                </div>
+
+                <div class="email-section">
+                    <div class="text">Email:</div>
+                    <div class="email"> @Html.Action("GetUserEmail", "Login", new {id = User.Identity.GetUserId()}) </div>
+                </div>
+
+                <div class="event-count-section">
+                    <div class="text">Количество активных событий:</div>
+                    <div class="event-count">12</div>
+                </div>
+
+                <div class="button-change">
+                    <button id="change">Изменить</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="right-section">
+
+        <div class="change-password-section">
+            <div class="text">Изменить пароль</div>
+
+            @using (Html.BeginForm("ChangePasswordFromUserProfile", "Manage", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @id = "Login", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.TextBoxFor(m => m.OldPassword, new { placeholder = "Старый пароль", @id = "oldPassword", type = "password" })
+                @Html.TextBoxFor(m => m.NewPassword, new { @id = "newPassword", placeholder = "Новый пароль", type = "password" })
+                @Html.TextBoxFor(m => m.ConfirmPassword, new { @id = "confirmNewPassword", placeholder = "Повторить новый пароль", type = "password", @class = "confirm-password" })
+
+                <input type="submit" class="button-refuse" value="Сохранить" id="mysubmit">
+                if (ViewData["ChangePasswordSuccess"] != null)
                 {
-                    <sup>admin</sup>}
-            </p>
-            <p><b>Email:</b>&nbsp;@Html.Action("GetUserEmail", "Login", new { id = @User.Identity.GetUserId() })</p>
-            <p>
-                <b>Количество активных событий:</b>&nbsp; 12
-            </p>
-            <button id="change">Изменить</button>
+                    <div id="changepassword-success">
+                        <p>
+                            <img src="~/Content/images/success.png" />Пароль успешно изменен
+                        </p>
+                    </div>
+                }
+            }
+        </div>
+
+    </div>
+
+</div>
+
+<div id="roomevent-section" class="roomevent-profile">
+    <div id="roomevent-loading">
+        <div class="roomevent-loading-section">
+            <div>@Localization.LoadingRoomEventSection...</div>
+            <div>
+                <img src="~/Content/images/gif/ajax-loader.gif" />
+            </div>
         </div>
     </div>
-
-
-    <div class="pass">
-        <p>Изменить пароль</p>
-
-        @using (Html.BeginForm("ChangePasswordFromUserProfile", "Manage", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @id = "Login", role = "form" }))
-        {
-            @Html.AntiForgeryToken()
-            @Html.TextBoxFor(m => m.OldPassword, new { placeholder = "Старый пароль", @id = "oldPassword", type = "password" })
-            @Html.TextBoxFor(m => m.NewPassword, new { @id = "newPassword", placeholder = "Новый пароль", type = "password" })
-            @Html.TextBoxFor(m => m.ConfirmPassword, new { @id = "confirmNewPassword", placeholder = "Повторить новый пароль", type = "password" })
-
-            <input type="submit" class="button-refuse" value="Сохранить" id="mysubmit">
-            if (ViewData["ChangePasswordSuccess"] != null)
-            {
-                <div id="changepassword-success">
-                    <p>
-                        <img src="~/Content/images/success.png" />Пароль успешно изменен
-                    </p>
-                </div>
-            }
-        }
-    </div>
 </div>
-<div class="clear"></div>
-<div style="height: 200px">
-    Calandar
-</div>
+
 @Scripts.Render("~/bundles/scripts/jqueryval")
 
 <script>
+
+    (function ($, window, document) {
+
+        $(function () {
+
+            renderRoomEventSection();
+
+        });
+
+    }(window.jQuery, window, document));
+
     $(document)
         .ready(function () {
 
@@ -77,8 +117,8 @@
             var newPassword = $("#newPassword");
             var confirmNewPassword = $("#confirmNewPassword");
 
-           var isOldPasswordValid = oldPassword.valid();
-           var isNewPasswordValid = newPassword.valid();
+            var isOldPasswordValid = oldPassword.valid();
+            var isNewPasswordValid = newPassword.valid();
             var isNewPasswordConfirmValid;
             oldPassword.blur(function () {
                 isOldPasswordValid = oldPassword.valid();
@@ -104,7 +144,7 @@
 
             $("#oldPassword, #newPassword,#confirmNewPassword").keyup(function () {
                 if (isOldPasswordValid && isNewPasswordValid &&
-                     isNewPasswordConfirmValid ) {
+                    isNewPasswordConfirmValid) {
 
                     $("#mysubmit").addClass("button-OK");
                     $("#mysubmit").removeClass("button-refuse");
@@ -116,7 +156,7 @@
             });
             $("#oldPassword, #newPassword,#confirmNewPassword").blur(function () {
                 if (isOldPasswordValid && isNewPasswordValid &&
-                     isNewPasswordConfirmValid) {
+                    isNewPasswordConfirmValid) {
 
                     $("#mysubmit").addClass("button-OK");
                     $("#mysubmit").removeClass("button-refuse");
@@ -126,23 +166,21 @@
                     $("#mysubmit").removeClass("button-OK");
                 }
             });
-            $('#change')
-            .click(function (e) {
-                e.preventDefault();
+            $('#change').click(function (e) {
+                    e.preventDefault();
 
-                $.ajax({
-                    url: '@Url.Action("ChangeUserNameEmail","Manage")',
-                    method: 'POST',
-                    success: function (result) {
+                    $.ajax({
+                        url: '@Url.Action("ChangeUserNameEmail","Manage")',
+                        method: 'POST',
+                        success: function (result) {
+                            $('#user-info').html(result);
 
-                        $('#info').html(result);
+                        }
+                    });
 
-                    }
                 });
-
-            });
         });
 
 
-
 </script>
+

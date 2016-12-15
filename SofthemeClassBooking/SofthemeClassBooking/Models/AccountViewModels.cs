@@ -80,17 +80,16 @@ namespace SofthemeClassBooking.Models
     {
         private const string DangerMessagePath = "<img src='../Content/images/danger.png'/> ";
         private const string ErrorEmptyMessage = DangerMessagePath + "Это поле обязательно для заполения";
-        private const string ErrorMessageMaxLengthReached = DangerMessagePath + "Поле слишком длинное";
+        private const string ErrorMessageLengthReached = DangerMessagePath + "Пароль должен содержать <font face='Arial'>8-15</font> символов";
+       
         private const string ErrorEmailMessage = DangerMessagePath + "Неверный адрес электронной почты";
-        private const string ErrorMessageMinLengthReached = DangerMessagePath + "Поле слишком короткое";
-        private const string ErrorMessageConfirmPassword = DangerMessagePath + "Поля не совпадают";
+        private const string ErrorMessageConfirmPassword = DangerMessagePath + "Пароль не совпадает";
         [Required(ErrorMessage = ErrorEmptyMessage)]
-        [StringLength(70, ErrorMessage = ErrorMessageMaxLengthReached)]
+        [StringLength(70)]
         [Display(Name = "UserName")]
         public string UserName { get; set; }
 
-        [StringLength(50, ErrorMessage = ErrorMessageMaxLengthReached)]
-
+        [StringLength(50)]
         [Required(ErrorMessage = ErrorEmptyMessage)]
         [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = ErrorEmailMessage)]
         [Display(Name = "Email")]
@@ -99,7 +98,7 @@ namespace SofthemeClassBooking.Models
 
 
         [Required(ErrorMessage = ErrorEmptyMessage)]
-        [StringLength(100, ErrorMessage = ErrorMessageMinLengthReached, MinimumLength = 6)]
+        [StringLength(15, ErrorMessage = ErrorMessageLengthReached, MinimumLength = 8)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -107,28 +106,28 @@ namespace SofthemeClassBooking.Models
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = ErrorMessageConfirmPassword)]
+        
         public string ConfirmPassword { get; set; }
     }
 
     public class ResetPasswordViewModel
     {
-        private const string DangerMessagePath = "<img src='../Content/images/danger.png'/> ";
-        private const string ErrorMessageMaxLengthReached = DangerMessagePath + "Поле слишком длинное";
+        private const string DangerMessagePath = "<img src='/Content/images/danger.png'/> ";
+        private const string ErrorMessageLengthReached = DangerMessagePath + "Пароль должен содержать <font face='Arial'>8-15</font> символов";
         private const string ErrorEmailMessage = DangerMessagePath + "Неверный адрес электронной почты";
-        private const string ErrorConfirmationPassword = "Пароль не совпадает";
-
+        private const string ErrorConfirmationPassword =  DangerMessagePath +"Пароль не совпадает";
+        private const string ErrorEmptyMessage = DangerMessagePath + "Это поле обязательно для заполения";
         
         
         [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = ErrorEmailMessage)]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = ErrorMessageMaxLengthReached, MinimumLength = 6)]
-        [DataType(DataType.Password)]
+        [Required(ErrorMessage = ErrorEmptyMessage)]
+        [StringLength(15, ErrorMessage = ErrorMessageLengthReached, MinimumLength = 8)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [DataType(DataType.Password)]
+      
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = ErrorConfirmationPassword)]
         public string ConfirmPassword { get; set; }
@@ -143,11 +142,12 @@ namespace SofthemeClassBooking.Models
         private const string ErrorEmptyMessage = DangerMessagePath + "Это поле обязательно для заполения";
         private const string ErrorMessageMaxLengthReached = DangerMessagePath + "Поле слишком длинное";
 
-        [StringLength(50, ErrorMessage = ErrorMessageMaxLengthReached)]
         [Required(ErrorMessage = ErrorEmptyMessage)]
-        [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = ErrorEmailMessage)]
-        [Display(Name = "Email")]
+        [StringLength(50, ErrorMessage = ErrorMessageMaxLengthReached)]
+        [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$",
+             ErrorMessage = ErrorEmailMessage)]
+        [EmailAddress(ErrorMessage =ErrorEmailMessage)]
         public string Email { get; set; }
     }
-    
+
 }

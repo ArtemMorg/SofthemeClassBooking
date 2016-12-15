@@ -13,6 +13,7 @@ namespace SofthemeClassBooking
             bundles.Add(new ScriptBundle("~/bundles/scripts/general").Include(
                         "~/Scripts/jquery/jquery-{version}.js",
                         "~/Scripts/ajax/loader.js",
+                        "~/Scripts/datetime.js",
                         "~/Scripts/shared.js",
                         "~/Scripts/dialog.js",
                          "~/Scripts/event/event-modal.js"

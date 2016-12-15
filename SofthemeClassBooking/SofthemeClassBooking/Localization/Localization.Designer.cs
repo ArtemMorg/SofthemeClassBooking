@@ -61,6 +61,15 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Список пользователей.
+        /// </summary>
+        public static string AccountUserList {
+            get {
+                return ResourceManager.GetString("AccountUserList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Отменить.
         /// </summary>
         public static string ButtonCancel {
@@ -372,6 +381,15 @@ namespace SofthemeClassBooking.Localization {
         public static string Stage {
             get {
                 return ResourceManager.GetString("Stage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Всего.
+        /// </summary>
+        public static string Total {
+            get {
+                return ResourceManager.GetString("Total", resourceCulture);
             }
         }
     }

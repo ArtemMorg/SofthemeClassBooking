@@ -1,4 +1,6 @@
-﻿#users-title {
+﻿
+
+#users-title {
      font-size: 28px;
     position: relative;
     top: 17px;
@@ -11,7 +13,7 @@
     top: 5px;
     left: 134px;
 }
-#users table tr td p {
+#users table tr td  {
     color: #5B6168;
 }
 #users {
@@ -19,7 +21,42 @@
     left: 134px;
     top: 12px;
 }
-tr td {
-    width: 174px;
-    height: 50px;
+#users tr td {
+     
+    height: 41px;
 }
+#users td:first-of-type {
+    width: 222px;
+}
+
+#users td:nth-of-type(2) 
+{
+     width: 281px;
+}
+#users td:nth-of-type(3) {
+        width: 140px;
+   
+}
+#users table tr:hover {
+    background-color: #EFF1F8;
+}
+    
+#users table {
+    position: relative;
+    top: 4px;
+    left: -14px;
+    border-collapse: collapse; 
+       
+}
+#users table tr td {
+    border-spacing: 0px;
+    border-width: 0px;
+}
+ table tr td span  {
+            color: white;
+            font-size: 11px;
+            background: #f95752;
+            border-radius: 20px;
+            padding: 4px 12px 5px;
+            font-weight: 100;
+        }

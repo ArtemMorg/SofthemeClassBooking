@@ -1,16 +1,16 @@
 ﻿ @model SofthemeClassBooking.Models.ChangeUserNameEmail
+
 <div class="changeuser">
-    @if (@User.IsInRole("user"))
-    {
-        using (Html.BeginForm("SaveChangeUserNameEmail", "Manage", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @id = "Login", role = "form" }))
+
+        @using (Html.BeginForm("SaveChangeUserNameEmail", "Manage", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "Login", role = "form" }))
         {
             @Html.AntiForgeryToken()
-            @Html.TextBoxFor(m => m.UserName, new {placeholder = "Имя Фамилия", @id = "Name", type = "text"})
-            @Html.TextBoxFor(m => m.Email, new {@id = "Email", placeholder = "Адрес электронной почты", type = "email"})
+            @Html.TextBoxFor(m => m.UserName, new {placeholder = "Имя Фамилия", id = "Name", type = "text"})
+            @Html.TextBoxFor(m => m.Email, new {id = "Email", placeholder = "Адрес электронной почты", type = "email"})
             <input type="submit" class="button-refuse" value="Сохранить" id="changeName">
 
         }
-    }
+
 </div>
 <script>
     $(document)

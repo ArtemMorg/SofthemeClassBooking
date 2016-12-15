@@ -54,6 +54,9 @@ namespace SofthemeClassBooking.Models
         [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = ErrorEmailMessage)]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+          [Required]
+        public bool IsAdmin { get; set; }
     }
     public class ChangePasswordViewModel
     {

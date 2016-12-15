@@ -21,11 +21,11 @@
 
 @section Menu
             {
-    <p> @Html.ActionLink("Вход", "Index", "Login", null, new { style = "cursor: pointer;", @class = "notselect" })</p>
+    <p> @Html.ActionLink("Вход", "Index", "Login", null, new { @class = "notselect" })</p>
 
-    <p>@Html.ActionLink("Регистрация", "Registration", "Login", null, new { style = "cursor: pointer; text-decoration: none;font-weight: bold", @class = "select" })</p>
+    <p>@Html.ActionLink("Регистрация", "Registration", "Login", null, new {  @class = "notselect" })</p>
 
-    <p>@Html.ActionLink("Смена пароля", "ForgotPassword", "Login", null, new { style = "cursor: pointer; text-decoration: none;", @class = "notselect" })</p>
+    <p>@Html.ActionLink("Смена пароля", "ForgotPassword", "Login", null, new {  @class = "select" })</p>
 
 }
 

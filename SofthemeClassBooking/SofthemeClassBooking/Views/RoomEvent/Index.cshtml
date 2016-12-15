@@ -23,9 +23,9 @@
 
             <!--Date navigation-->
             <div class="roomevent-header-date-section ">
-                <i id="roomevent-time-before-part" class="fa fa-caret fa-caret-left" aria-hidden="true" style="float: left;"></i>
+                <i id="roomevent-time-before-part" class="fa fa-caret fa-caret-left" aria-hidden="true"></i>
                 <span id="event-date" class="text"></span>
-                <i id="roomevent-time-next-part" class="fa fa-caret fa-caret-right" aria-hidden="true" style="float: right;"></i>
+                <i id="roomevent-time-next-part" class="fa fa-caret fa-caret-right" aria-hidden="true"></i>
             </div>
 
         </div>
@@ -44,15 +44,17 @@
     <!--right block-->
 
     <div class="roomevent-right-block noselect-text">
+        <div class="calendar">
+            <div class="roomevent-calener-date-section">
+                <i id="calendar-month-left" class="fa fa-caret fa-caret-left" aria-hidden="true" style="float: left;"></i>
+                <span id="current-month" class="text"></span>
+                <i id="calendar-month-right" class="fa fa-caret fa-caret-right" aria-hidden="true" style="float: right;"></i>
+            </div>
 
-        <div class="roomevent-calener-date-section">
-            <i id="calendar-month-left" class="fa fa-caret fa-caret-left" aria-hidden="true" style="float: left;"></i>
-            <span id="current-month"></span>
-            <i id="calendar-month-right" class="fa fa-caret fa-caret-right" aria-hidden="true" style="float: right;"></i>
+            <div id="calendar-body" class="roomevent-calendar-body"> </div>
+            <div class="roomevent-calendar-today"><span id="roomevent-calendar-today"></span></div>
         </div>
 
-        <div id="calendar-body" class="roomevent-calendar-body"> </div>
-        <div class="roomevent-calendar-today"><span id="roomevent-calendar-today"></span></div>
 
     </div>
 

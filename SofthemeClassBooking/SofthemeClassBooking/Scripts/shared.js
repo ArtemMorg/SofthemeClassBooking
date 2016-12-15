@@ -49,6 +49,7 @@ function successMapHandler(result) {
 }
 
 function successRoomEventHandler(result) {
+
     $('#roomevent-section').html(result);
     $('#roomevent-loading').hide();
 
@@ -70,10 +71,6 @@ function getEventsBrief() {
 function getEventInfoVerbose(eventId) {
     return loadSection(ajaxUrl.EventInfoVerbose + '/' + eventId);
 }
-
-function renderPlanSectionTest() {
-    return loadSection(ajaxUrl.PlanSectionUrl + url, beforeSendHandler(planLoadingDiv), successPlanHandler);
-} 
 
 function renderPlanSection(additionalUrl) {
     loadSection(ajaxUrl.PlanSectionUrl, beforeSendHandler(planLoadingDiv), successPlanHandler);

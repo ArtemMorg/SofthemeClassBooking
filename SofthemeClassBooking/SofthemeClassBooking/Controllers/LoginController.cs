@@ -25,6 +25,7 @@ namespace SofthemeClassBooking.Controllers
 
         public LoginController()
         {
+             
         }
 
         [AllowAnonymous]
@@ -74,7 +75,6 @@ namespace SofthemeClassBooking.Controllers
             return View("RegistrationResult");
         }
 
-
         public ActionResult SofthemeLogin(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -96,11 +96,11 @@ namespace SofthemeClassBooking.Controllers
 
             var user = await UserManager.FindByEmailAsync(model.Email);
 
-
+           
             if (user != null)
             {
 
-                if (!user.EmailConfirmed && !UserManager.IsInRole(user.Id, "admin"))
+                if (!user.EmailConfirmed &&  !UserManager.IsInRole(user.Id, "admin"))
                 {
 
                     ModelState.AddModelError("", "Confirm Email Address.");
@@ -120,7 +120,7 @@ namespace SofthemeClassBooking.Controllers
                     case SignInStatus.LockedOut:
                         return View("Lockout");
                     case SignInStatus.RequiresVerification:
-                        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                        return RedirectToAction("SendCode", new {ReturnUrl = returnUrl, RememberMe = model.RememberMe});
                     case SignInStatus.Failure:
                     default:
                         ModelState.AddModelError("", "Неверные данные");
@@ -139,7 +139,8 @@ namespace SofthemeClassBooking.Controllers
         }
 
         [HttpPost]
-        
+
+
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
@@ -186,6 +187,17 @@ namespace SofthemeClassBooking.Controllers
             }
         }
 
+
+        
+         [Authorize(Roles = "admin")]
+        public string UserIsAdmin(ApplicationUser user)
+        {
+            if (UserManager.IsInRole(user.Id, "admin"))
+            {
+                return "<span>Admin</span>";
+            }
+            return "";
+        }
         //
         // GET: /Account/Register
         [Authorize]
@@ -226,6 +238,7 @@ namespace SofthemeClassBooking.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+
                     await UserManager.AddToRoleAsync(user.Id, "user");
 
 
