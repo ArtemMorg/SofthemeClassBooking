@@ -9,6 +9,7 @@
     <script type="text/javascript">
         
         var url = {
+            HomeUrl: '@Url.Action("Index","Home")',
             RoomIdNameUrl: '@Url.Action("GetNameId","Classroom")',
             RoomEventSectionUrl: '@Url.Action("Index", "RoomEvent")',
             PlanSectionUrl: '@Url.Action("Index", "Classroom")',
@@ -18,10 +19,13 @@
             RoomEditUrl: '@Url.Action("Edit","Classroom")',
             RoomChangeStatusUrl: '@Url.Action("ChangeStatus","Classroom")',
             EventCreateUrl: '@Url.Action("Create", "Event")',
+            EventUpdateUrl: '@Url.Action("Update","Event")',
             EventsBriefUrl: '@Url.Action("Brief", "Event")',
+            EventCancelUrl: '@Url.Action("Cancel","Event")',
             EventUrl: '@Url.Action("Index", "Event")',
             EventInfoVerbose: '@Url.Action("InfoVerbose", "Event")',
             ParticipantAddUrl: '@Url.Action("Add","Participant")',
+            ParticipantRemoveUrl: '@Url.Action("Remove","Participant")',
             DialogWindowUrl: '@Url.Action("DialogWindow","Home")'
         };
         setEngineUrl(url);

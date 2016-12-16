@@ -60,7 +60,7 @@ function postFormData(url, form, datatype, successHandler, errorHandler) {
 }
 
 function postData(url, data, successHandler, errorHandler) {
-    debugger;
+
     $.ajax({
         url: url,
         method: 'POST',

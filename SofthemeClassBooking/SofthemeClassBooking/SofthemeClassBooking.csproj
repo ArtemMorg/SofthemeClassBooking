@@ -318,6 +318,7 @@
     <Content Include="Scripts\ajax\loader.js" />
     <Content Include="Scripts\datetime.js" />
     <Content Include="Scripts\dialog.js" />
+    <Content Include="Scripts\event\eventpage.js" />
     <Content Include="Scripts\jquery\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery\jquery-ui.js" />
@@ -410,7 +411,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Scripts\event\" />
     <Folder Include="Views\Participant\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>

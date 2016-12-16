@@ -18,59 +18,122 @@
 @section scriptDeclarationInHeader
 {
     @Scripts.Render("~/bundles/scripts/calendar")
+    @Scripts.Render("~/bundles/scripts/eventpage")
 }
 
 <div class="eventpage">
     <div class="eventpage-info">
+        <form id="event-edit-info-form" method="post">
+            
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.Event.BeginingDate)
+            @Html.HiddenFor(m => m.Event.EndingDate)
+            @Html.HiddenFor(m => m.Event.UserId)
+            @Html.HiddenFor(m=>m.Event.ClassRoomId)
 
-        <div class="title">@Model.Event.Title</div>
-
-        <div class="author noselect-text">
-            <i class="fa fa-user"></i>
-            <div class="event-creator-name">
-                @showEventOwner
+            <div class="title">
+                @Model.Event.Title
             </div>
-        </div>
+            <div class="title-edit display-none">
+                <span id="event-title-error" class="error-message"> <img src="/Content/images/danger.png" /> @Localization.ErrorEmptyField </span>
+                @Html.TextBoxFor(m => m.Event.Title, new {placeholder = Localization.EventTitlePlaceholder, value = Model.Event.Title})
+            </div>
 
-        <div class="description">
-            <span>@eventDescription</span>
-        </div>
 
+            <div class="author noselect-text">
+                <i class="fa fa-user"></i>
+                <div class="event-creator-name">
+                    @showEventOwner
+                </div>
+            </div>
+            <div class="author-edit display-none">
 
-        @if (@Model.Event.IsParticipantsAllowed)
-        {
+                <div class="position">
 
-            <div class="participant-add">
+                    <div class="checkbox">
+                        @if (Model.Event.IsAuthorShown)
+                        {
+                            <input id="IsAuthorShown" name="IsAuthorShown" type="checkbox" class="checkbox" checked/>
+                        }
+                        else
+                        {
+                            <input id="IsAuthorShown" name="IsAuthorShown" type="checkbox" class="checkbox" />
+                        }
+                        <label for="IsAuthorShown"></label>
+                        <input name="IsAuthorShown" type="hidden" value="false">
+                    </div>
 
-                @if (DateTime.Compare(@Model.Event.EndingDate, DateTime.Now) > 0)
-                {
-                    <div class="text">@Localization.EventPlanningTakePart<span id="participant-count">@participantCount</span> @Localization.People</div>
-                    if (Model.Event.UserId == User.Identity.GetUserId())
+                    <div class="label">@Localization.EventShowAuthor</div>
+                    <div class="or">@Localization.Or</div>
+
+                    @Html.TextBoxFor(m => m.Event.Organizer, new { placeholder = Localization.EventSetOrganizerPlaceholder, value = Model.Event.Organizer })
+
+                </div>
+
+            </div>
+
+            <div class="description">
+                <span>@eventDescription</span>
+            </div>
+            <div class="description-edit display-none">
+                @Html.TextAreaFor(m => m.Event.Description, new { placeholder = "Дополнительная информация" })
+            </div>
+
+            @if (@Model.Event.IsParticipantsAllowed)
+            {
+
+                <div class="participant-add">
+
+                    @if (DateTime.Compare(@Model.Event.EndingDate, DateTime.Now) > 0)
                     {
-                        <input id="Email" name="Email" type="text" placeholder="@Localization.ErrorEventAlreadyEnrolledPlaceholder" disabled />
+                        <div class="text">@Localization.EventPlanningTakePart<span id="participant-count">@participantCount</span> @Localization.People</div>
+                        if (Model.Event.UserId == User.Identity.GetUserId())
+                        {
+                            <input id="Email" name="Email" type="text" placeholder="@Localization.ErrorEventAlreadyEnrolledPlaceholder" disabled/>
+                        }
+                        else
+                        {
+                            <span>@Localization.EventParticipantJoin</span>
+                            using (Html.BeginForm("Add", "Participant", FormMethod.Post, new {id = "add-participant-form"}))
+                            {
+                                <input id="add-participant-email" name="Email" type="text" placeholder="@Localization.EventParticipantJoinPlaceholder" required/>
+                                <i id="add-participant-submit" class="fa fa-plus fa-lg"></i>
+                                <input type="hidden" name="EventId" value="@Model.Event.Id"/>
+                            }
+
+                        }
                     }
                     else
                     {
-                        <span>@Localization.EventParticipantJoin</span>
-                        using (Html.BeginForm("Add", "Participant", FormMethod.Post, new { id = "add-participant-form" }))
-                        {
-                            <input id="add-participant-email" name="Email" type="text" placeholder="@Localization.EventParticipantJoinPlaceholder" required />
-                            <i id="add-participant-submit" class="fa fa-plus fa-lg"></i>
-                            <input type="hidden" name="EventId" value="@Model.Event.Id" />
-                        }
-
+                        <div class="text">@Localization.EventParticipantsTookPart <span id="participant-count">@Model.ParticipantCount</span> @Localization.People</div>
+                        <input type="text" placeholder="@Localization.ErrorEventPassedPlaceholder" disabled/>
                     }
-                }
-                else
-                {
-                    <div class="text">@Localization.EventParticipantsTookPart <span id="participant-count">@Model.ParticipantCount</span> @Localization.People</div>
-                    <input type="text" placeholder="@Localization.ErrorEventPassedPlaceholder" disabled />
-                }
 
+                </div>
+            }
+
+            <div class="participants-edit display-none">
+                <div class="position">
+                    <div class="checkbox">
+                        @if (Model.Event.IsParticipantsAllowed)
+                        {
+                            <input id="IsParticipantsAllowed" name="IsParticipantsAllowed" type="checkbox" value="true" checked/>
+                        }
+                        else
+                        {
+                            <input id="IsParticipantsAllowed" name="IsParticipantsAllowed" type="checkbox" value="true" />
+                        }
+                        <label for="IsParticipantsAllowed"></label>
+                        <input name="IsParticipantsAllowed" type="hidden" value="false">
+                    </div>
+
+                    <div class="label">@Localization.EventRegisterParticipants</div>
+                    <div class="or">@Localization.EventPlanningTakePart <span>@participantCount</span> @Localization.People</div>
+
+                </div>
             </div>
-        }
 
-
+        </form>
     </div>
 
     <div class="eventpage-calendar-section noselect-text">
@@ -78,18 +141,58 @@
         <div class="eventpage-calendar">
             <div class="eventpage-calendar-header">
 
-                <div class="datetime">
+                <div class="datetime-section">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
-                    <div class="event-time-simple">
-                        <div id="event-begin-date" class="text"></div>
+
+                    <div class="datetime datetime-first">
+                        <div id="date-day-up" class="arrow-up date-edit invisible"> <i class="fa fa-sort-up"></i> </div>
+                        <div id="date-day-value" class="value">14</div>
+                        <div id="date-day-down" class="arrow-down date-edit invisible"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
+                    </div> <!----><div class="delimeter delimeter-middle">
+                        .
+                    </div><!----><div class="datetime datetime-middle">
+                        <div id="date-month-up" class="arrow-up date-edit invisible"> <i class="fa fa-sort-up"></i> </div>
+                        <div id="date-month-value" class="value">12</div>
+                        <div id="date-month-down" class="arrow-down date-edit invisible"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
+                    </div><!----><div class="delimeter">
+                        .
+                    </div><!----><div class="datetime">
+                        <div id="date-year-up" class="arrow-up date-edit invisible"> <i class="fa fa-sort-up"></i> </div>
+                        <div id="date-year-value" class="value">17</div>
+                        <div id="date-year-down" class="arrow-down date-edit invisible"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
                     </div>
+
                 </div>
 
 
-                <div class="datetime">
+                <div class="datetime-section">
                     <i class="fa fa-clock-o" aria-hidden="true"></i>
-                    <div class="event-time-simple">
-                        <div class="text"><span id="event-begin-time"></span>&nbsp;-&nbsp;<span id="event-end-time"></span></div>
+                    
+
+                    <div class="datetime datetime-first">
+                        <div id="timebegin-hours-up" class="arrow-up date-edit invisible"> <i class="fa fa-sort-up"></i> </div>
+                        <div id="timebegin-hours-value" class="value">18</div>
+                        <div id="timebegin-hours-down" class="arrow-down date-edit invisible"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
+                    </div> <!----><div class="delimeter-time">
+                        :
+                    </div><!----><div class="datetime datetime-time">
+                        <div id="timebegin-minutes-up" class="arrow-up date-edit invisible"> <i class="fa fa-sort-up"></i> </div>
+                        <div id="timebegin-minutes-value" class="value">18</div>
+                        <div id="timebegin-minutes-down" class="arrow-down date-edit invisible"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
+                    </div>
+                    <div class="delimeter-time delimeter-hyphen" >
+                       -
+                    </div>
+                    <div class="datetime">
+                        <div id="timeend-hours-up" class="arrow-up date-edit invisible"> <i class="fa fa-sort-up"></i> </div>
+                        <div id="timeend-hours-value" class="value">18</div>
+                        <div id="timeend-hours-down" class="arrow-down date-edit invisible"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
+                    </div> <!----><div class="delimeter-time">
+                        :
+                    </div><!----><div class="datetime datetime-time">
+                        <div id="timeend-minutes-up" class="arrow-up date-edit invisible"> <i class="fa fa-sort-up"></i> </div>
+                        <div id="timeend-minutes-value" class="value">18</div>
+                        <div id="timeend-minutes-down" class="arrow-down date-edit invisible"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
                     </div>
 
                 </div>
@@ -105,18 +208,28 @@
 
             @if (editAccess)
             {
+                using (Html.BeginForm(null, null, FormMethod.Post, new { id = "event-cancel-token" }))
+                {
+                    @Html.AntiForgeryToken()
+                }
                 <div class="button-section">
-                    <button id="change-cancel" class="cancel">Отмена</button>
-                    <button id="save-cancel-event" class="save">Сохранить</button>
+                    <button id="change-cancel" class="cancel">
+                        <span class="button-edit">@Localization.ButtonEdit</span>
+                        <span class="button-edit-cancel display-none">@Localization.ButtonCancelation</span>
+                    </button>
+                    <button id="save-cancel-event" class="save">
+                        <span class="button-cancel-event">@Localization.ButtonCancel</span>
+                        <span class="button-save-event display-none">@Localization.ButtonSave</span>
+                    </button>
                 </div>
 
-                <div class="error-section">
-                    <div class="icon">
+                <div id="eventedit-status" class="error-section display-none">
+                    <div class="icon icon-place">
                         <i class="fa fa-frown-o"></i>
                     </div>
 
                     <div class="message">
-                        <span id="error-mesage"></span>
+                        <span id="error-message"></span>
                     </div>
                 </div>
             }
@@ -136,7 +249,7 @@
                     <div id="participant-@participant.Id" class="participant">
                         <div class="circle"></div>
                         <div class="email">@participant.Email</div>
-                        <i id="participant-@participant.Id-remove" class="fa fa-times" aria-hidden="true"></i>
+                        <i id="participant-@participant.Id-remove" class="fa fa-times participant-remove" aria-hidden="true"></i>
                     </div>
                 }
 
@@ -218,6 +331,17 @@
 
 <script type="text/javascript">
 
+
+    eventPageCurrentEvent = new EventPageModel(@Model.Event.Id);
+
+    eventPageDialogWindow = new DialogWindow({
+        title: '@Localization.DialogCancelEventTitle',
+        bodyMessage: ""
+    });
+
+    eventPageDialogWindow.setDialogAnswerNoHandler(cancelCancelEvent);
+    eventPageDialogWindow.setDialogAnswerYesHandler(cancelEvent);
+
     (function ($, window, document) {
 
         $(function () {
@@ -226,9 +350,7 @@
             var eventDateTimeBegin = convertToDateObject('@Model.Event.BeginingDate', dateFormats.CShartDateTime);
             var eventDateTimeEnd = convertToDateObject('@Model.Event.EndingDate', dateFormats.CShartDateTime);
 
-            $('#event-begin-date').html(eventDateTimeBegin.day + '.' + eventDateTimeBegin.month + '.' + String(eventDateTimeBegin.year).slice(-2));
-            $('#event-begin-time').html(renderTimeMinutes(eventDateTimeBegin.hour, eventDateTimeBegin.minutes));
-            $('#event-end-time').html(renderTimeMinutes(eventDateTimeEnd.hour, eventDateTimeEnd.minutes));
+            setDateTime(eventDateTimeBegin, eventDateTimeEnd);
 
             loadSection('@Url.Action("Index","Classroom", new {id = Model.Event.ClassRoomId})', beforeSendHandler(planLoadingDiv), function (result) {
                 $('#plan-section').html(result);

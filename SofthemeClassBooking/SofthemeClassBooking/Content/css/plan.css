@@ -13,10 +13,12 @@
 
 .plan-stage {
     position: absolute;
-    left: 587px;
+    left: 9px;
     top: 58px;
     padding: 0;
     margin: 0;
+    width: 100%;
+    text-align: center;
     font-size: 35px;
     z-index: 1;
     color: #4A5158;

@@ -10,17 +10,18 @@
     top: -17px;
 }
 
-.eventpage .participant-list {
+.eventpage .participant-list,
+.eventpage .participant-list-edit {
     position: relative;
     font-size: 14px;
     top: -28px;
     margin: 0 0 0 124px;
 }
 
-    
-.eventpage .participant-list .header {
-    padding: 0 0 10px 0;
-}
+
+    .eventpage .participant-list .header {
+        padding: 0 0 10px 0;
+    }
 
     .eventpage .participant-list .participant {
         display: inline-block;
@@ -63,8 +64,13 @@
         color: #A4A8AB;
     }
 
-    .eventpage .participant-list .participant .email:hover + .fa-times{
-         visibility: visible;
+    .eventpage .participant-list  .participant {
+        width: auto;
+        height: inherit;
+    }
+
+    .eventpage .participant-list .participant:hover .fa-times {
+        visibility: visible;
     }
 
 .eventpage-info {
@@ -95,7 +101,8 @@
         padding: 0 0 0 2px;
     }
 
-    .eventpage-info .author {
+    .eventpage-info .author,
+    .eventpage-info .author-edit {
         padding-top: 16px;
     }
 
@@ -217,6 +224,8 @@
 /*Calendar part*/
 
 .eventpage-calendar-section {
+    position: relative;
+    z-index: 4;
     display: inline-block;
     vertical-align: top;
     min-height: inherit;
@@ -283,7 +292,7 @@
         font-size: 13px;
         width: 119px;
         height: inherit;
-        background-color: #E74845;
+        background-color: #F95752;
         color: #FFFFFF;
         border-radius: 14px;
         padding: 2px 6px;
@@ -297,14 +306,14 @@
     }
 
 .eventpage-calendar .error-section {
-    display: none;
     width: 296px;
     margin: 0 auto;
     height: 30px;
     padding-top: 8px;
 }
 
-    .eventpage-calendar .error-section .fa-frown-o {
+    .eventpage-calendar .error-section .fa-frown-o,
+    .eventpage-calendar .error-section .fa-calendar-check-o  {
         font-size: 35px;
         color: #62686E;
     }
@@ -332,7 +341,9 @@
     border-radius: 17px;
 }
 
-    .eventpage-calendar-header .fa-calendar {
+    .eventpage-calendar-header .fa-calendar,
+    .eventpage-calendar-header .fa-clock-o {
+        vertical-align: top;
         font-size: 34px;
         color: #FFFFFF;
         opacity: 0.6;
@@ -340,22 +351,20 @@
 
     .eventpage-calendar-header .fa-clock-o {
         font-size: 39px;
-        color: #FFFFFF;
-        opacity: 0.6;
     }
 
-    .eventpage-calendar-header .datetime {
+    .eventpage-calendar-header .datetime-section {
         display: inline-block;
         min-width: 131px;
         vertical-align: top;
         height: auto;
     }
 
-        .eventpage-calendar-header .datetime .fa-clock-o {
+        .eventpage-calendar-header .datetime-section .fa-clock-o {
             margin: 11px 0 0 6px;
         }
 
-        .eventpage-calendar-header .datetime .fa-calendar {
+        .eventpage-calendar-header .datetime-section .fa-calendar {
             margin: 13px 0 0 16px;
         }
 
@@ -381,14 +390,14 @@
         height: 65px;
     }
 
-    .eventpage-calendar-header .delimeter, .time-delimeter {
+/*.eventpage-calendar-header .delimeter, .time-delimeter {
         color: #FFFFFF;
         display: inline-block;
         vertical-align: top;
         width: auto;
         height: inherit;
         line-height: 65px;
-    }
+    }*/
 
 .time-delimeter {
     width: 13px !important;
@@ -414,23 +423,22 @@
     top: -17px;
 }
 
-.eventpage-calendar-header .value {
-    width: inherit;
-    font-size: 13px;
-    line-height: 41px;
-    text-align: left;
-}
-
-
 /* Edit */
 
 .eventpage .eventpage-info .title-edit input[type="text"] {
-    width: 421px;
+    width: 416px;
     border: 1px solid #EBEEF7;
     font-size: 14px;
     outline: none;
     text-indent: 14px;
     margin-left: 2px;
+}
+
+.eventpage .eventpage-info .title-edit .error-message {
+    display: none;
+    font-size: 11px;
+    line-height: 13px;
+    padding: 0 0 5px 0;
 }
 
 .eventpage .position {
@@ -441,22 +449,22 @@
 .eventpage .label {
     display: inline-block;
     vertical-align: top;
-    padding-left: 10px;
-    font-size: 13px;
+    padding-left: 9px;
+    font-size: 14px;
     color: #4A5158;
-    line-height: 30px;
+    line-height: 24px;
     text-align: left;
 }
 
 .eventpage .or {
     display: inline-block;
     vertical-align: top;
-    line-height: 30px;
-    padding-left: 17px;
-    padding-right: 12px;
+    line-height: 24px;
+    padding: 0 12px 0 13px;
 }
 
-.eventpage .author input[type="text"] {
+.eventpage .author input[type="text"],
+.eventpage .author-edit input[type="text"] {
     position: relative;
     top: -10px;
     width: 218px;
@@ -469,6 +477,7 @@
 }
 
 .eventpage .participants-edit {
+    font-size: 14px;
     padding-top: 9px;
 }
 
@@ -483,6 +492,7 @@
     border: 1px solid #EBEEF7;
     padding-left: 14px;
     padding-right: 14px;
+    font-family: Arial, Helvetica;
     padding-top: 11px;
     border-radius: 12px;
     font-size: 14px;
@@ -490,5 +500,102 @@
 }
 
 .eventpage .participants-edit .or {
-    padding-left: 55px;
+    padding-left: 44px;
+}
+
+.eventpage .participants-edit .label {
+    padding-left: 11px;
+}
+
+.eventpage .participant-list-edit {
+    top: 18px;
+}
+
+.eventpage .plan-section-event-edit {
+    margin: 30px 0 0 0;
+}
+
+
+
+
+
+
+
+
+.eventpage .datetime, .time-section {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 16px;
+    height: 38px;
+    padding: 15px 0 0 0;
+}
+
+.eventpage .datetime-first {
+    padding-left: 11px;
+}
+
+.eventpage .datetime-middle,
+.eventpage .delimeter-middle {
+    position: relative;
+    left: -2px;
+}
+
+
+.eventpage .time-section {
+    position: relative;
+    top: -1px;
+}
+
+.eventpage .datetime .arrow-up, .arrow-down, .fa-sort-desc, .fa-sort-up {
+    position: relative;
+    height: 5px;
+    text-align: center;
+    left: 1px;
+}
+
+.eventpage .datetime .fa-sort-desc, .fa-sort-up {
+    cursor: pointer;
+}
+
+.eventpage .datetime .fa-sort-desc {
+    top: -10px;
+}
+
+.eventpage .datetime .fa-sort-up {
+    top: -2px;
+}
+
+.eventpage .datetime .value {
+    width: 14px;
+    font-size: 13px;
+    line-height: 26px;
+    text-align: center;
+}
+
+.eventpage-calendar-header .delimeter,
+.eventpage-calendar-header .delimeter-hyphen,
+.eventpage-calendar-header .delimeter-time {
+    position: relative;
+    font-size: 10px;
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
+    display: inline-block;
+    line-height: 67px;
+}
+
+.eventpage-calendar-header .datetime-time {
+    position: relative;
+    left: -4px;
+}
+
+.eventpage-calendar-header .delimeter-time {
+    font-size: 15px;
+    line-height: 64px;
+    left: -3px;
+}
+.eventpage-calendar-header .delimeter-hyphen {
+    font-size: 14px;
+    left: -2px;
+    top: 1px;
 }

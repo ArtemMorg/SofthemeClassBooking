@@ -17,6 +17,8 @@ var ajaxUrl = {};
 
 function setEngineUrl(url) {
     ajaxUrl = {
+        HomeUrl: url.HomeUrl,
+        ParticipantRemoveUrl: url.ParticipantRemoveUrl,
         RoomIdNameUrl: url.RoomIdNameUrl,
         RoomPageUrl: url.RoomPageUrl,
         RoomEventSectionUrl: url.RoomEventSectionUrl,
@@ -26,12 +28,14 @@ function setEngineUrl(url) {
         PlanAdditionalUrl: url.PlanAdditionalUrl,
         MapSectionUrl: url.MapSectionUrl,
         EventCreateUrl: url.EventCreateUrl,
+        EventCancelUrl: url.EventCancelUrl,
+        EventUpdateUrl: url.EventUpdateUrl,
         EventsBriefUrl: url.EventsBriefUrl,
         EventUrl: url.EventUrl,
         EventInfoVerbose: url.EventInfoVerbose,
         ParticipantAddUrl: url.ParticipantAddUrl,
         DialogWindowUrl: url.DialogWindowUrl
-};
+    };
 }
 
 function successPlanHandler(result) {
@@ -98,7 +102,7 @@ function submitNewEvent() {
             //Check if event exists on current date!
 
             //If it doesn't...
-           
+
             $('#BeginingDate').val(convertToDateTime(eventNewDateTimeBegin));
             $('#EndingDate').val(convertToDateTime(compareToDate));
 
@@ -165,7 +169,7 @@ function bindValuesToObject() {
 
 
 function checkDateTime() {
-    console.log(8);
+
     var dateActualComparisonResult = compareDates(eventNewDateTimeBegin, dateNow, false, true);
     var timeComparisonResult = compareTime({ hour: eventNewDateTimeBegin.hour, minutes: (eventNewDateTimeBegin.minutes + minumumAllowedMinutes) }, compareToDate);
 
@@ -284,66 +288,72 @@ function checkCurrentTimeInterval(cancel) {
 }
 
 
-    $(document).on('click', '#add-event', function () {
-        eventWasAdded = false;
-        loadSection(ajaxUrl.EventCreateUrl).done(function (result) {
-            $('#event-modal-position').html(result);
-            $('#lock').show();
+function dateTimeArrowControl() {
+    eventWasAdded = false;
+    loadSection(ajaxUrl.EventCreateUrl).done(function (result) {
+        $('#event-modal-position').html(result);
+        $('#lock').show();
 
-            eventNewDateTimeBegin = {
-                year: dateNow.year,
-                month: dateNow.month,
-                day: dateNow.day,
-                hour: dateNow.hour,
-                minutes: (dateNow.minutes + 1)
-            };
+        eventNewDateTimeBegin = {
+            year: dateNow.year,
+            month: dateNow.month,
+            day: dateNow.day,
+            hour: dateNow.hour,
+            minutes: (dateNow.minutes + 1)
+        };
 
-            compareToDate = {
-                year: dateNow.year,
-                month: dateNow.month,
-                day: dateNow.day,
-                hour: (dateNow.hour + 1),
-                minutes: dateNow.minutes
-            }
-
-            $('#submit-section').on('click', '#event-new-submit', submitNewEvent);
-
-            renderNewEventDateTime(eventNewDateTimeBegin);
-            renderNewEventDateTimeEnd(compareToDate);
-
-            $('.event-when').on('click', '#date-day-up', addDayToEvent);
-            $('.event-when').on('click', '#date-day-down', subDayToEvent);
-
-            $('.event-when').on('click', '#date-month-up', addMonthToEvent);
-            $('.event-when').on('click', '#date-month-down', subMonthToEvent);
-
-            $('.event-when').on('click', '#timebegin-hours-up', addHourToEventBegin);
-            $('.event-when').on('click', '#timebegin-hours-down', subHourToEventBegin);
-
-            $('.event-when').on('click', '#timebegin-minutes-up', addMinutesToEventBegin);
-            $('.event-when').on('click', '#timebegin-minutes-down', subMinutesToEventBegin);
-
-            $('.event-when').on('click', '#timeend-hours-up', addHourToEventEnd);
-            $('.event-when').on('click', '#timeend-hours-down', subHourToEventEnd);
-
-            $('.event-when').on('click', '#timeend-minutes-up', addMinutesToEventEnd);
-            $('.event-when').on('click', '#timeend-minutes-down', subMinutesToEventEnd);
-
-
-            checkCurrentTimeInterval();
-            fillClassRoomSelectList();
-        });
-
-    });
-
-    $(document).on('click', '#event-new-close', function () {
-        checkCurrentTimeInterval(true);
-        if (eventWasAdded) {
-            renderRooms(currentMode);
+        compareToDate = {
+            year: dateNow.year,
+            month: dateNow.month,
+            day: dateNow.day,
+            hour: (dateNow.hour + 1),
+            minutes: dateNow.minutes
         }
-        $('#event-modal-position').empty();
-        $('#lock').hide();
+
+        $('#submit-section').off();
+
+        $('#submit-section').on('click', '#event-new-submit', submitNewEvent);
+
+        renderNewEventDateTime(eventNewDateTimeBegin);
+        renderNewEventDateTimeEnd(compareToDate);
+
+        $('.event-when').off();
+
+        $('.event-when').on('click', '#date-day-up', addDayToEvent);
+        $('.event-when').on('click', '#date-day-down', subDayToEvent);
+
+        $('.event-when').on('click', '#date-month-up', addMonthToEvent);
+        $('.event-when').on('click', '#date-month-down', subMonthToEvent);
+
+        $('.event-when').on('click', '#timebegin-hours-up', addHourToEventBegin);
+        $('.event-when').on('click', '#timebegin-hours-down', subHourToEventBegin);
+
+        $('.event-when').on('click', '#timebegin-minutes-up', addMinutesToEventBegin);
+        $('.event-when').on('click', '#timebegin-minutes-down', subMinutesToEventBegin);
+
+        $('.event-when').on('click', '#timeend-hours-up', addHourToEventEnd);
+        $('.event-when').on('click', '#timeend-hours-down', subHourToEventEnd);
+
+        $('.event-when').on('click', '#timeend-minutes-up', addMinutesToEventEnd);
+        $('.event-when').on('click', '#timeend-minutes-down', subMinutesToEventEnd);
+
+
+        checkCurrentTimeInterval();
+        fillClassRoomSelectList();
     });
+}
+
+$(document).on('click', '#add-event', dateTimeArrowControl);
+
+
+$(document).on('click', '#event-new-close', function () {
+    checkCurrentTimeInterval(true);
+    if (eventWasAdded) {
+        renderRooms(currentMode);
+    }
+    $('#event-modal-position').empty();
+    $('#lock').hide();
+});
 
 
 
@@ -352,7 +362,7 @@ $(document).on('click', '.fa-link', function () {
 });
 
 function addParticipantSubmitCallback(result) {
-    
+
     $('#add-participant-email').val('').attr({
         placeholder: result.message,
         disabled: true
@@ -367,7 +377,7 @@ function addParticipantSubmitCallback(result) {
 
 $(document).on('click', '#add-participant-submit', function () {
     if ($('#add-participant-email').val().length >= 1) {
-        postFormData(ajaxUrl.ParticipantAddUrl, $('#add-participant-form'), 'json', addParticipantSubmitCallback, function(message) {
+        postFormData(ajaxUrl.ParticipantAddUrl, $('#add-participant-form'), 'json', addParticipantSubmitCallback, function (message) {
             console.log(message);
         });
     }

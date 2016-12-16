@@ -189,13 +189,3 @@ $(document).on('click', '.roomevent-calendar-cell', function () {
     }
     renterStaticSliderTime();
 });
-
-function renderTimeMinutes(hours, minutes, asObject) {
-    var renderHours = hours > 9 ? hours : '0' + hours;
-    var renderMinutes = minutes > 9 ? minutes : '0' + minutes;
-
-    if (asObject) {
-        return { hour: renderHours, minutes: renderMinutes };
-    }
-    return renderHours + ':' + renderMinutes;
-}

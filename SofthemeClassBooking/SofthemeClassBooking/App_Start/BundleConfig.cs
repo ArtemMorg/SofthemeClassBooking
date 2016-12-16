@@ -45,6 +45,10 @@ namespace SofthemeClassBooking
                         "~/Scripts/roomevent/render.js"
                         ));
 
+            bundles.Add(new ScriptBundle("~/bundles/scripts/eventpage").Include(
+                        "~/Scripts/event/eventpage.js"
+                        ));
+
             bundles.Add(new ScriptBundle("~/bundles/scripts/roompage").Include(
                         "~/Scripts/roompage/roompage.js"
                         ));

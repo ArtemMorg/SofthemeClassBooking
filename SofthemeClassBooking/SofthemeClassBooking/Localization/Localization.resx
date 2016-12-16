@@ -123,6 +123,12 @@
   <data name="ButtonCancel" xml:space="preserve">
     <value>Отменить</value>
   </data>
+  <data name="ButtonCancelation" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="ButtonCreate" xml:space="preserve">
+    <value>Создать</value>
+  </data>
   <data name="ButtonEdit" xml:space="preserve">
     <value>Изменить</value>
   </data>
@@ -141,11 +147,17 @@
   <data name="DialogNo" xml:space="preserve">
     <value>Нет</value>
   </data>
+  <data name="DialogOk" xml:space="preserve">
+    <value>Ок</value>
+  </data>
   <data name="DialogYes" xml:space="preserve">
     <value>Да</value>
   </data>
   <data name="ErrorDialogWindow" xml:space="preserve">
     <value>Произошла ошибка загрузки диалогового окна</value>
+  </data>
+  <data name="ErrorEmptyField" xml:space="preserve">
+    <value>Поле не может быть пустым</value>
   </data>
   <data name="ErrorEventAlreadyEnrolledPlaceholder" xml:space="preserve">
     <value>Вы уже принимаете участие в событии</value>
@@ -171,6 +183,12 @@
   <data name="ErrorRoomIsBusy" xml:space="preserve">
     <value>Эта аудитория занята на выбранное время. Выберите, пожалуйста, другое</value>
   </data>
+  <data name="EventAdditionalInfoPlaceholder" xml:space="preserve">
+    <value>Дополнительная информация</value>
+  </data>
+  <data name="EventBookClassRoom" xml:space="preserve">
+    <value>Зарезервировать аудиторию</value>
+  </data>
   <data name="EventParticipantJoin" xml:space="preserve">
     <value>Присоединиться</value>
   </data>
@@ -183,11 +201,32 @@
   <data name="EventPlanningTakePart" xml:space="preserve">
     <value>Планируют принять участие </value>
   </data>
+  <data name="EventPrivate" xml:space="preserve">
+    <value>Приватно</value>
+  </data>
+  <data name="EventPublic" xml:space="preserve">
+    <value>Публично</value>
+  </data>
+  <data name="EventRegisterParticipants" xml:space="preserve">
+    <value>Регистрация желающих</value>
+  </data>
   <data name="EventRoomSchedule" xml:space="preserve">
     <value>Расписание аудитории</value>
   </data>
+  <data name="EventSetOrganizerPlaceholder" xml:space="preserve">
+    <value>Указать организатора</value>
+  </data>
+  <data name="EventShowAuthor" xml:space="preserve">
+    <value>Показать автора</value>
+  </data>
+  <data name="EventTitlePlaceholder" xml:space="preserve">
+    <value>Заголовок</value>
+  </data>
   <data name="InfoEventAddedSuccess" xml:space="preserve">
     <value>Ваше событие было успешно добавлено в рассписание</value>
+  </data>
+  <data name="InfoEventChangedSuccess" xml:space="preserve">
+    <value>Событие было успешно изменено</value>
   </data>
   <data name="InfoParticipantAddedSuccess" xml:space="preserve">
     <value>Вы успешно записались на событие</value>
@@ -213,6 +252,9 @@
   <data name="LoadingRoomEventSection" xml:space="preserve">
     <value>Загрузка таблицы расписания...</value>
   </data>
+  <data name="Or" xml:space="preserve">
+    <value>или</value>
+  </data>
   <data name="PageRoom" xml:space="preserve">
     <value>Страница аудитории</value>
   </data>
@@ -227,5 +269,11 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>Всего</value>
+  </data>
+  <data name="When" xml:space="preserve">
+    <value>Когда</value>
+  </data>
+  <data name="Where" xml:space="preserve">
+    <value>Где</value>
   </data>
 </root>

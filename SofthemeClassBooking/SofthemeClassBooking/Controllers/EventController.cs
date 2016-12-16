@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using SofthemeClassBooking.Models;
+using SofthemeClassBooking_BOL.Contract.Models;
 using SofthemeClassBooking_BOL.Contract.Services;
 using SofthemeClassBooking_BOL.Models;
 using SofthemeClassBooking_BOL.Exceptions;
@@ -13,11 +14,11 @@ namespace SofthemeClassBooking.Controllers
 {
     public class EventController : Controller
     {
-        private IEventService<EventModel> _eventService;
+        private IEventService<IEvent> _eventService;
         private IParticipantService<ParicipantModel> _participantService;
 
         public EventController(
-            IEventService<EventModel> eventService, 
+            IEventService<IEvent> eventService,
             IParticipantService<ParicipantModel> participantService)
         {
             _eventService = eventService;
@@ -68,6 +69,21 @@ namespace SofthemeClassBooking.Controllers
             //    Author = author
             //});
 
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Cancel(int id)
+        {
+            try
+            {
+                _eventService.Remove(new EventModel { Id = id });
+                return Json(new { success = true });
+            }
+            catch (Exception)
+            {
+                return Json(new { messsage = Localization.Localization.ErrorGeneralException, success = true });
+            }
         }
 
         [HttpGet]
@@ -121,8 +137,31 @@ namespace SofthemeClassBooking.Controllers
                 return Json(new { message = Localization.Localization.ErrorGeneralException, success = false });
             }
 
-            return Json(new {message = Localization.Localization.InfoEventAddedSuccess, success = true });
+            return Json(new { message = Localization.Localization.InfoEventAddedSuccess, success = true });
         }
 
+        [HttpPost]
+        [Authorize]
+        public ActionResult Update(EventModel eventModel)
+        {
+            try
+            {
+                _eventService.Update(eventModel);
+            }
+            catch (RoomIsBusyException)
+            {
+                return Json(new { message = Localization.Localization.ErrorRoomIsBusy, success = false });
+            }
+            catch (RoomCapacityException)
+            {
+                return Json(new { message = Localization.Localization.ErrorRoomCapacityLessOne, success = false });
+            }
+            catch (Exception)
+            {
+                return Json(new { message = Localization.Localization.ErrorGeneralException, success = false });
+            }
+
+            return Json(new { message = Localization.Localization.InfoEventChangedSuccess, success = true });
+        }
     }
 }

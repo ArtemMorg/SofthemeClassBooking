@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
 @model SofthemeClassBooking_BOL.Models.EventModel
 
-@using (Html.BeginForm("Create","Event", FormMethod.Post, new { id = "new-event-form" }))
+@using (Html.BeginForm("Create", "Event", FormMethod.Post, new { id = "new-event-form" }))
 {
     @Html.AntiForgeryToken()
 
@@ -12,7 +12,7 @@
         <div class="event-header-new noselect-text">
             <div class="event-header-title">
                 <i class="fa fa-calendar-o" aria-hidden="true"></i>
-                <div class="text">Зарезервировать аудиторию</div>
+                <div class="text">@Localization.EventBookClassRoom</div>
                 <i id="event-new-close" class="fa fa-remove" aria-hidden="true"></i>
             </div>
         </div>
@@ -21,7 +21,7 @@
             <div id="event-date-error" class="error-message"> <img src="/Content/images/danger.png" /> Указана неверная дата и (или) время </div>
 
             <div class="text">
-                Когда
+                @Localization.When
             </div>
 
             <div class="datetime">
@@ -35,7 +35,7 @@
                 <div id="date-month-value" class="value">Мая</div>
                 <div id="date-month-down" class="arrow-down"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
             </div>
-            
+
             <div class="time-section">
                 <div class="datetime">
                     <div id="timebegin-hours-up" class="arrow-up"> <i class="fa fa-sort-up"></i> </div>
@@ -68,7 +68,7 @@
 
         <div class="event-where">
             <div class="text">
-                Где
+                @Localization.Where
             </div>
 
             <div class="select">
@@ -79,58 +79,52 @@
         </div>
 
         <div class="title-section">
-            <span id="event-title-error" class="error-message"> <img src="/Content/images/danger.png" /> Поле не может быть пустым! </span>
-            @Html.TextBoxFor(m => m.Title, new { placeholder = "Заголовок" })
-
-            <!-- <input id="event-title" type="text" placeholder="Заголовок" required />-->
+            <span id="event-title-error" class="error-message"> <img src="/Content/images/danger.png" /> @Localization.ErrorEmptyField </span>
+            @Html.TextBoxFor(m => m.Title, new { placeholder = Localization.EventTitlePlaceholder })
         </div>
 
-        @Html.TextAreaFor(m => m.Description, new { placeholder = "Дополнительная информация" })
-        <!--<textarea id="event-description" placeholder="Дополнительная информация"></textarea>-->
-
+        @Html.TextAreaFor(m => m.Description, new { placeholder = Localization.EventAdditionalInfoPlaceholder })
 
         <div class="event-param-line noselect-text">
-            
+
             <div class="checkbox">
                 <input id="IsParticipantsAllowed" name="IsParticipantsAllowed" type="checkbox" value="true">
                 <label for="IsParticipantsAllowed"></label>
                 <input name="IsParticipantsAllowed" type="hidden" value="false">
             </div>
 
-            <div class="text">Регистрация желающих</div>
-            <div class="text public">Публично</div>
+            <div class="text">@Localization.EventRegisterParticipants</div>
+            <div class="text public">@Localization.EventPublic</div>
 
             <div class="checkbox-slider">
-                
+
                 <input id="IsPrivate" name="IsPrivate" type="checkbox" value="true">
                 <label for="IsPrivate"></label>
                 <input name="IsPrivate" type="hidden" value="false">
             </div>
 
-            <div class="text private">Приватно</div>
+            <div class="text private">@Localization.EventPrivate</div>
 
         </div>
-
 
         <div class="event-param-line second noselect-text">
 
             <div class="checkbox">
-                
+
                 <input id="IsAuthorShown" name="IsAuthorShown" type="checkbox" value="true">
                 <label for="IsAuthorShown"></label>
                 <input name="IsAuthorShown" type="hidden" value="false">
 
             </div>
 
-            <div class="text">Показать автора</div>
-            <div class="text or">или</div>
-            @Html.TextBoxFor(m => m.Organizer, new { placeholder = "Указать организатора" })
-           <!-- <input id="event-organizer" type="text" placeholder="Указать организатора" /> -->
+            <div class="text">@Localization.EventShowAuthor</div>
+            <div class="text or">@Localization.Or</div>
+            @Html.TextBoxFor(m => m.Organizer, new { placeholder = Localization.EventSetOrganizerPlaceholder })
         </div>
 
 
         <div id="submit-section" class="submit-section">
-            
+
             <div class="status-message">
                 <div id="room-busy" class="display-none">
                     <div class="icon-place">
@@ -141,10 +135,8 @@
                 </div>
             </div>
 
-
-            <button id="event-new-submit" type="button" class="save">Создать</button>
+            <button id="event-new-submit" type="button" class="save">@Localization.ButtonCreate</button>
         </div>
-
 
     </div>
 

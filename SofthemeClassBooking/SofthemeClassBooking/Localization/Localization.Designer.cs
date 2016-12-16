@@ -79,6 +79,24 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Отмена.
+        /// </summary>
+        public static string ButtonCancelation {
+            get {
+                return ResourceManager.GetString("ButtonCancelation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Создать.
+        /// </summary>
+        public static string ButtonCreate {
+            get {
+                return ResourceManager.GetString("ButtonCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Изменить.
         /// </summary>
         public static string ButtonEdit {
@@ -133,6 +151,15 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ок.
+        /// </summary>
+        public static string DialogOk {
+            get {
+                return ResourceManager.GetString("DialogOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Да.
         /// </summary>
         public static string DialogYes {
@@ -147,6 +174,15 @@ namespace SofthemeClassBooking.Localization {
         public static string ErrorDialogWindow {
             get {
                 return ResourceManager.GetString("ErrorDialogWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Поле не может быть пустым.
+        /// </summary>
+        public static string ErrorEmptyField {
+            get {
+                return ResourceManager.GetString("ErrorEmptyField", resourceCulture);
             }
         }
         
@@ -223,6 +259,24 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Дополнительная информация.
+        /// </summary>
+        public static string EventAdditionalInfoPlaceholder {
+            get {
+                return ResourceManager.GetString("EventAdditionalInfoPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Зарезервировать аудиторию.
+        /// </summary>
+        public static string EventBookClassRoom {
+            get {
+                return ResourceManager.GetString("EventBookClassRoom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Присоединиться.
         /// </summary>
         public static string EventParticipantJoin {
@@ -259,6 +313,33 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Приватно.
+        /// </summary>
+        public static string EventPrivate {
+            get {
+                return ResourceManager.GetString("EventPrivate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Публично.
+        /// </summary>
+        public static string EventPublic {
+            get {
+                return ResourceManager.GetString("EventPublic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Регистрация желающих.
+        /// </summary>
+        public static string EventRegisterParticipants {
+            get {
+                return ResourceManager.GetString("EventRegisterParticipants", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Расписание аудитории.
         /// </summary>
         public static string EventRoomSchedule {
@@ -268,11 +349,47 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Указать организатора.
+        /// </summary>
+        public static string EventSetOrganizerPlaceholder {
+            get {
+                return ResourceManager.GetString("EventSetOrganizerPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Показать автора.
+        /// </summary>
+        public static string EventShowAuthor {
+            get {
+                return ResourceManager.GetString("EventShowAuthor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Заголовок.
+        /// </summary>
+        public static string EventTitlePlaceholder {
+            get {
+                return ResourceManager.GetString("EventTitlePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ваше событие было успешно добавлено в рассписание.
         /// </summary>
         public static string InfoEventAddedSuccess {
             get {
                 return ResourceManager.GetString("InfoEventAddedSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Событие было успешно изменено.
+        /// </summary>
+        public static string InfoEventChangedSuccess {
+            get {
+                return ResourceManager.GetString("InfoEventChangedSuccess", resourceCulture);
             }
         }
         
@@ -349,6 +466,15 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to или.
+        /// </summary>
+        public static string Or {
+            get {
+                return ResourceManager.GetString("Or", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Страница аудитории.
         /// </summary>
         public static string PageRoom {
@@ -390,6 +516,24 @@ namespace SofthemeClassBooking.Localization {
         public static string Total {
             get {
                 return ResourceManager.GetString("Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Когда.
+        /// </summary>
+        public static string When {
+            get {
+                return ResourceManager.GetString("When", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Где.
+        /// </summary>
+        public static string Where {
+            get {
+                return ResourceManager.GetString("Where", resourceCulture);
             }
         }
     }

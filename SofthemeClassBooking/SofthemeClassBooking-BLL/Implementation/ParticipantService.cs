@@ -70,9 +70,17 @@ namespace SofthemeClassBooking_BLL.Implementation
             }
         }
 
-        public void Remove(ParicipantModel classRoom)
+        public void Remove(ParicipantModel paricipantModel)
         {
-            throw new NotImplementedException();
+            using (var context = new ClassBookingContext())
+            {
+                var participants = new Participants {Id = paricipantModel.Id};
+
+                context.Participants.Attach(participants);
+                context.Participants.Remove(participants);
+
+                context.SaveChanges();
+            }
         }
 
     }

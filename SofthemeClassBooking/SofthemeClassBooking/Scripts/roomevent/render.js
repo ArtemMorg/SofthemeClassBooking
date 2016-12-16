@@ -195,8 +195,6 @@ function renderTime(timeCellCount, resetTime) {
 
 function renderRooms(timeCellCount, resetTime) {
 
-    console.log(renderClassRooms);
-    
     getClassRooms().done(function (rooms) {
 
         renderClassRooms = JSON.parse(rooms);
@@ -447,7 +445,6 @@ function renterSliderTime(leftPosition) {
     var hours = Math.floor(leftPosition / (minutePerPixel * 60));
     var renderHours = firstTimeCellHour + hours;
 
-    console.log(hours);
     var minutes = Math.floor((leftPosition - (hours * 60 * minutePerPixel)) / minutePerPixel);
 
     while (renderHours >= 24) {
@@ -516,8 +513,8 @@ function calculateEventBlockPosition() {
             width: width,
             timeStart: renderTimeMinutes(hourBegin, minutesBegin),
             timeEnd: renderTimeMinutes(hourEnd, minutesEnd),
-            title: 'title',
-            description: 'blabla',
+            title: events[currentEvent].Title,
+            description: events[currentEvent].Description,
             blockType: duration < shortBlockMinimumTime ? eventBlockType.short : eventBlockType.long,
             isPrivate: events[currentEvent].IsPrivate
 

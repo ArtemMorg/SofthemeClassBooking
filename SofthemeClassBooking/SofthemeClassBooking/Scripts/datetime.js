@@ -69,6 +69,17 @@ function compareTime(time, timeTo) {
     }
 }
 
+function copyDate(dateFrom) {
+
+    return {
+        year: dateFrom.year,
+        month: dateFrom.month,
+        day: dateFrom.day,
+        hour: dateFrom.hour,
+        minutes: dateFrom.minutes
+    }
+}
+
 function compareDates(date, dateTo, ignoreDays, incudeTime) {
 
     var ignore = ignoreDays || false;
@@ -95,6 +106,20 @@ function compareDates(date, dateTo, ignoreDays, incudeTime) {
 
 function getDaysInMonth(month, year) {
     return new Date(year, month, 0).getDate();
+}
+
+function renderTimeMinutes(hours, minutes, asObject) {
+    var renderHours = hours > 9 ? hours : '0' + hours;
+    var renderMinutes = minutes > 9 ? minutes : '0' + minutes;
+
+    if (asObject) {
+        return { hour: renderHours, minutes: renderMinutes };
+    }
+    return renderHours + ':' + renderMinutes;
+}
+
+function renderDate(date) {
+    return date > 9 ? date : '0' + date;
 }
 
 function getCurrentTime(returnObject) {

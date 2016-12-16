@@ -18,7 +18,16 @@
     </div>
 
     <div class="dialog-buttons">
-        <button id="dialog-answer-no" class="dialog-button-no">@Localization.DialogNo</button>
-        <button id="dialog-answer-yes" class="dialog-button-yes">@Localization.DialogYes</button>
+        @if (@Model.IsError)
+        {
+            <button class="dialog-button-no" style="visibility: hidden">@Localization.DialogNo</button>
+            <button id="dialog-answer-ok" class="dialog-button-yes">@Localization.DialogOk</button>
+        }
+        else
+        {
+            <button id="dialog-answer-no" class="dialog-button-no">@Localization.DialogNo</button>
+            <button id="dialog-answer-yes" class="dialog-button-yes">@Localization.DialogYes</button>
+        }
+
     </div>
 </div>

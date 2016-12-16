@@ -1,4 +1,5 @@
-﻿using SofthemeClassBooking_BOL.Models;
+﻿using SofthemeClassBooking_BOL.Contract.Models;
+using SofthemeClassBooking_BOL.Models;
 using SofthemeClassBooking_DAL;
 
 namespace SofthemeClassBooking_BLL.Implementation
@@ -47,20 +48,21 @@ namespace SofthemeClassBooking_BLL.Implementation
             };
         }
 
-        public static Events Map(EventModel feedbackModel)
+        public static Events Map(IEvent eventModel)
         {
             return new Events
             {
-                Title = feedbackModel.Title,
-                UserId = feedbackModel.UserId,
-                ClassRoomId = feedbackModel.ClassRoomId,
-                Organizer = feedbackModel.Organizer,
-                BeginingDate = feedbackModel.BeginingDate,
-                EndingDate = feedbackModel.EndingDate,
-                Description = feedbackModel.Description,
-                IsPrivate = feedbackModel.IsPrivate,
-                IsAuthorShown = feedbackModel.IsAuthorShown,
-                IsParticipantsAllowed = feedbackModel.IsParticipantsAllowed
+                Id = eventModel.Id,
+                Title = eventModel.Title,
+                UserId = eventModel.UserId,
+                ClassRoomId = eventModel.ClassRoomId,
+                Organizer = eventModel.Organizer,
+                BeginingDate = eventModel.BeginingDate,
+                EndingDate = eventModel.EndingDate,
+                Description = eventModel.Description,
+                IsPrivate = eventModel.IsPrivate,
+                IsAuthorShown = eventModel.IsAuthorShown,
+                IsParticipantsAllowed = eventModel.IsParticipantsAllowed
             };
         }
 

@@ -1,3 +1,5 @@
+using SofthemeClassBooking_BOL.Contract.Models;
+
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(SofthemeClassBooking.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(SofthemeClassBooking.App_Start.NinjectWebCommon), "Stop")]
 
@@ -69,7 +71,7 @@ namespace SofthemeClassBooking.App_Start
         {
             kernel.Bind<IFeedbackService<FeedbackModel>>().To<FeedbackService>();
             kernel.Bind<IClassRoomService<ClassRoomModel>>().To<ClassRoomService>();
-            kernel.Bind<IEventService<EventModel>>().To<EventService>();
+            kernel.Bind<IEventService<IEvent>>().To<EventService>();
             kernel.Bind<IParticipantService<ParicipantModel>>().To<ParticipantService>();
         }        
     }
