@@ -3,13 +3,16 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link rel="shortcut icon" type="image/ico" href="/Content/images/ico/logo.ico">
+    <title>@ViewBag.Title - Softheme Class Booking</title>
     
     @Scripts.Render("~/bundles/scripts/general")
     <script type="text/javascript">
         
         var url = {
             HomeUrl: '@Url.Action("Index","Home")',
+            HomeMapLinkUrl: '@Url.Action("MapLink","Home")',
+            FeedbackSendUrl: '@Url.Action("Send","Feedback")',
             RoomIdNameUrl: '@Url.Action("GetNameId","Classroom")',
             RoomEventSectionUrl: '@Url.Action("Index", "RoomEvent")',
             PlanSectionUrl: '@Url.Action("Index", "Classroom")',

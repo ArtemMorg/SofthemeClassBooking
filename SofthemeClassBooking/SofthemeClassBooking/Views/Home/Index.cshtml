@@ -39,27 +39,17 @@
 
 <script type="text/javascript">
 
-    // IIFE - Immediately Invoked Function Expression
     (function ($, window, document) {
 
         $(function () {
-            console.log(ajaxUrl);
-            // The DOM is ready!
-            renderPlanSection();
-            renderMapSection();
-            renderRoomEventSection();
 
-            setStandartPlanRoomEventHandlers();
-            //setNavigarionEventHandlers();
+            renderSection('@Url.Action("Index","Classroom")', $('#plan-section'), $('#plan-loading'));
+            renderSection('@Url.Action("MapPartial","Home")', $('#map-section'), $('#map-loading'));
+            renderSection('@Url.Action("Index","RoomEvent")', $('#roomevent-section'), $('#roomevent-loading'));
 
         });
 
-
-
-        // The rest of the code goes here!
     }(window.jQuery, window, document));
-    // The global jQuery object is passed as a parameter
-
 
 </script>
 

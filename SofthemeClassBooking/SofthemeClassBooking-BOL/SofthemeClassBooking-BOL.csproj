@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enum\EventSettings.cs" />
     <Compile Include="Enum\PlanSectionLoadParameters.cs" />
     <Compile Include="Exceptions\ParticipantAlreadyRegisteredException.cs" />
     <Compile Include="Exceptions\ParticipantCountReachedMaximumRoomCapacityException.cs" />

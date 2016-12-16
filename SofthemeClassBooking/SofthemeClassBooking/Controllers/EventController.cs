@@ -14,12 +14,12 @@ namespace SofthemeClassBooking.Controllers
 {
     public class EventController : Controller
     {
-        private IEventService<EventModel> _eventService;
-        private IParticipantService<ParicipantModel> _participantService;
+        private IEventService<IEvent> _eventService;
+        private IParticipantService<IParticipant> _participantService;
 
         public EventController(
-            IEventService<EventModel> eventService,
-            IParticipantService<ParicipantModel> participantService)
+            IEventService<IEvent> eventService,
+            IParticipantService<IParticipant> participantService)
         {
             _eventService = eventService;
             _participantService = participantService;
@@ -66,7 +66,11 @@ namespace SofthemeClassBooking.Controllers
         {
             try
             {
-                _eventService.Remove(new EventModel { Id = id });
+                _eventService.Remove(new EventModel
+                {
+                    Id = id
+                });
+
                 return Json(new { success = true });
             }
             catch (Exception)
@@ -101,7 +105,7 @@ namespace SofthemeClassBooking.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(EventModel eventModel)
+        public ActionResult Create(IEvent eventModel)
         {
             if (!ModelState.IsValid)
             {
@@ -131,7 +135,7 @@ namespace SofthemeClassBooking.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Update(EventModel eventModel)
+        public ActionResult Update(IEvent eventModel)
         {
             try
             {

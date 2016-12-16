@@ -20,22 +20,25 @@ function getName(personid) {
 
 */
 
-function loadSection(url, beforeSendHandler, successHandler, errorHandler) {
-    var result = {};
+function loadSection(url, beforeSendHandler, successHandler, errorHandler, isCache) {
+    var response = {};
 
     return $.ajax({
         url: url,
         method: 'GET',
-        cache: false,
-        data: result,
+        cache: isCache || false,
+        data: response,
         beforeSend: beforeSendHandler,
-        error: errorHandler,
-
-        success: function (result) {
-            if (typeof (successHandler) === "function") {
-                successHandler(result);
+        error: function (errorResponse) {
+            if (typeof (errorHandler) === "function") {
+                errorHandler(errorResponse);
             }
+        },
 
+        success: function (successResponse) {
+            if (typeof (successHandler) === "function") {
+                successHandler(successResponse);
+            }
         }
     });
 

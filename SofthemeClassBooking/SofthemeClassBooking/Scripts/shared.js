@@ -6,6 +6,8 @@ var planSection = $('#plan-section');
 var compareToDate = {};
 var eventNewDateTimeBegin = {};
 
+var defaultAjaxDataType = 'json';
+
 var dateCorrect = true;
 var checkFunctionInterval;
 var minumumAllowedMinutes = 20;
@@ -19,6 +21,8 @@ function setEngineUrl(url) {
 
     ajaxUrl = {
         HomeUrl: url.HomeUrl,
+        HomeMapLinkUrl: url.HomeMapLinkUrl,
+        FeedbackSendUrl: url.FeedbackSendUrl,
         ParticipantRemoveUrl: url.ParticipantRemoveUrl,
         RoomIdNameUrl: url.RoomIdNameUrl,
         RoomPageUrl: url.RoomPageUrl,
@@ -41,32 +45,6 @@ function setEngineUrl(url) {
   
 }
 
-function successPlanHandler(result) {
-
-    $('#plan-section').html(result);
-    $('#plan-loading').hide();
-
-}
-
-function successMapHandler(result) {
-
-    $('#map-section').html(result);
-    $('#map-loading').hide();
-
-}
-
-function successRoomEventHandler(result) {
-
-    $('#roomevent-section').html(result);
-    $('#roomevent-loading').hide();
-
-    resetCurrentCalendarCell();
-    renderCalendar(currentCalendarMonth);
-    setDateHeader(currentCalendarCell);
-    renderTime(shortRoomEventTable);
-    renderRooms(shortRoomEventTable);
-}
-
 function getClassRooms() {
     return loadSection(ajaxUrl.RoomIdNameUrl);
 }
@@ -79,18 +57,34 @@ function getEventInfoVerbose(eventId) {
     return loadSection(ajaxUrl.EventInfoVerbose + '/' + eventId);
 }
 
-function renderPlanSection(additionalUrl) {
-    loadSection(ajaxUrl.PlanSectionUrl, beforeSendHandler(planLoadingDiv), successPlanHandler);
+function renderSection(url, domElement, domLoadingElement, finallyFunction) {
+    loadSection(url, function() {
+
+        domLoadingElement.show();
+
+    }, function (successResponse) {
+
+        domElement.html(successResponse);
+        domLoadingElement.hide();
+
+        if (typeof (finallyFunction) === "function") {
+            finallyFunction();
+        }
+
+    }, function(errorResponse) {
+
+        domElement.html(errorResponse.message);
+        domLoadingElement.hide();
+    });
 }
 
-function renderMapSection() {
-    loadSection(ajaxUrl.MapSectionUrl, beforeSendHandler(mapLoadingDiv), successMapHandler);
+function renderPlanSection(domElement, domLoadingElement) {
+    loadSection(ajaxUrl.PlanSectionUrl, beforeSendHandler(planLoadingDiv), function(response) {
+        domElement.html(response);
+        domLoadingElement.hide();
+    });
 }
 
-
-function renderRoomEventSection() {
-    loadSection(ajaxUrl.RoomEventSectionUrl, beforeSendHandler(roomEventLoadingDiv), successRoomEventHandler);
-}
 
 function submitNewEvent() {
 
@@ -400,35 +394,4 @@ function fillClassRoomSelectList() {
 
         $('#ClassRoomId').html(optionList);
     });
-}
-
-
-function setStandartPlanRoomEventHandlers() {
-
-    $('#plan-section').on('mouseover', '.plan-room', function () {
-        var planRoom = $(this);
-        var planRoomId = planRoom.attr('id');
-
-        if (planRoom.hasClass('-available')) {
-
-            $('#show, #plan-room-line').show();
-
-            var url = ajaxUrl.PlanAdditionalUrl + '/' + planRoomId;
-
-            loadSection(url).done(function (result) {
-                $('#show').html(result);
-                $('#plan-room-line').attr('class', 'show plan-room-line-detail-' + planRoomId);
-            });
-
-        }
-    });
-
-    $('#plan-section').on('mouseleave', '.plan-room', function () {
-        $('#show, #plan-room-line').hide();
-    });
-
-    $('#plan-section').on('click', '.plan-room', function () {
-        window.location.href = ajaxUrl.RoomPageUrl + '/' + $(this).attr('id');
-    });
-
 }

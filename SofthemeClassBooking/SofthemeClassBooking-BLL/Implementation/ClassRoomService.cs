@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Core;
 using System.Linq;
 using System.Linq.Expressions;
+using SofthemeClassBooking_BOL.Contract.Models;
 using SofthemeClassBooking_BOL.Contract.Services;
 using SofthemeClassBooking_BOL.Enum;
 using SofthemeClassBooking_BOL.Models;
@@ -11,17 +12,20 @@ using SofthemeClassBooking_DAL;
 
 namespace SofthemeClassBooking_BLL.Implementation
 {
-    public class ClassRoomService : IClassRoomService<ClassRoomModel>
+    public class ClassRoomService : IClassRoomService<IClassRoom>
     {
-
-        public void Add(ClassRoomModel classRoom)
+        public void Add(IClassRoom classRoom)
         {
-            throw new NotImplementedException();
+            using (var context = new ClassBookingContext())
+            {
+                context.ClassRooms.Add(MapService.Map(classRoom));
+                context.SaveChanges();
+            }
         }
 
-        public IEnumerable<ClassRoomModel> Get()
+        public IEnumerable<IClassRoom> Get()
         {
-            var classRoomModel = new List<ClassRoomModel>();
+            var classRoomModel = new List<IClassRoom>();
 
             using (var context = new ClassBookingContext())
             {
@@ -59,12 +63,7 @@ namespace SofthemeClassBooking_BLL.Implementation
             return listOfAttributes;
         }
 
-        public IEnumerable<ClassRoomModel> Get(Expression<Func<ClassRoomModel, bool>> where)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ClassRoomModel Get(int id)
+        public IClassRoom Get(int id)
         {
             using (var context = new ClassBookingContext())
             {
@@ -72,18 +71,22 @@ namespace SofthemeClassBooking_BLL.Implementation
             }
         }
 
-        public void Remove(ClassRoomModel classRoom)
+        public void Remove(IClassRoom classRoom)
         {
-            throw new NotImplementedException();
+            var classRooms = new ClassRooms
+            {
+                Id = classRoom.Id
+            };
+
+            using (var context = new ClassBookingContext())
+            {
+                context.ClassRooms.Attach(classRooms);
+                context.ClassRooms.Remove(classRooms);
+                context.SaveChanges();
+            }
         }
-        /*
-         db.Users.Attach(updatedUser);
-var entry = db.Entry(updatedUser);
-entry.Property(e => e.Email).IsModified = true;
-// other changed properties
-db.SaveChanges();
-*/
-        public void Update(ClassRoomModel classRoom)
+
+        public void Update(IClassRoom classRoom)
         {
             var updatedClassRoom = MapService.Map(classRoom);
 

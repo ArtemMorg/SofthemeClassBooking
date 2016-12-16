@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using SofthemeClassBooking_BOL.Contract.Models;
 using SofthemeClassBooking_BOL.Contract.Services;
 using SofthemeClassBooking_DAL;
-using SofthemeClassBooking_BOL.Models;
 using SofthemeClassBooking_BOL.Exceptions;
 
 namespace SofthemeClassBooking_BLL.Implementation
 {
-    public class ParticipantService : IParticipantService<ParicipantModel>
+    public class ParticipantService : IParticipantService<IParticipant>
     {
-        public void Add(ParicipantModel participaModel)
+        public void Add(IParticipant participaModel)
         {
             using (var context = new ClassBookingContext())
             {
@@ -43,10 +43,15 @@ namespace SofthemeClassBooking_BLL.Implementation
                 context.SaveChanges();
             }
         }
-
-        public IEnumerable<ParicipantModel> Get(int eventId)
+        public IEnumerable<IParticipant> Get()
         {
-            var participantModelList = new List<ParicipantModel>();
+            throw new NotImplementedException();
+        }
+
+
+        public IEnumerable<IParticipant> Get(int eventId)
+        {
+            var participantModelList = new List<IParticipant>();
 
             using (var context = new ClassBookingContext())
             {
@@ -70,11 +75,14 @@ namespace SofthemeClassBooking_BLL.Implementation
             }
         }
 
-        public void Remove(ParicipantModel paricipantModel)
+        public void Remove(IParticipant paricipantModel)
         {
             using (var context = new ClassBookingContext())
             {
-                var participants = new Participants { Id = paricipantModel.Id };
+                var participants = new Participants
+                {
+                    Id = paricipantModel.Id
+                };
 
                 context.Participants.Attach(participants);
                 context.Participants.Remove(participants);
@@ -83,5 +91,9 @@ namespace SofthemeClassBooking_BLL.Implementation
             }
         }
 
+        public void Update(IParticipant model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

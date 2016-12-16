@@ -124,6 +124,15 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Отправить.
+        /// </summary>
+        public static string ButtonSend {
+            get {
+                return ResourceManager.GetString("ButtonSend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Вы уверены, что хотите отменить событие?.
         /// </summary>
         public static string DialogCancelEventTitle {
@@ -385,6 +394,24 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Адрес электронной почты.
+        /// </summary>
+        public static string FeedbackEmailPlaceholder {
+            get {
+                return ResourceManager.GetString("FeedbackEmailPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Фамилия.
+        /// </summary>
+        public static string FeedbackLastnamePlaceholder {
+            get {
+                return ResourceManager.GetString("FeedbackLastnamePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Данные введены неверно. Попробуйте еще раз..
         /// </summary>
         public static string FeedBackModelError {
@@ -394,11 +421,38 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Имя.
+        /// </summary>
+        public static string FeedbackNamePlaceholder {
+            get {
+                return ResourceManager.GetString("FeedbackNamePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Напишите, если у вас есть идеи, предложения, замечания или вопросы.
+        /// </summary>
+        public static string FeedbackNoteToUser {
+            get {
+                return ResourceManager.GetString("FeedbackNoteToUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Спасибо. Ваше сообщение отправлено администратору.
         /// </summary>
         public static string FeedBackSuccess {
             get {
                 return ResourceManager.GetString("FeedBackSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Написать сообщение.
+        /// </summary>
+        public static string FeedbackWriteMessage {
+            get {
+                return ResourceManager.GetString("FeedbackWriteMessage", resourceCulture);
             }
         }
         
@@ -489,6 +543,15 @@ namespace SofthemeClassBooking.Localization {
         public static string LoadingRoomEventSection {
             get {
                 return ResourceManager.GetString("LoadingRoomEventSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to г. Киев, ул. Деловая, 5А.
+        /// </summary>
+        public static string MapAddress {
+            get {
+                return ResourceManager.GetString("MapAddress", resourceCulture);
             }
         }
         

@@ -9,8 +9,9 @@
 
 }
 
-body button, input {
+body button, input, textarea {
     outline: none;
+    font-family: Arial, Helvetica;
 }
 
 body button {
@@ -24,7 +25,6 @@ body button {
 .display-inline-block {
     display: inline-block !important;
 }
-
 
 .wrapper {
     position: relative;
@@ -42,4 +42,20 @@ body button {
 
 .visible {
     visibility: visible;
+}
+
+*::-webkit-input-placeholder {
+    color: #C8C9CC;
+}
+
+*:-moz-placeholder {
+    color: #C8C9CC;
+}
+
+*::-moz-placeholder {
+    color: #C8C9CC;
+}
+
+*:-ms-input-placeholder {
+    color: #C8C9CC;
 }

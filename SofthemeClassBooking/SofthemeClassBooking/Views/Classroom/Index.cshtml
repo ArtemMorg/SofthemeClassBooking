@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SofthemeClassBooking_BOL.Models.ClassRoomModel>
+﻿@model IEnumerable<SofthemeClassBooking_BOL.Contract.Models.IClassRoom>
 @{
     string className = String.Empty;
 }
@@ -52,9 +52,14 @@
 <div class="plan-walls-background"></div>
 
 <div class="plan-wrapper">
-    <div id="show" class="additional-info plan-show-additional-info-short">
-    </div>
+    <div id="classroom-additional-info" class="additional-info plan-show-additional-info-short"></div>
 </div>
 
-<div id="plan-room-line" class="additional-info"></div>
-<div id="plan-room-path"></div>
+<div id="classroom-additional-info-line" class="additional-info"></div>
+<div id="classroom-path"></div>
+
+@Scripts.Render("~/bundles/scripts/plan")
+
+<script type="text/javascript">
+    planSectionInit();
+</script>

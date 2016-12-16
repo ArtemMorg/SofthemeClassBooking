@@ -6,7 +6,7 @@ namespace SofthemeClassBooking_BLL.Implementation
 {
     public static class MapService
     {
-        public static ClassRoomModel Map(ClassRooms classRooms)
+        public static IClassRoom Map(ClassRooms classRooms)
         {
             return new ClassRoomModel
             {
@@ -21,7 +21,7 @@ namespace SofthemeClassBooking_BLL.Implementation
             };
         }
 
-        public static ClassRooms Map(ClassRoomModel classRoomModel)
+        public static ClassRooms Map(IClassRoom classRoomModel)
         {
             return new ClassRooms
             {
@@ -37,7 +37,7 @@ namespace SofthemeClassBooking_BLL.Implementation
         }
 
 
-        public static Feedbacks Map(FeedbackModel feedbackModel)
+        public static Feedbacks Map(IFeedback feedbackModel)
         {
             return new Feedbacks
             {
@@ -66,8 +66,9 @@ namespace SofthemeClassBooking_BLL.Implementation
             };
         }
 
-        public static EventModel Map(Events events)
+        public static IEvent Map(Events events)
         {
+
             return new EventModel
             {
                 Title = events.Title,

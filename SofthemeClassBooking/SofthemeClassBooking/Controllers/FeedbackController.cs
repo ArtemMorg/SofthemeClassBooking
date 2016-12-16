@@ -8,9 +8,9 @@ namespace SofthemeClassBooking.Controllers
 {
     public class FeedbackController : Controller
     {
-        private IFeedbackService<FeedbackModel> _feedbackService;
+        private IFeedbackService<IFeedback> _feedbackService;
 
-        public FeedbackController(IFeedbackService<FeedbackModel> feedbackService)
+        public FeedbackController(IFeedbackService<IFeedback> feedbackService)
         {
             _feedbackService = feedbackService;
         }
@@ -25,7 +25,7 @@ namespace SofthemeClassBooking.Controllers
         [HttpPost]
         public ActionResult Send(FeedbackModel feedback)
         {
-
+            feedback = null;
             if (ModelState.IsValid)
             {
                 try

@@ -4,28 +4,24 @@
     @Styles.Render("~/bundles/styles/feedback")
 }
 
-@section scriptDeclarationInHeader {
-    @Scripts.Render("~/bundles/scripts/feedback")
-}
-
 <link rel="stylesheet" href="~/Content/css/feedback.css" />
 
-<div class="feedback">
+<div id="feedback-section" class="feedback">
     <div class="feedback-container">
         <div class="feedback-header">
-            <div class="feedback-write-message"><h2>Написать сообщение</h2></div>
+            <div class="feedback-write-message">@Localization.FeedbackWriteMessage</div>
             <div id="result-message" class="feedback-result-message">&nbsp;</div>
         </div>
 
         <div>
             <div class="feedback-left">
-                <div class="feedback-proposition-text">Напишите, если у вас есть идеи, предложения, замечания или вопросы.</div>
+                <div class="feedback-proposition-text">@Localization.FeedbackNoteToUser</div>
                 <div class="feedback-image"></div>
             </div>
 
             <div class="feedback-form">
 
-                @using (Html.BeginForm("Send", "Feedback", FormMethod.Post, new { role = "form", id = "feedback", autocomplete = "off" }))
+                @using (Html.BeginForm("Send", "Feedback", FormMethod.Post, new { role = "form", id = "feedback-form", autocomplete = "off" }))
                 {
                     @Html.AntiForgeryToken()
 
@@ -34,13 +30,13 @@
                             <div class="feedback-form-incorrect-block">
                                 @Html.ValidationMessageFor(m => m.Name, "", new { @class = "feedback-form-incorrect-with-image" })
                             </div>
-                            @Html.TextBoxFor(m => m.Name, new { id = "firstName", placeholder = "Имя", @class = "feedback-form-name" })
+                            @Html.TextBoxFor(m => m.Name, new { id = "firstName", placeholder = Localization.FeedbackNamePlaceholder, @class = "feedback-form-name" })
                         </div>
                         <div class="feedback-form-inline-lastname">
                             <div class="feedback-form-incorrect-block">
                                 @Html.ValidationMessageFor(m => m.Surname, "", new { @class = "feedback-form-incorrect-with-image" })
                             </div>
-                            @Html.TextBoxFor(m => m.Surname, new { id = "lastName", placeholder = "Фамилия", @class = "feedback-form-lastname" })
+                            @Html.TextBoxFor(m => m.Surname, new { id = "lastName", placeholder = Localization.FeedbackLastnamePlaceholder, @class = "feedback-form-lastname" })
                         </div>
                     </div>
 
@@ -48,7 +44,7 @@
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "feedback-form-incorrect-with-image" })
                     </div>
                     <div class="feedback-form-email-block">
-                        @Html.TextBoxFor(m => m.Email, new { id = "email", placeholder = "Адрес электронной почты", @class = "feedback-form-email" })
+                        @Html.TextBoxFor(m => m.Email, new { id = "email", placeholder = Localization.FeedbackEmailPlaceholder, @class = "feedback-form-email" })
                     </div>
 
                     <div class="feedback-form-incorrect-block">
@@ -59,7 +55,7 @@
                     </div>
 
                     <div class="feedback-form-button-submit-block">
-                        <button id="submit" type="submit" class="feedback-form-button-submit">Отправить</button>
+                        <button id="submit" type="submit" class="feedback-form-button-submit">@Localization.ButtonSend</button>
                     </div>
                 }
 
@@ -72,25 +68,5 @@
 
 @section scriptDeclarationAfterFooter {
     @Scripts.Render("~/bundles/scripts/jqueryval")
+    @Scripts.Render("~/bundles/scripts/feedback")
 }
-
-<script type="text/javascript">
-
-    (function($, window, document) {
-
-        $(function() {
-
-            setEventHandlers();
-            $("#submit")
-                .click(function(e) {
-                    e.preventDefault();
-
-                    if ($('#feedback').valid()) {
-                        postFormData('@Url.Action("Send")', $('#feedback'), 'json', successHandler);
-                    }
-                });
-
-        }(window.jQuery, window, document));
-    });
-
-</script>

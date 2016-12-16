@@ -1,0 +1,50 @@
+﻿.maplink {
+    height: 155px;
+    width: 194px;
+    font-family: Arial;
+    color: #4A5158;
+}    
+
+.maplink .title {
+    font-size: 30px;
+    padding: 7px 0 0 5px;
+}
+
+.maplink .address {
+    font-size: 17px;
+    padding: 12px 0 0 7px;
+}
+
+.maplink .text-small {
+    padding: 27px 0 0 8px;
+}
+
+.maplink .fa {
+    font-size: 23px;
+    color: #F95752;
+}
+
+.maplink .fa-envelope-o {
+    font-size: 19px;
+    padding: 8px 0 0 8px;
+}
+
+.maplink a,
+.maplink a:hover,
+.maplink a:active,
+.maplink a:visited {
+    color: #222222;
+    text-decoration: none;
+}
+
+.maplink .text-small a,
+.maplink .write-email a {
+    position: relative;
+    top: -2px;
+    padding: 0 0 0 5px;
+}
+
+.maplink .write-email a {
+    padding: 0 0 0 6px;
+}
+

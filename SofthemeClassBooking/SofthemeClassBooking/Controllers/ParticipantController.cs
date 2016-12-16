@@ -9,9 +9,9 @@ namespace SofthemeClassBooking.Controllers
 {
     public class ParticipantController : Controller
     {
-        private IParticipantService<ParicipantModel> _participantService;
+        private IParticipantService<IParticipant> _participantService;
 
-        public ParticipantController(IParticipantService<ParicipantModel> participantService)
+        public ParticipantController(IParticipantService<IParticipant> participantService)
         {
             _participantService = participantService;
         }
@@ -21,7 +21,7 @@ namespace SofthemeClassBooking.Controllers
             return View();
         }
 
-        public ActionResult Add(ParicipantModel paricipantModel)
+        public ActionResult Add(IParticipant paricipantModel)
         {
             try
             {
@@ -43,11 +43,13 @@ namespace SofthemeClassBooking.Controllers
         [Authorize]
         public ActionResult Remove(int id)
         {
-            ParicipantModel participantModel = new ParicipantModel { Id = id };
-
             try
             {
-                _participantService.Remove(participantModel);
+                _participantService.Remove(new ParicipantModel
+                {
+                    Id = id
+                });
+
                 return Json(new { success = true });
             }
             catch (Exception)

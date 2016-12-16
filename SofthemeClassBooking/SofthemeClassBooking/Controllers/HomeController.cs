@@ -11,6 +11,7 @@ namespace SofthemeClassBooking.Controllers
             return View();
         }
 
+        [HttpGet]
         [Authorize]
         public ActionResult UserProfile()
         {
@@ -23,9 +24,16 @@ namespace SofthemeClassBooking.Controllers
             return PartialView();
         }
 
+        [HttpGet]
         public ActionResult DialogWindow(DialogViewModel dialogModel)
         {
             return PartialView(dialogModel);
+        }
+
+        [HttpGet]
+        public ActionResult MapLink()
+        {
+            return PartialView();
         }
 
     }

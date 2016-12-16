@@ -294,4 +294,25 @@
   <data name="Where" xml:space="preserve">
     <value>Где</value>
   </data>
+  <data name="ButtonSend" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="FeedbackEmailPlaceholder" xml:space="preserve">
+    <value>Адрес электронной почты</value>
+  </data>
+  <data name="FeedbackLastnamePlaceholder" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="FeedbackNamePlaceholder" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="FeedbackNoteToUser" xml:space="preserve">
+    <value>Напишите, если у вас есть идеи, предложения, замечания или вопросы</value>
+  </data>
+  <data name="FeedbackWriteMessage" xml:space="preserve">
+    <value>Написать сообщение</value>
+  </data>
+  <data name="MapAddress" xml:space="preserve">
+    <value>г. Киев, ул. Деловая, 5А</value>
+  </data>
 </root>

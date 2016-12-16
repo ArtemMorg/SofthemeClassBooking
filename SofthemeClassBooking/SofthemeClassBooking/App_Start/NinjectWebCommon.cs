@@ -69,10 +69,12 @@ namespace SofthemeClassBooking.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<IFeedbackService<FeedbackModel>>().To<FeedbackService>();
-            kernel.Bind<IClassRoomService<ClassRoomModel>>().To<ClassRoomService>();
-            kernel.Bind<IEventService<EventModel>>().To<EventService>();
-            kernel.Bind<IParticipantService<ParicipantModel>>().To<ParticipantService>();
+            kernel.Bind<IFeedbackService<IFeedback>>().To<FeedbackService>();
+            kernel.Bind<IClassRoomService<IClassRoom>>().To<ClassRoomService>();
+            kernel.Bind<IEventService<IEvent>>().To<EventService>();
+            kernel.Bind<IParticipantService<IParticipant>>().To<ParticipantService>();
+
+            kernel.Bind<IFeedback>().To<FeedbackModel>();
         }
     }
 }

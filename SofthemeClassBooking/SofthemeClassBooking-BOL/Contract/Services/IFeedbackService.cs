@@ -3,10 +3,9 @@ using SofthemeClassBooking_BOL.Contract.Models;
 
 namespace SofthemeClassBooking_BOL.Contract.Services
 {
-    public interface IFeedbackService<TModel>
+    public interface IFeedbackService<TModel> : IService<TModel>
         where TModel : IFeedback
     {
-        void Add(TModel feedback);
-        IEnumerable<TModel> Get();
+
     }
 }

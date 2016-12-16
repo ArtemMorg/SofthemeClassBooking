@@ -5,16 +5,16 @@ using System.Linq;
 using System.Linq.Expressions;
 using SofthemeClassBooking_BOL.Contract.Models;
 using SofthemeClassBooking_BOL.Contract.Services;
+using SofthemeClassBooking_BOL.Enum;
 using SofthemeClassBooking_BOL.Exceptions;
 using SofthemeClassBooking_BOL.Models;
 using SofthemeClassBooking_DAL;
 
 namespace SofthemeClassBooking_BLL.Implementation
 {
-    public class EventService : IEventService<EventModel>
+    public class EventService : IEventService<IEvent>
     {
-        private const int maxCharactersInBriefDescription = 15;
-        public void Add(EventModel eventModel)
+        public void Add(IEvent eventModel)
         {
             using (var context = new ClassBookingContext())
             {
@@ -55,9 +55,9 @@ namespace SofthemeClassBooking_BLL.Implementation
 
         }
 
-        public IEnumerable<EventModel> Get()
+        public IEnumerable<IEvent> Get()
         {
-            var eventsList = new List<EventModel>();
+            var eventsList = new List<IEvent>();
 
             using (var context = new ClassBookingContext())
             {
@@ -70,7 +70,7 @@ namespace SofthemeClassBooking_BLL.Implementation
             return eventsList;
         }
 
-        public EventModel Get(int id)
+        public IEvent Get(int id)
         {
             using (var context = new ClassBookingContext())
             {
@@ -78,15 +78,15 @@ namespace SofthemeClassBooking_BLL.Implementation
             }
         }
 
-        public IEnumerable<EventModel> GetBrief()
+        public IEnumerable<IEvent> GetBrief()
         {
             var todayDate = DateTime.Now.Date;
-            var eventsList = new List<EventModel>();
+            var eventsList = new List<IEvent>();
 
             using (var context = new ClassBookingContext())
             {
                 var eventsBrief = context.Events.Where(e => DbFunctions.TruncateTime(e.BeginingDate) == todayDate)
-                .Select(e => new EventModel
+                .Select(e => new EventModel()
                 {
                     Id = e.Id,
                     Title = e.Title,
@@ -94,7 +94,7 @@ namespace SofthemeClassBooking_BLL.Implementation
                     BeginingDate = e.BeginingDate,
                     EndingDate = e.EndingDate,
                     IsPrivate = e.IsPrivate,
-                    Description = e.Description.Substring(0, maxCharactersInBriefDescription)
+                    Description = e.Description.Substring(0, EventSettings.MaxCharactersInBriefDescription)
                 }).ToList();
 
                 foreach (var eventBrief in eventsBrief)
@@ -106,7 +106,7 @@ namespace SofthemeClassBooking_BLL.Implementation
             return eventsList;
         }
 
-        public void Remove(EventModel eventModel)
+        public void Remove(IEvent eventModel)
         {
             var events = new Events
             {
@@ -126,7 +126,7 @@ namespace SofthemeClassBooking_BLL.Implementation
 
         }
 
-        public void Update(EventModel eventModel)
+        public void Update(IEvent eventModel)
         {
             var events = MapService.Map(eventModel);
             using (var context = new ClassBookingContext())

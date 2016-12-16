@@ -247,8 +247,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\additionalInfoRoom.css" />
-    <Content Include="Content\css\bootstrap.css" />
-    <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\custom-input.css" />
     <Content Include="Content\css\event-modal.css" />
     <Content Include="Content\css\event.css" />
@@ -259,6 +257,7 @@
     <Content Include="Content\css\jquery-ui.css" />
     <Content Include="Content\css\jquery-ui.min.css" />
     <Content Include="Content\css\dialog.css" />
+    <Content Include="Content\css\maplink.css" />
     <Content Include="Content\css\profile.css" />
     <Content Include="Content\css\registration.css" />
     <Content Include="Content\css\reset.css" />
@@ -281,6 +280,7 @@
     <Content Include="Content\images\icon-print.png" />
     <Content Include="Content\images\icon-proect.png" />
     <Content Include="Content\images\icon-table.png" />
+    <Content Include="Content\images\ico\logo.ico" />
     <Content Include="Content\images\lines\line-details-1.png" />
     <Content Include="Content\images\lines\line-details-10.png" />
     <Content Include="Content\images\lines\line-details-2.png" />
@@ -293,6 +293,7 @@
     <Content Include="Content\images\lines\line-details-9.png" />
     <Content Include="Content\images\logo-gray.png" />
     <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\marker.png" />
     <Content Include="Content\images\marker_red.png" />
     <Content Include="Content\images\path\path-3.png" />
     <Content Include="Content\images\path\path-1.png" />
@@ -333,11 +334,11 @@
     <Content Include="Scripts\datetime.js" />
     <Content Include="Scripts\dialog.js" />
     <Content Include="Scripts\event\eventpage.js" />
+    <Content Include="Scripts\feedback\feedback.js" />
     <Content Include="Scripts\jquery\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery\jquery-ui.js" />
     <Content Include="Scripts\jquery\jquery-ui.min.js" />
-    <Content Include="Scripts\localization.js" />
     <Content Include="Scripts\map\initializers.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -351,17 +352,17 @@
     <None Include="Properties\PublishProfiles\AzureVMDeploy.pubxml" />
     <Content Include="Scripts\jquery\jquery-3.1.1.min.map" />
     <None Include="Scripts\validation\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\plan\plan-section.js" />
     <Content Include="Scripts\roomevent\calendar.js" />
+    <Content Include="Scripts\roomevent\initialization.js" />
     <Content Include="Scripts\roomevent\render.js" />
     <Content Include="Scripts\roompage\roompage.js" />
     <Content Include="Scripts\shared.js" />
-    <Content Include="Scripts\validation\feedback-validation.js" />
     <Content Include="Scripts\validation\jquery.validate.js" />
     <Content Include="Scripts\validation\jquery.validate.min.js" />
     <Content Include="Scripts\validation\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\validation\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\map\jquery.mapit.min.js" />
-    <Content Include="Scripts\map\jquery.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -422,6 +423,7 @@
     <Content Include="Views\Home\UserList.cshtml" />
     <Content Include="Views\Event\EventOwner.cshtml" />
     <Content Include="Views\Home\DialogWindow.cshtml" />
+    <Content Include="Views\Home\MapLink.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

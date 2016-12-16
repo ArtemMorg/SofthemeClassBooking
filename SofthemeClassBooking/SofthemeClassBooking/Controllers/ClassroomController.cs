@@ -10,9 +10,9 @@ namespace SofthemeClassBooking.Controllers
 {
     public class ClassroomController : Controller
     {
-        private IClassRoomService<ClassRoomModel> _classRoomService;
+        private IClassRoomService<IClassRoom> _classRoomService;
         // GET: Classroom
-        public ClassroomController(IClassRoomService<ClassRoomModel> classRoomService)
+        public ClassroomController(IClassRoomService<IClassRoom> classRoomService)
         {
             _classRoomService = classRoomService;
         }
@@ -66,7 +66,7 @@ namespace SofthemeClassBooking.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "Administrator")]
-        public ActionResult Edit(ClassRoomModel classRoom)
+        public ActionResult Edit(IClassRoom classRoom)
         {
             if (ModelState.IsValid)
             {

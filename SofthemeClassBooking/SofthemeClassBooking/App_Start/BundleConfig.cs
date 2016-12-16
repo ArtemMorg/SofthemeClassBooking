@@ -28,11 +28,10 @@ namespace SofthemeClassBooking
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/feedback").Include(
-                        "~/Scripts/validation/feedback-validation.js"
+                        "~/Scripts/feedback/feedback.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/map").Include(
-                        "~/Scripts/map/jquery.min.js",
                         "~/Scripts/map/jquery.mapit.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/calendar").Include(
@@ -42,7 +41,8 @@ namespace SofthemeClassBooking
             bundles.Add(new ScriptBundle("~/bundles/scripts/roomevent").Include(
                         "~/Scripts/jquery/jquery-ui.js",
                         "~/Scripts/roomevent/calendar.js",
-                        "~/Scripts/roomevent/render.js"
+                        "~/Scripts/roomevent/render.js",
+                        "~/Scripts/roomevent/initialization.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/eventpage").Include(
@@ -51,6 +51,10 @@ namespace SofthemeClassBooking
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/roompage").Include(
                         "~/Scripts/roompage/roompage.js"
+                        ));
+
+            bundles.Add(new ScriptBundle("~/bundles/scripts/plan").Include(
+                        "~/Scripts/plan/plan-section.js"
                         ));
             #endregion
 
@@ -73,6 +77,9 @@ namespace SofthemeClassBooking
 
             bundles.Add(new StyleBundle("~/bundles/styles/layout").Include(
                   "~/Content/css/layout.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/styles/maplink").Include(
+                  "~/Content/css/maplink.css"));
 
             bundles.Add(new StyleBundle("~/bundles/styles/feedback").Include(
                     "~/Content/css/feedback.css"));

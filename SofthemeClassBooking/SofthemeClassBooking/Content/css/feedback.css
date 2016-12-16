@@ -5,8 +5,8 @@
 }
 
 .feedback-container {
-    margin-top: 36px;
-    margin-left: 121px;
+    margin-top: 48px;
+    margin-left: 126px;
     color: #4A5158;
 }
 
@@ -17,29 +17,26 @@
 
 .feedback-write-message {
     float: left;
+    font-size: 28px;
     width: 533px;
 }
 
-.feedback-write-message h2 {
-    display: inline;
-    padding: 0;
-}
-
 .feedback-result-message {
-    display: inline-block; 
+    display: inline-block;
     font-size: 14px;
-    padding-top: 15px; 
-    width: 490px; 
+    padding-top: 15px;
+    width: 483px;
     text-align: center;
 }
 
 .feedback-proposition-text {
+    padding: 4px 0 0 0;
     color: #4A5158;
     font-size: 14px;
 }
 
 .feedback-image {
-    margin-top: 17px;
+    margin: 17px 0 0 5px;
     height: 293px;
     background-image: url("../images/contact-bg.png");
     background-repeat: no-repeat;
@@ -53,18 +50,23 @@
 
 .feedback-form {
     display: inline-block;
-    margin-left: 31px;
+    margin-left: 35px;
     width: 500px;
 }
 
-    .feedback-form input[type="text"], .feedback button, .feedback textarea {
+    .feedback-form input[type="text"], .feedback-form button, .feedback-form textarea {
         border: none;
         outline: none;
         border-radius: 19px;
         height: 34px;
         background-color: #F5F6FB;
         resize: none;
-        text-indent: 17px;
+        text-indent: 12px;
+    }
+
+    .feedback-form textarea {
+        margin: 0 0 0 0;
+        height: 117px;
     }
 
 .feedback-form-inline-name {
@@ -95,57 +97,31 @@
 }
 
 .feedback-form-button-submit-block {
-    cursor: pointer;
     margin-top: 11px;
     text-align: center;
 }
 
-.feedback-form-button-submit {
-        cursor: pointer;
+.feedback-form .feedback-form-button-submit,
+.feedback-form .feedback-form-button-submit-ok {
+    font-size: 14px;
+    cursor: pointer;
     text-indent: 0px;
+    margin: 0 0 0 3px;
     color: #858B94;
     background-color: #C8CEDA;
     text-align: center;
-    width: 135px;
+    height: 36px;
+    width: 150px;
 }
 
-.feedback-form-button-submit-ok {
-        cursor: pointer;
-    text-indent: 0px;
+.feedback-form .feedback-form-button-submit-ok {
     background-color: #F95752;
     color: #FEFEFF;
-    text-align: center;
-    width: 135px;
 }
-
-*::-webkit-input-placeholder {
-    color: #C8C9CC;
-}
-
-*:-moz-placeholder {
-    /* FF 4-18 */
-    color: #C8C9CC;
-}
-
-*::-moz-placeholder {
-    /* FF 19+ */
-    color: #C8C9CC;
-}
-
-*:-ms-input-placeholder {
-    /* IE 10+ */
-    color: #C8C9CC;
-}
-
-/*Validation styles*/
 
 .feedback-form-incorrect-block {
     margin: 2px;
     height: 12px;
     font-size: 10px;
     color: #626D81;
-}
-
-input:-webkit-autofill {
-    background-color: #F5F6FB !important;
 }

@@ -1,0 +1,23 @@
+﻿@using System.Web.Configuration
+@Styles.Render("~/bundles/styles/maplink")
+
+<div class="maplink">
+    
+    <div class="title">Softheme</div>
+
+    <div class="address">@Localization.MapAddress</div>
+    <div class="text-small">
+        <i class="fa fa-globe" aria-hidden="true"></i>
+        <a href="@WebConfigurationManager.AppSettings["SofthemeWebSite"]">
+           @WebConfigurationManager.AppSettings["SofthemeWebSiteLinkName"]
+        </a>
+    </div>
+    <div class="write-email">
+        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+        <a href="@WebConfigurationManager.AppSettings["SofthemeWebMail"]">
+            @WebConfigurationManager.AppSettings["SofthemeWebMailLinkName"]
+        </a>
+    </div>
+
+</div>
+
