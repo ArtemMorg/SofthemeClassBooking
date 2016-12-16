@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using SofthemeClassBooking_BOL.Contract.Models;
 using SofthemeClassBooking_BOL.Contract.Services;
 using SofthemeClassBooking_BOL.Models;
 using SofthemeClassBooking_BOL.Exceptions;
@@ -42,9 +43,11 @@ namespace SofthemeClassBooking.Controllers
         [Authorize]
         public ActionResult Remove(int id)
         {
+            ParicipantModel participantModel = new ParicipantModel { Id = id };
+
             try
             {
-                _participantService.Remove(new ParicipantModel { Id = id });
+                _participantService.Remove(participantModel);
                 return Json(new { success = true });
             }
             catch (Exception)

@@ -52,7 +52,7 @@ namespace SofthemeClassBooking.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult AdditionalInfo(ClassRoomModel classRoomModel)
+        public ActionResult AdditionalInfo(IClassRoom classRoomModel)
         {
             return PartialView("AdditionalInfo", classRoomModel);
         }

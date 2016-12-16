@@ -42,7 +42,7 @@ namespace SofthemeClassBooking.Models
 
     public class ForgotViewModel
     {
-        private const string DangerMessagePath = "<img src='../Content/images/danger.png'/> ";
+        private const string DangerMessagePath = "<img src='/Content/images/danger.png'/> ";
         private const string ErrorEmailMessage = DangerMessagePath + "Неверный адрес электронной почты";
         private const string ErrorEmptyMessage = DangerMessagePath + "Это поле обязательно для заполения";
         [Required(ErrorMessage = ErrorEmptyMessage)]
@@ -53,7 +53,7 @@ namespace SofthemeClassBooking.Models
 
     public class LoginViewModel
     {
-        private const string DangerMessagePath = "<img src='../Content/images/danger.png'/> ";
+        private const string DangerMessagePath = "<img src='/Content/images/danger.png'/> ";
         private const string ErrorEmptyMessage = DangerMessagePath + "Это поле обязательно для заполения";
         private const string ErrorMessageMaxLengthReached = DangerMessagePath + "Поле слишком длинное";
         private const string ErrorEmailMessage = DangerMessagePath + "Неверный адрес электронной почты";
@@ -78,7 +78,7 @@ namespace SofthemeClassBooking.Models
 
     public class RegisterViewModel
     {
-        private const string DangerMessagePath = "<img src='../Content/images/danger.png'/> ";
+        private const string DangerMessagePath = "<img src='/Content/images/danger.png'/> ";
         private const string ErrorEmptyMessage = DangerMessagePath + "Это поле обязательно для заполения";
         private const string ErrorMessageLengthReached = DangerMessagePath + "Пароль должен содержать <font face='Arial'>8-15</font> символов";
        
@@ -137,7 +137,7 @@ namespace SofthemeClassBooking.Models
 
     public class ForgotPasswordViewModel
     {
-        private const string DangerMessagePath = "<img src='../Content/images/danger.png'/> ";
+        private const string DangerMessagePath = "<img src='/Content/images/danger.png'/> ";
         private const string ErrorEmailMessage = DangerMessagePath + "Неверный адрес электронной почты";
         private const string ErrorEmptyMessage = DangerMessagePath + "Это поле обязательно для заполения";
         private const string ErrorMessageMaxLengthReached = DangerMessagePath + "Поле слишком длинное";

@@ -22,7 +22,7 @@
                       <div id="result-message"  class="registration-inner-error">
                          @if (ViewData["Login"] != null)
                          {
-                             <img id="ErrorImage" src="~/Content/images/bigdanger.png"/>
+                             <img id="ErrorImage" src="/Content/images/bigdanger.png"/>
                          }
 
                             <span style="float: none;font-size:12px"> @Html.ValidationSummary(true)</span>
@@ -38,7 +38,7 @@
           
         
 
-@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/scripts/jqueryval")
 
 <script>
     $(document)
@@ -47,7 +47,8 @@
           
            
             var form = $("#Login");
-            var isEmailValid, isPasswordVaild;
+            var isEmailValid,
+                isPasswordVaild;
             var email = $("#emailBox");
             var password = $("#Password");
             isEmailValid = email.valid();

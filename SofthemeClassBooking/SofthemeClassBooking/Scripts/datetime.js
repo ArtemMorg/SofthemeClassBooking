@@ -134,7 +134,7 @@ function getCurrentTime(returnObject) {
 }
 
 function convertToDateTime(dateTime) {
-    return dateTime.month + '/' + dateTime.day + '/' + dateTime.year
+    return dateTime.day  + '/' + dateTime.month + '/' + dateTime.year
             + " " + dateTime.hour + ':' + dateTime.minutes + ':00';
 }
 

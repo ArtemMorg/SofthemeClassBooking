@@ -19,20 +19,20 @@ namespace SofthemeClassBooking.App_Start
     using SofthemeClassBooking_BOL.Contract.Services;
     using SofthemeClassBooking_BOL.Models;
 
-    public static class NinjectWebCommon 
+    public static class NinjectWebCommon
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
 
         /// <summary>
         /// Starts the application
         /// </summary>
-        public static void Start() 
+        public static void Start()
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
             bootstrapper.Initialize(CreateKernel);
         }
-        
+
         /// <summary>
         /// Stops the application.
         /// </summary>
@@ -40,7 +40,7 @@ namespace SofthemeClassBooking.App_Start
         {
             bootstrapper.ShutDown();
         }
-        
+
         /// <summary>
         /// Creates the kernel that will manage your application.
         /// </summary>
@@ -71,8 +71,8 @@ namespace SofthemeClassBooking.App_Start
         {
             kernel.Bind<IFeedbackService<FeedbackModel>>().To<FeedbackService>();
             kernel.Bind<IClassRoomService<ClassRoomModel>>().To<ClassRoomService>();
-            kernel.Bind<IEventService<IEvent>>().To<EventService>();
+            kernel.Bind<IEventService<EventModel>>().To<EventService>();
             kernel.Bind<IParticipantService<ParicipantModel>>().To<ParticipantService>();
-        }        
+        }
     }
 }

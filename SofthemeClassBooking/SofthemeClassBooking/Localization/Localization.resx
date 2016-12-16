@@ -132,6 +132,9 @@
   <data name="ButtonEdit" xml:space="preserve">
     <value>Изменить</value>
   </data>
+  <data name="ButtonLogOut" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
   <data name="ButtonSave" xml:space="preserve">
     <value>Сохранить</value>
   </data>
@@ -222,6 +225,12 @@
   <data name="EventTitlePlaceholder" xml:space="preserve">
     <value>Заголовок</value>
   </data>
+  <data name="FeedBackModelError" xml:space="preserve">
+    <value>Данные введены неверно. Попробуйте еще раз.</value>
+  </data>
+  <data name="FeedBackSuccess" xml:space="preserve">
+    <value>Спасибо. Ваше сообщение отправлено администратору</value>
+  </data>
   <data name="InfoEventAddedSuccess" xml:space="preserve">
     <value>Ваше событие было успешно добавлено в рассписание</value>
   </data>
@@ -269,6 +278,15 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>Всего</value>
+  </data>
+  <data name="UserActiveEventCount" xml:space="preserve">
+    <value>Количество активных событий</value>
+  </data>
+  <data name="UserChangedPasswordSuccess" xml:space="preserve">
+    <value>Пароль успешно изменен</value>
+  </data>
+  <data name="UserChangePassword" xml:space="preserve">
+    <value>Изменить пароль</value>
   </data>
   <data name="When" xml:space="preserve">
     <value>Когда</value>

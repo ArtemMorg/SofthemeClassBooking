@@ -44,10 +44,10 @@ namespace SofthemeClassBooking_BLL.Implementation
             {
                 var attributes = context.ClassRooms.Where(field => field.IsLocked == false)
                     .Select(field => new
-                        {
-                            field.Id,
-                            field.Name
-                        })
+                    {
+                        field.Id,
+                        field.Name
+                    })
                     .ToList();
 
                 foreach (var attribute in attributes)
@@ -127,7 +127,7 @@ db.SaveChanges();
 
                         context.Events.RemoveRange(context.Events.Where(e => e.ClassRoomId == id));
 
-                   break;
+                        break;
                 }
                 entry.Property(e => e.IsLocked).IsModified = true;
                 context.SaveChanges();

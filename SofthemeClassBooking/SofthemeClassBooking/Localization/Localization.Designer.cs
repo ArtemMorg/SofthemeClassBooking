@@ -106,6 +106,15 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Выйти.
+        /// </summary>
+        public static string ButtonLogOut {
+            get {
+                return ResourceManager.GetString("ButtonLogOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Сохранить.
         /// </summary>
         public static string ButtonSave {
@@ -376,6 +385,24 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Данные введены неверно. Попробуйте еще раз..
+        /// </summary>
+        public static string FeedBackModelError {
+            get {
+                return ResourceManager.GetString("FeedBackModelError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Спасибо. Ваше сообщение отправлено администратору.
+        /// </summary>
+        public static string FeedBackSuccess {
+            get {
+                return ResourceManager.GetString("FeedBackSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ваше событие было успешно добавлено в рассписание.
         /// </summary>
         public static string InfoEventAddedSuccess {
@@ -516,6 +543,33 @@ namespace SofthemeClassBooking.Localization {
         public static string Total {
             get {
                 return ResourceManager.GetString("Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Количество активных событий.
+        /// </summary>
+        public static string UserActiveEventCount {
+            get {
+                return ResourceManager.GetString("UserActiveEventCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Пароль успешно изменен.
+        /// </summary>
+        public static string UserChangedPasswordSuccess {
+            get {
+                return ResourceManager.GetString("UserChangedPasswordSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Изменить пароль.
+        /// </summary>
+        public static string UserChangePassword {
+            get {
+                return ResourceManager.GetString("UserChangePassword", resourceCulture);
             }
         }
         

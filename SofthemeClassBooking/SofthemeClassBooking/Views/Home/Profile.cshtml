@@ -16,8 +16,9 @@
     @using (Html.BeginForm("LogOff", "Login", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
+        <button id="exit" value="Login/LogOff">@Localization.ButtonLogOut</button>
     }
-    <button id="exit" value="Login/LogOff">Выйти</button>
+    
 </div>
 
 
@@ -31,24 +32,24 @@
 
                 <div class="username">
                     @User.Identity.Name
-                        @if (User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]))
-                        {
-                            <sup>admin</sup>
-                        }
+                    @if (User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]))
+                    {
+                        <sup>admin</sup>
+                    }
                 </div>
 
                 <div class="email-section">
                     <div class="text">Email:</div>
-                    <div class="email"> @Html.Action("GetUserEmail", "Login", new {id = User.Identity.GetUserId()}) </div>
+                    <div class="email"> @Html.Action("GetUserEmail", "Login", new { id = User.Identity.GetUserId() }) </div>
                 </div>
 
                 <div class="event-count-section">
-                    <div class="text">Количество активных событий:</div>
-                    <div class="event-count">12</div>
+                    <div class="text">@Localization.UserActiveEventCount:</div>
+                    <div id="user-event-count" class="event-count">0</div>
                 </div>
 
                 <div class="button-change">
-                    <button id="change">Изменить</button>
+                    <button id="change">@Localization.ButtonEdit</button>
                 </div>
 
             </div>
@@ -60,7 +61,7 @@
     <div class="right-section">
 
         <div class="change-password-section">
-            <div class="text">Изменить пароль</div>
+            <div class="text">@Localization.UserChangePassword</div>
 
             @using (Html.BeginForm("ChangePasswordFromUserProfile", "Manage", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @id = "Login", role = "form" }))
             {
@@ -70,12 +71,12 @@
                 @Html.TextBoxFor(m => m.ConfirmPassword, new { @id = "confirmNewPassword", placeholder = "Повторить новый пароль", type = "password", @class = "confirm-password" })
 
                 <input type="submit" class="button-refuse" value="Сохранить" id="mysubmit">
+
                 if (ViewData["ChangePasswordSuccess"] != null)
                 {
-                    <div id="changepassword-success">
-                        <p>
-                            <img src="~/Content/images/success.png" />Пароль успешно изменен
-                        </p>
+                    <div class="changepassword-success">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        <div class="text">@Localization.UserChangedPasswordSuccess</div>
                     </div>
                 }
             }
@@ -167,18 +168,18 @@
                 }
             });
             $('#change').click(function (e) {
-                    e.preventDefault();
+                e.preventDefault();
 
-                    $.ajax({
-                        url: '@Url.Action("ChangeUserNameEmail","Manage")',
-                        method: 'POST',
-                        success: function (result) {
-                            $('#user-info').html(result);
+                $.ajax({
+                    url: '@Url.Action("ChangeUserNameEmail","Manage")',
+                    method: 'POST',
+                    success: function (result) {
+                        $('#user-info').html(result);
 
-                        }
-                    });
-
+                    }
                 });
+
+            });
         });
 
 

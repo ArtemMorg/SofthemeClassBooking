@@ -11,10 +11,10 @@ using SofthemeClassBooking_DAL;
 
 namespace SofthemeClassBooking_BLL.Implementation
 {
-    public class EventService : IEventService<IEvent>
+    public class EventService : IEventService<EventModel>
     {
         private const int maxCharactersInBriefDescription = 15;
-        public void Add(IEvent eventModel)
+        public void Add(EventModel eventModel)
         {
             using (var context = new ClassBookingContext())
             {
@@ -55,7 +55,7 @@ namespace SofthemeClassBooking_BLL.Implementation
 
         }
 
-        public IEnumerable<IEvent> Get()
+        public IEnumerable<EventModel> Get()
         {
             var eventsList = new List<EventModel>();
 
@@ -70,7 +70,7 @@ namespace SofthemeClassBooking_BLL.Implementation
             return eventsList;
         }
 
-        public IEvent Get(int id)
+        public EventModel Get(int id)
         {
             using (var context = new ClassBookingContext())
             {
@@ -78,7 +78,7 @@ namespace SofthemeClassBooking_BLL.Implementation
             }
         }
 
-        public IEnumerable<IEvent> GetBrief()
+        public IEnumerable<EventModel> GetBrief()
         {
             var todayDate = DateTime.Now.Date;
             var eventsList = new List<EventModel>();
@@ -106,17 +106,7 @@ namespace SofthemeClassBooking_BLL.Implementation
             return eventsList;
         }
 
-        public IEnumerable<IEvent> Get(Expression<Func<IEvent, bool>> where)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IEvent> GetM(Expression<Func<IEvent, bool>> where)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(IEvent eventModel)
+        public void Remove(EventModel eventModel)
         {
             var events = new Events
             {
@@ -136,7 +126,7 @@ namespace SofthemeClassBooking_BLL.Implementation
 
         }
 
-        public void Update(IEvent eventModel)
+        public void Update(EventModel eventModel)
         {
             var events = MapService.Map(eventModel);
             using (var context = new ClassBookingContext())

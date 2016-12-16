@@ -16,7 +16,7 @@ namespace SofthemeClassBooking_BLL.Implementation
             using (var context = new ClassBookingContext())
             {
                 var duplicatedEmails = context.Participants
-                                        .Count(p => p.EventId == participaModel.EventId && 
+                                        .Count(p => p.EventId == participaModel.EventId &&
                                                p.Email == participaModel.Email);
 
                 if (duplicatedEmails > 0)
@@ -50,7 +50,7 @@ namespace SofthemeClassBooking_BLL.Implementation
 
             using (var context = new ClassBookingContext())
             {
-                var participants =  context.Participants
+                var participants = context.Participants
                     .Where(p => p.EventId == eventId)
                     .ToList();
                 foreach (var participant in participants)
@@ -74,7 +74,7 @@ namespace SofthemeClassBooking_BLL.Implementation
         {
             using (var context = new ClassBookingContext())
             {
-                var participants = new Participants {Id = paricipantModel.Id};
+                var participants = new Participants { Id = paricipantModel.Id };
 
                 context.Participants.Attach(participants);
                 context.Participants.Remove(participants);

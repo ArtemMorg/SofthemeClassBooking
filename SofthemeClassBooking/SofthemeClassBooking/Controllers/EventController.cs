@@ -14,11 +14,11 @@ namespace SofthemeClassBooking.Controllers
 {
     public class EventController : Controller
     {
-        private IEventService<IEvent> _eventService;
+        private IEventService<EventModel> _eventService;
         private IParticipantService<ParicipantModel> _participantService;
 
         public EventController(
-            IEventService<IEvent> eventService,
+            IEventService<EventModel> eventService,
             IParticipantService<ParicipantModel> participantService)
         {
             _eventService = eventService;
@@ -50,25 +50,14 @@ namespace SofthemeClassBooking.Controllers
                 Participants = _participantService.Get(id),
                 Author = author
             });
+        }
 
-            //if (User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]) ||
-            //    User.Identity.GetUserId() == eventInfo.UserId)
-            //{
-            //    return View(new EventViewModel
-            //    {
-            //        Event = eventInfo,
-            //        Participants = _participantService.Get(id),
-            //        Author = author
-            //    });
-            //}
 
-            //return View(new EventViewModel
-            //{
-            //    Event = eventInfo,
-            //    ParticipantCount = _participantService.GetCount(id),
-            //    Author = author
-            //});
-
+        [Authorize]
+        [HttpPost]
+        public ActionResult UserEvents()
+        {
+            return null;
         }
 
         [HttpPost]

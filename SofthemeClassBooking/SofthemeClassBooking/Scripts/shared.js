@@ -16,6 +16,7 @@ var eventWasAdded;
 var ajaxUrl = {};
 
 function setEngineUrl(url) {
+
     ajaxUrl = {
         HomeUrl: url.HomeUrl,
         ParticipantRemoveUrl: url.ParticipantRemoveUrl,
@@ -36,6 +37,8 @@ function setEngineUrl(url) {
         ParticipantAddUrl: url.ParticipantAddUrl,
         DialogWindowUrl: url.DialogWindowUrl
     };
+
+  
 }
 
 function successPlanHandler(result) {

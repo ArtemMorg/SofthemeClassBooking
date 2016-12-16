@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
+using SofthemeClassBooking_BOL.Contract.Models;
 using SofthemeClassBooking_BOL.Contract.Services;
 using SofthemeClassBooking_BOL.Models;
 
@@ -26,11 +28,18 @@ namespace SofthemeClassBooking.Controllers
 
             if (ModelState.IsValid)
             {
-                _feedbackService.Add(feedback);
-                return Json(new { message = "Спасибо. Ваше сообщение отправлено администратору." });
+                try
+                {
+                    _feedbackService.Add(feedback);
+                    return Json(new {message = Localization.Localization.FeedBackSuccess, success = false});
+                }
+                catch (Exception)
+                {
+                    return Json(new { message = Localization.Localization.ErrorGeneralException, success = false });
+                }
             }
 
-            return Json( new {message = "Данные введены неверно. Попробуйте еще раз."});
+            return Json( new {message = Localization.Localization.FeedBackModelError, success = true });
         }
 
     }
