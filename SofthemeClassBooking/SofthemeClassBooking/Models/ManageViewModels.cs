@@ -41,7 +41,7 @@ namespace SofthemeClassBooking.Models
 
     public class ChangeUserNameEmail
     {
-        private const string DangerMessagePath = "<img src='../Content/images/danger.png'/> ";
+        private const string DangerMessagePath = "<img src='/Content/images/danger.png'/> ";
         private const string ErrorEmptyMessage = DangerMessagePath + "Это поле обязательно для заполения";
         private const string ErrorMessageMaxLengthReached = DangerMessagePath + "Поле слишком длинное";
         private const string ErrorEmailMessage = DangerMessagePath + "Неверный адрес электронной почты";

@@ -55,6 +55,8 @@ namespace SofthemeClassBooking_BLL.Implementation
 
         }
 
+        
+
         public IEnumerable<IEvent> Get()
         {
             var eventsList = new List<IEvent>();
@@ -103,6 +105,23 @@ namespace SofthemeClassBooking_BLL.Implementation
                 }
             }
 
+            return eventsList;
+        }
+
+        public IEnumerable<IEvent> GetByUser(string id)
+        {
+            var eventsList = new List<IEvent>();
+            var dateNow = DateTime.Now;
+
+            using (var context = new ClassBookingContext())
+            {
+                var events = context.Events
+                    .Where(e => e.UserId == id && e.EndingDate > dateNow).ToList();
+                foreach (var _event in events)
+                {
+                    eventsList.Add(MapService.Map(_event));
+                }
+            }
             return eventsList;
         }
 

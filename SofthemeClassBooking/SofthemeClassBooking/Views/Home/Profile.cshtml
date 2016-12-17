@@ -18,7 +18,7 @@
         @Html.AntiForgeryToken()
         <button id="exit" value="Login/LogOff">@Localization.ButtonLogOut</button>
     }
-    
+
 </div>
 
 
@@ -97,91 +97,33 @@
     </div>
 </div>
 
-@Scripts.Render("~/bundles/scripts/jqueryval")
+
 
 <script>
+    
+    roomeventEventsByUser = true;
 
     (function ($, window, document) {
 
         $(function () {
 
-            renderRoomEventSection();
+            profileSectionInit('@Url.Action("ChangeUserNameEmail","Manage")');
+            getUserEvents();
 
         });
+
+        renderSection('@Url.Action("Index","RoomEvent")', $('#roomevent-section'), $('#roomevent-loading'));
 
     }(window.jQuery, window, document));
-
-    $(document)
-        .ready(function () {
-
-            var oldPassword = $("#oldPassword");
-            var newPassword = $("#newPassword");
-            var confirmNewPassword = $("#confirmNewPassword");
-
-            var isOldPasswordValid = oldPassword.valid();
-            var isNewPasswordValid = newPassword.valid();
-            var isNewPasswordConfirmValid;
-            oldPassword.blur(function () {
-                isOldPasswordValid = oldPassword.valid();
-            });
-            oldPassword.keyup(function () {
-                isOldPasswordValid = oldPassword.valid();
-            });
-
-            newPassword.blur(function () {
-                isNewPasswordValid = newPassword.valid();
-            });
-            newPassword.keyup(function () {
-                isNewPasswordValid = newPassword.valid();
-            });
-
-            confirmNewPassword.blur(function () {
-                isNewPasswordConfirmValid = confirmNewPassword.valid();
-            });
-            confirmNewPassword.keyup(function () {
-                isNewPasswordConfirmValid = confirmNewPassword.valid();
-            });
-
-
-            $("#oldPassword, #newPassword,#confirmNewPassword").keyup(function () {
-                if (isOldPasswordValid && isNewPasswordValid &&
-                    isNewPasswordConfirmValid) {
-
-                    $("#mysubmit").addClass("button-OK");
-                    $("#mysubmit").removeClass("button-refuse");
-
-                } else {
-                    $("#mysubmit").addClass("button-refuse");
-                    $("#mysubmit").removeClass("button-OK");
-                }
-            });
-            $("#oldPassword, #newPassword,#confirmNewPassword").blur(function () {
-                if (isOldPasswordValid && isNewPasswordValid &&
-                    isNewPasswordConfirmValid) {
-
-                    $("#mysubmit").addClass("button-OK");
-                    $("#mysubmit").removeClass("button-refuse");
-
-                } else {
-                    $("#mysubmit").addClass("button-refuse");
-                    $("#mysubmit").removeClass("button-OK");
-                }
-            });
-            $('#change').click(function (e) {
-                e.preventDefault();
-
-                $.ajax({
-                    url: '@Url.Action("ChangeUserNameEmail","Manage")',
-                    method: 'POST',
-                    success: function (result) {
-                        $('#user-info').html(result);
-
-                    }
-                });
-
-            });
-        });
 
 
 </script>
 
+@section scriptDeclarationInHeader
+{
+    @Scripts.Render("~/bundles/scripts/profile")
+}
+
+@section scriptDeclarationAfterFooter {
+    @Scripts.Render("~/bundles/scripts/jqueryval")
+}

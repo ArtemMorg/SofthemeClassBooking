@@ -8,5 +8,7 @@ namespace SofthemeClassBooking_BOL.Contract.Services
     {
         TModel Get(int id);
         IEnumerable<TModel> GetBrief();
+
+        IEnumerable<TModel> GetByUser(string id);
     }
 }

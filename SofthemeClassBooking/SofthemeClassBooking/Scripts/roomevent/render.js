@@ -83,14 +83,14 @@ $(document).on('click', '.eventblock-exist', function (e) {
     $('body').append('<div id="' + currentEventBlockId + '" class="event-modal"></div>');
     $('#' + currentEventBlockId)
         .css({
-            'left': (e.pageX/2),
+            'left': (e.pageX / 2),
             'top': e.pageY
         });
 
     getEventInfoVerbose(currentEventId)
-        .done(function(eventPopup) {
+        .done(function (eventPopup) {
             $('#' + currentEventBlockId).html(eventPopup);
-            $('#' + currentEventBlockId).on('click', '#event-modal-' + currentEventId + '-close', function() {
+            $('#' + currentEventBlockId).on('click', '#event-modal-' + currentEventId + '-close', function () {
                 $('#' + currentEventBlockId).remove();
             });
         });
@@ -103,7 +103,7 @@ $(document).on('mouseover', '.roomevent-room-cell-middle', function (e) {
     var currentRoomCell = $(this);
     var existBlock = currentRoomCell.find('.eventblock-exist');
 
-    if (currentRoomCell.find('.eventblock-add').length ) {
+    if (currentRoomCell.find('.eventblock-add').length) {
         return;
     }
 
@@ -233,12 +233,23 @@ function renderRooms(timeCellCount, resetTime) {
                 currentRow.append('<div id=' + cellId + ' class="roomevent-room-cell roomevent-room-cell-middle" data-left-occupied="0" data-right-occupied="0" data-inside-event="0"><div></div></div>');
             }
         }
+   
+        if (roomeventEventsByUser) {
 
+            getEventsBriefByUser().done(function (events) {
+                debugger;
+                renderEvents = JSON.parse(events);
+                doEventStuff();
+            });
 
-        getEventsBrief().done(function (events) {
-            renderEvents = JSON.parse(events);
-            doEventStuff();
-        });
+        } else {
+
+            getEventsBrief().done(function (events) {
+                renderEvents = JSON.parse(events);
+                doEventStuff();
+            });
+
+        }
 
     });
 }
@@ -324,7 +335,7 @@ function renderEventAdd(currentRoomCellObject) {
         return;
     }
 
-  
+
     if (currentRoomCellObject.dataInsideEvent.length > 1) {
 
         var leftStart = parseInt(currentRoomCellObject.dataInsideEvent[0]);
@@ -475,7 +486,7 @@ function calculateEventBlockPosition() {
     var events = renderEvents;
 
     for (var currentEvent = 0; currentEvent < events.length; currentEvent++) {
-     
+
         var beginingDate = convertToDateObject(events[currentEvent].BeginingDate);
         var endinggDate = convertToDateObject(events[currentEvent].EndingDate);
 

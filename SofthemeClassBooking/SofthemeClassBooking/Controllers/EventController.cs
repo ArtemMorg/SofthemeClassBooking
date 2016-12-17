@@ -54,10 +54,11 @@ namespace SofthemeClassBooking.Controllers
 
 
         [Authorize]
-        [HttpPost]
+        [HttpGet]
         public ActionResult UserEvents()
         {
-            return null;
+            var userEvents = JsonConvert.SerializeObject(_eventService.GetByUser(User.Identity.GetUserId()), Formatting.None, new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd-HH-mm-ss" });
+            return Json(userEvents, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -105,7 +106,7 @@ namespace SofthemeClassBooking.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IEvent eventModel)
+        public ActionResult Create(EventModel eventModel)
         {
             if (!ModelState.IsValid)
             {
@@ -135,7 +136,7 @@ namespace SofthemeClassBooking.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Update(IEvent eventModel)
+        public ActionResult Update(EventModel eventModel)
         {
             try
             {

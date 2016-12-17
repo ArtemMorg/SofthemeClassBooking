@@ -56,6 +56,10 @@ namespace SofthemeClassBooking
             bundles.Add(new ScriptBundle("~/bundles/scripts/plan").Include(
                         "~/Scripts/plan/plan-section.js"
                         ));
+
+            bundles.Add(new ScriptBundle("~/bundles/scripts/profile").Include(
+                        "~/Scripts/profile/profile.js"
+                        ));
             #endregion
 
 

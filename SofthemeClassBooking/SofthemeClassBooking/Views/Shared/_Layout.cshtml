@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8" />
@@ -21,6 +22,7 @@
             RoomPageUrl: '@Url.Action("RoomPage","Classroom")',
             RoomEditUrl: '@Url.Action("Edit","Classroom")',
             RoomChangeStatusUrl: '@Url.Action("ChangeStatus","Classroom")',
+            EventUsersUrl: '@Url.Action("UserEvents", "Event")',
             EventCreateUrl: '@Url.Action("Create", "Event")',
             EventUpdateUrl: '@Url.Action("Update","Event")',
             EventsBriefUrl: '@Url.Action("Brief", "Event")',
@@ -32,6 +34,7 @@
             DialogWindowUrl: '@Url.Action("DialogWindow","Home")'
         };
         setEngineUrl(url);
+        setCurrentUserId('@User.Identity.GetUserId()');
 
     </script>
 

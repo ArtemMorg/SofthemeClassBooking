@@ -1,75 +1,34 @@
-﻿ @model SofthemeClassBooking.Models.ChangeUserNameEmail
+﻿@using System.Web.Configuration
+@model SofthemeClassBooking.Models.ChangeUserNameEmail
 
 <div class="changeuser">
 
-        @using (Html.BeginForm("SaveChangeUserNameEmail", "Manage", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "Login", role = "form" }))
-        {
-            @Html.AntiForgeryToken()
-            @Html.TextBoxFor(m => m.UserName, new {placeholder = "Имя Фамилия", id = "Name", type = "text"})
-            @Html.TextBoxFor(m => m.Email, new {id = "Email", placeholder = "Адрес электронной почты", type = "email"})
-            <input type="submit" class="button-refuse" value="Сохранить" id="changeName">
+    @using (Html.BeginForm("SaveChangeUserNameEmail", "Manage", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "Login", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
 
+        @Html.ValidationMessageFor(m => m.UserName, "")
+        @Html.TextBoxFor(m => m.UserName, new { placeholder = "Имя Фамилия"})
+
+        @Html.ValidationMessageFor(m => m.Email, "")
+        @Html.TextBoxFor(m => m.Email, new { placeholder = "Адрес электронной почты", type = "email" })
+
+        if (@User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]))
+        {
+            <div class="checkbox-slider">
+                <input id="IsAdmin" name="IsAdmin" type="checkbox" value="true" checked>
+                <label for="IsAdmin"></label>
+                <input name="IsAdmin" type="hidden" value="false">
+            </div>
+
+            <div class="text">@Localization.UserAdmin</div>
         }
 
+        <input type="submit" class="button-refuse" value="@Localization.ButtonSave" id="changeName">
+    }
+
 </div>
+
 <script>
-    $(document)
-        .ready(function() {
-            var userName = $("#Name");
-            var email = $("#Email");
-
-            if (userName.valid() && email.valid()) {
-                $("#changeName").addClass("button-OK");
-                $("#changeName").removeClass("button-refuse");
-            } else {
-                $("#changeName").addClass("button-refuse");
-                $("#changeName").removeClass("button-OK");
-            }
-
-            var isUserNameValid;
-            var isEmailValid;
-
-            userName.blur(function() {
-                isUserNameValid = userName.valid();
-            });
-            userName.keyup(function() {
-                isUserNameValid = userName.valid();
-            });
-
-            email.blur(function() {
-                isEmailValid = email.valid();
-            });
-            email.keyup(function() {
-                isEmailValid = email.valid();
-            });
-
-
-            $("#Name, #Email")
-                .keyup(function() {
-                    if (isUserNameValid && isEmailValid) {
-
-                        $("#changeName").addClass("button-OK");
-                        $("#changeName").removeClass("button-refuse");
-
-                    } else {
-                        $("#changeName").addClass("button-refuse");
-                        $("#changeName").removeClass("button-OK");
-                    }
-                });
-            $("#Name, #Email")
-                .blur(function() {
-                    if (isUserNameValid && isEmailValid) {
-
-                        $("#changeName").addClass("button-OK");
-                        $("#changeName").removeClass("button-refuse");
-
-                    } else {
-                        $("#changeName").addClass("button-refuse");
-                        $("#changeName").removeClass("button-OK");
-                    }
-                });
-        });
-  
-   
-
+    profileSectionChangeEmailInit();
 </script>

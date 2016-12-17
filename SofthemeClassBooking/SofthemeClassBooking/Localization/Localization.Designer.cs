@@ -619,6 +619,15 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Администратор.
+        /// </summary>
+        public static string UserAdmin {
+            get {
+                return ResourceManager.GetString("UserAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Пароль успешно изменен.
         /// </summary>
         public static string UserChangedPasswordSuccess {

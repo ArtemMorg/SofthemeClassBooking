@@ -340,7 +340,6 @@
     <Content Include="Scripts\jquery\jquery-ui.js" />
     <Content Include="Scripts\jquery\jquery-ui.min.js" />
     <Content Include="Scripts\map\initializers.js" />
-    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\css\global.css" />
     <Content Include="fonts\fontawesome-webfont.eot" />
@@ -353,6 +352,7 @@
     <Content Include="Scripts\jquery\jquery-3.1.1.min.map" />
     <None Include="Scripts\validation\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\plan\plan-section.js" />
+    <Content Include="Scripts\profile\profile.js" />
     <Content Include="Scripts\roomevent\calendar.js" />
     <Content Include="Scripts\roomevent\initialization.js" />
     <Content Include="Scripts\roomevent\render.js" />

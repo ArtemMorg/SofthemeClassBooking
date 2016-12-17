@@ -9,6 +9,7 @@
 /// <reference path="map/initializers.js" />
 /// <reference path="map/jquery.mapit.min.js" />
 /// <reference path="plan/plan-section.js" />
+/// <reference path="profile/profile.js" />
 /// <reference path="roomevent/calendar.js" />
 /// <reference path="roomevent/initialization.js" />
 /// <reference path="roomevent/render.js" />

@@ -315,4 +315,7 @@
   <data name="MapAddress" xml:space="preserve">
     <value>г. Киев, ул. Деловая, 5А</value>
   </data>
+  <data name="UserAdmin" xml:space="preserve">
+    <value>Администратор</value>
+  </data>
 </root>

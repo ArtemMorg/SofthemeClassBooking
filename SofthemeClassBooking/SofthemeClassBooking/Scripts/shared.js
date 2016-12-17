@@ -17,6 +17,13 @@ var eventWasAdded;
 
 var ajaxUrl = {};
 
+var roomeventEventsByUser = false;
+var currentUserId;
+
+function setCurrentUserId(id) {
+    currentUserId = id;
+}
+
 function setEngineUrl(url) {
 
     ajaxUrl = {
@@ -32,6 +39,7 @@ function setEngineUrl(url) {
         PlanSectionUrl: url.PlanSectionUrl,
         PlanAdditionalUrl: url.PlanAdditionalUrl,
         MapSectionUrl: url.MapSectionUrl,
+        EventUsersUrl: url.EventUsersUrl,
         EventCreateUrl: url.EventCreateUrl,
         EventCancelUrl: url.EventCancelUrl,
         EventUpdateUrl: url.EventUpdateUrl,
@@ -51,6 +59,10 @@ function getClassRooms() {
 
 function getEventsBrief() {
     return loadSection(ajaxUrl.EventsBriefUrl);
+}
+
+function getEventsBriefByUser() {
+    return loadSection(ajaxUrl.EventUsersUrl);
 }
 
 function getEventInfoVerbose(eventId) {
@@ -78,28 +90,16 @@ function renderSection(url, domElement, domLoadingElement, finallyFunction) {
     });
 }
 
-function renderPlanSection(domElement, domLoadingElement) {
-    loadSection(ajaxUrl.PlanSectionUrl, beforeSendHandler(planLoadingDiv), function(response) {
-        domElement.html(response);
-        domLoadingElement.hide();
-    });
-}
-
-
 function submitNewEvent() {
 
     $('#room-busy').attr('class', 'status-message display-none');
-
+    debugger;
     if ($('#Title').val().length >= 1) {
 
         $('.error-message').hide();
 
         if (dateCorrect) {
-
-            //Check if event exists on current date!
-
-            //If it doesn't...
-
+            
             $('#BeginingDate').val(convertToDateTime(eventNewDateTimeBegin));
             $('#EndingDate').val(convertToDateTime(compareToDate));
 
@@ -113,7 +113,8 @@ function submitNewEvent() {
                     alert(1);
                 },
 
-                error: function () {
+                error: function (response) {
+                    console.log(response);
                     $('#room-busy').attr('class', 'status-message display-none');
                     $('.icon-place').html('<i id="status-icon-bad" class="fa fa-frown-o"></i>');
                     $('#error-mesage').html("Случилась ошибка при выполнении запроса");

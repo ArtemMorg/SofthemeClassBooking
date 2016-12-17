@@ -265,7 +265,7 @@ namespace SofthemeClassBooking.Controllers
 
                             }
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             ModelState.AddModelError("", "FatalError");
                         }

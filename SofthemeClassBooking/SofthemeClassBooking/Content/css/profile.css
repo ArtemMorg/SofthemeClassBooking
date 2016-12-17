@@ -147,7 +147,8 @@
     }
 
 
-.user-profile input[type=submit] {
+.user-profile .button-refuse,
+.user-profile .button-OK {
     cursor: pointer;
     color: #6D737C;
     position: relative;
@@ -160,27 +161,48 @@
     top: -12px;
 }
 
-.changeuser form {
-        margin: 10px 0 0 0;
+.user-profile .button-OK {
+    background-color: #F95752;
+    color: white;
+}
+
+.changeuser {
+    position: relative;
+    left: -22px;
 }
 
 .changeuser form input {
     display: block;
     border-width: 2px;
-    height: 35px;
-    width: 260px;
-    border-radius: 20px;
-    padding-left: 20px;
+    height: 30px;
+    width: 350px;
+    border-radius: 19px;
     outline: none;
     border: 2px solid #F2F4FA;
 }
 
-.changeuser input[type=text], .changeuser input[type=email] {
-    width: 332px;
-    position: relative;
-    top: 3px;
-    left: 32px;
-    height: 33px;
+.changeuser input[type=email],
+.changeuser input[type=text] {
+    text-indent: 16px;
+} 
+
+.changeuser input[type=email] {
+    margin: 15px 0 0 0px;
+}
+
+.changeuser input[type=submit] {
+    font-size: 14px;
+    margin: 32px 0 0 99px;
+}
+
+.changeuser .checkbox-slider {
+    margin: 15px 0 0 2px;
+}
+
+.changeuser  .text {
+    display: inline-block;
+    font-size: 13px;
+    padding: 20px 0 0 10px;
 }
 
 .changepassword-success {
