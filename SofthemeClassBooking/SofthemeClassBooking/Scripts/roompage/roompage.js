@@ -30,18 +30,26 @@ $(document).on('click', '#plan-room-edit-open', function () {
 
 function loadRoomPagePlanSection() {
 
-    loadSection(ajaxUrl.PlanSectionUrl, null, function (result) {
+    postData(
+        ajaxUrl.PlanSectionUrl,
+        {
+            id: 0,
+            loadParameters: PlanSectionLoadParameters.HoverDisabled
+        },
+        function(result) {
 
-        $('#plan-loading').hide();
-        $('#plan-section').html(result);
-        $('#plan-room-path').addClass(`plan-room-path-${currentClassRoom.id}}`);
-        $(`#${currentClassRoom.id}`).addClass(`plan-room-${currentClassRoom.id}-busy`);
-        $(`#${currentClassRoom.id}`).removeClass(`plan-room-${currentClassRoom.id}-available`);
+            $('#plan-loading').hide();
+            $('#plan-section').html(result);
 
-        if (currentClassRoom.isLocked !== 'True') {
-            loadAdditionalInfo(false);
-        }
-    });
+            console.log($('#classroom-path').attr('id'));
+            $('#classroom-path').addClass(`plan-room-path-${currentClassRoom.id}}`);
+            $(`#${currentClassRoom.id}`).addClass(`plan-room-${currentClassRoom.id}-busy`);
+            $(`#${currentClassRoom.id}`).removeClass(`plan-room-${currentClassRoom.id}-available`);
+
+            if (currentClassRoom.isLocked !== 'True') {
+                loadAdditionalInfo(false);
+            }
+        });
 
 }
 
@@ -61,10 +69,10 @@ function loadAdditionalInfo(change) {
 
     loadSection(urlTarget, null, function (result) {
 
-        $('#show').html(result);
-        $('#show').attr('class', showClass);
-        $('#plan-room-line').attr('class', 'plan-room-line-detail-' + currentClassRoom.id);
-        $('#plan-room-line').show();
+        $('#classroom-additional-info').html(result);
+        $('#classroom-additional-info').attr('class', showClass);
+        $('#classroom-additional-info-line').attr('class', 'plan-room-line-detail-' + currentClassRoom.id);
+        $('#classroom-additional-info-line').show();
 
     }, function (errorResult) {
         console.log(errorResult);
@@ -72,8 +80,8 @@ function loadAdditionalInfo(change) {
 }
 
 $(document).on('click', '#plan-room-edit-cancel', function () {
-    $('#show').empty();
-    $('#plan-room-line').attr('class', '');
+    $('#classroom-additional-info').empty();
+    $('#classroom-additional-info-line').attr('class', '');
     if (currentClassRoom.isLocked !== 'True') {
         loadAdditionalInfo(false);
     }

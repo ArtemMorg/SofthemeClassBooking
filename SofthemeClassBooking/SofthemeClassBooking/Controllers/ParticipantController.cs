@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
+using System.Web.Security;
+using Microsoft.AspNet.Identity;
 using SofthemeClassBooking_BOL.Contract.Models;
 using SofthemeClassBooking_BOL.Contract.Services;
 using SofthemeClassBooking_BOL.Models;
@@ -21,8 +23,13 @@ namespace SofthemeClassBooking.Controllers
             return View();
         }
 
-        public ActionResult Add(IParticipant paricipantModel)
+        public ActionResult Add(ParicipantModel paricipantModel)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return Json(new { message = Localization.Localization.ErrorModelValidation, success = true });
+            }
             try
             {
                 _participantService.Add(paricipantModel);
@@ -37,6 +44,34 @@ namespace SofthemeClassBooking.Controllers
             }
 
             return Json(new { message = Localization.Localization.InfoParticipantAddedSuccess, success = true });
+        }
+
+        [HttpPost]
+        public ActionResult IsTakePart(int eventId)
+        {
+            try
+            {
+                var response = _participantService.IsTakePart(eventId, User.Identity.GetUserId());
+                return Json(new {message = response, success = true});
+            }
+            catch (Exception)
+            {
+                return Json(new { message = Localization.Localization.ErrorGeneralException, success = false });
+            }
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Participants(int eventId)
+        {//_participantService.Get(eventId)
+            try
+            {
+                return PartialView(_participantService.Get(eventId));
+            }
+            catch (Exception)
+            {
+                return Json(new { message = Localization.Localization.ErrorGeneralException, success = false });
+            }
         }
 
         [HttpPost]

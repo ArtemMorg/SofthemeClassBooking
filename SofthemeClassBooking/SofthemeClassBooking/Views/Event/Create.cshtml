@@ -5,8 +5,8 @@
 {
     @Html.AntiForgeryToken()
 
-    @Html.HiddenFor(m => m.BeginingDate)
-    @Html.HiddenFor(m => m.EndingDate)
+    @Html.HiddenFor(m => m.BeginingDate, new { id = "event-new-beginingDate" })
+    @Html.HiddenFor(m => m.EndingDate, new { id = "event-new-endingDate" })
 
     <div class="event-new">
         <div class="event-header-new noselect-text">
@@ -25,42 +25,42 @@
             </div>
 
             <div class="datetime">
-                <div id="date-day-up" class="arrow-up"> <i class="fa fa-sort-up"></i> </div>
-                <div id="date-day-value" class="value">18</div>
-                <div id="date-day-down" class="arrow-down"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
+                <div id="date-day-up-create" class="arrow-up"> <i class="fa fa-sort-up"></i> </div>
+                <div id="date-day-value-create" class="value">18</div>
+                <div id="date-day-down-create" class="arrow-down"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
             </div>
 
             <div class="datetime month-margin">
-                <div id="date-month-up" class="arrow-up"> <i class="fa fa-sort-up"></i> </div>
-                <div id="date-month-value" class="value">Мая</div>
-                <div id="date-month-down" class="arrow-down"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
+                <div id="date-month-up-create" class="arrow-up"> <i class="fa fa-sort-up"></i> </div>
+                <div id="date-month-value-create" class="value">Мая</div>
+                <div id="date-month-down-create" class="arrow-down"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
             </div>
 
             <div class="time-section">
                 <div class="datetime">
-                    <div id="timebegin-hours-up" class="arrow-up"> <i class="fa fa-sort-up"></i> </div>
-                    <div id="timebegin-hours-value" class="value">18</div>
-                    <div id="timebegin-hours-down" class="arrow-down"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
+                    <div id="timebegin-hours-up-create" class="arrow-up"> <i class="fa fa-sort-up"></i> </div>
+                    <div id="timebegin-hours-value-create" class="value">18</div>
+                    <div id="timebegin-hours-down-create" class="arrow-down"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
                 </div><!----><div class="delimeter">
                     :
                 </div><!----><div class="datetime">
-                    <div id="timebegin-minutes-up" class="arrow-up"> <i class="fa fa-sort-up"></i> </div>
-                    <div id="timebegin-minutes-value" class="value">00</div>
-                    <div id="timebegin-minutes-down" class="arrow-down"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
+                    <div id="timebegin-minutes-up-create" class="arrow-up"> <i class="fa fa-sort-up"></i> </div>
+                    <div id="timebegin-minutes-value-create" class="value">00</div>
+                    <div id="timebegin-minutes-down-create" class="arrow-down"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
                 </div>
 
                 <div class="delimeter">-</div>
 
                 <div class="datetime">
-                    <div id="timeend-hours-up" class="arrow-up"> <i class="fa fa-sort-up"></i> </div>
-                    <div id="timeend-hours-value" class="value">19</div>
-                    <div id="timeend-hours-down" class="arrow-down"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
+                    <div id="timeend-hours-up-create" class="arrow-up"> <i class="fa fa-sort-up"></i> </div>
+                    <div id="timeend-hours-value-create" class="value">19</div>
+                    <div id="timeend-hours-down-create" class="arrow-down"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
                 </div><!----><div class="delimeter">
                     :
                 </div><!----><div class="datetime">
-                    <div id="timeend-minutes-up" class="arrow-up"> <i class="fa fa-sort-up"></i> </div>
-                    <div id="timeend-minutes-value" class="value">00</div>
-                    <div id="timeend-minutes-down" class="arrow-down"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
+                    <div id="timeend-minutes-up-create" class="arrow-up"> <i class="fa fa-sort-up"></i> </div>
+                    <div id="timeend-minutes-value-create" class="value">00</div>
+                    <div id="timeend-minutes-down-create" class="arrow-down"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@
             </div>
 
             <div class="select">
-                <select name="ClassRoomId" id="ClassRoomId">  </select>
+                <select name="ClassRoomId" id="event-new-classroom-list">  </select>
 
                 <i class="fa fa-sort-desc" aria-hidden="true"> </i>
             </div>
@@ -80,7 +80,7 @@
 
         <div class="title-section">
             <span id="event-title-error" class="error-message"> <img src="/Content/images/danger.png" /> @Localization.ErrorEmptyField </span>
-            @Html.TextBoxFor(m => m.Title, new { placeholder = Localization.EventTitlePlaceholder })
+            @Html.TextBoxFor(m => m.Title, new { placeholder = Localization.EventTitlePlaceholder, id = "event-new-title" })
         </div>
 
         @Html.TextAreaFor(m => m.Description, new { placeholder = Localization.EventAdditionalInfoPlaceholder })
@@ -125,7 +125,7 @@
         <div id="submit-section" class="submit-section">
 
             <div class="status-message">
-                <div id="room-busy" class="display-none">
+                <div id="event-new-status-section" class="display-none">
                     <div class="icon-place">
                     </div>
                     <div class="message">
@@ -140,3 +140,10 @@
     </div>
 
 }
+
+@Scripts.Render("~/bundles/scripts/event-modal")
+
+
+<script type="text/javascript">
+    eventmodalCreateNewInit();
+</script>

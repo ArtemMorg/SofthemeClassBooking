@@ -43,10 +43,6 @@
     pointer-events: none;
 }
 
-div .plan-wrapper {
-    position: relative;
-}
-
 div .plan-room-text {
     display: inline-block;
     font-size: 12px;
@@ -65,14 +61,6 @@ div .plan-room-position-1 {
     position: absolute;
     top: 141px;
     left: 135px;
-}
-
-div .plan-room-1 {
-    width: 170px;
-    height: 96px;
-    background-color: #D7D9DE;
-    line-height: 100px;
-    text-align: center;
 }
 
 .plan-room-line-detail-1 {
@@ -100,20 +88,30 @@ div .plan-room-1-available:hover {
     background-color: #828A9D;
 }
 
-div .plan-room-1-busy {
+div .plan-room-1,
+div .plan-room-1-busy,
+div .plan-room-1-available {
     width: 170px;
     height: 96px;
-    background-color: #F95752;
+    background-color: #D7D9DE;
     line-height: 100px;
     text-align: center;
 }
 
+    div .plan-room-1:hover {
+        background-color: #D7D9E8;
+    }
+
+div .plan-room-1-busy {
+    background-color: #F95752;
+}
+
+    div .plan-room-1-busy:hover {
+        background-color: #E94944;
+    }
+
 div .plan-room-1-available {
-    width: 170px;
-    height: 96px;
     background-color: #9FA6B6;
-    line-height: 100px;
-    text-align: center;
 }
 
 div .plan-room-1-available-hovered {
@@ -128,15 +126,6 @@ div .plan-room-position-2 {
     top: 141px;
     left: 305px;
 }
-
-div .plan-room-2 {
-    width: 234px;
-    height: 100px;
-    line-height: 100px;
-    text-align: center;
-    background-color: #D7D9DE;
-}
-
 
 .plan-room-line-detail-2 {
     position: absolute;
@@ -158,21 +147,31 @@ div .plan-room-2 {
     pointer-events: none;
 }
 
-div .plan-room-2-available {
-    width: 234px;
-    height: 100px;
-    line-height: 100px;
-    text-align: center;
-    background-color: #9FA6B6;
-}
-
+div .plan-room-2,
+div .plan-room-2-available,
 div .plan-room-2-busy {
     width: 234px;
     height: 100px;
     line-height: 100px;
     text-align: center;
+    background-color: #D7D9DE;
+}
+
+    div .plan-room-2:hover {
+        background-color: #D7D9E8;
+    }
+
+div .plan-room-2-available {
+    background-color: #9FA6B6;
+}
+
+div .plan-room-2-busy {
     background-color: #F95752;
 }
+
+    div .plan-room-2-busy:hover {
+        background-color: #E94944;
+    }
 
 div .plan-room-2-available:hover {
     cursor: pointer;
@@ -185,14 +184,6 @@ div .plan-room-position-3 {
     position: absolute;
     top: 141px;
     left: 540px;
-}
-
-div .plan-room-3 {
-    width: 188px;
-    height: 102px;
-    background-color: #D7D9DE;
-    line-height: 100px;
-    text-align: center;
 }
 
 .plan-room-line-detail-3 {
@@ -215,12 +206,26 @@ div .plan-room-3 {
     pointer-events: none;
 }
 
-div .plan-room-3-available {
+div .plan-room-3,
+div .plan-room-3-available,
+div .plan-room-3-busy {
     width: 188px;
     height: 102px;
-    background-color: #9FA6B6;
+    background-color: #D7D9DE;
     line-height: 100px;
     text-align: center;
+}
+
+div .plan-room-3:hover {
+     background-color: #D7D9E8;
+}
+
+div .plan-room-3-busy:hover {
+    background-color: #E94944;
+}
+
+div .plan-room-3-available {
+    background-color: #9FA6B6;
 }
 
     div .plan-room-3-available:hover {
@@ -229,11 +234,7 @@ div .plan-room-3-available {
     }
 
 div .plan-room-3-busy {
-    width: 188px;
-    height: 102px;
     background-color: #F95752;
-    line-height: 100px;
-    text-align: center;
 }
 
 /* Info 4*/
@@ -243,15 +244,6 @@ div .plan-room-position-4 {
     top: 141px;
     left: 728px;
 }
-
-div .plan-room-4 {
-    width: 87px;
-    height: 102px;
-    background-color: #D7D9DE;
-    line-height: 100px;
-    text-align: center;
-}
-
 
 .plan-room-line-detail-4 {
     position: absolute;
@@ -273,21 +265,32 @@ div .plan-room-4 {
     pointer-events: none;
 }
 
-div .plan-room-4-available {
+div .plan-room-4,
+div .plan-room-4-available,
+div .plan-room-4-busy 
+ {
     width: 87px;
     height: 102px;
-    background-color: #9FA6B6;
+    background-color: #D7D9DE;
     line-height: 100px;
     text-align: center;
 }
 
+div .plan-room-4:hover {
+     background-color: #D7D9E8;
+}
+
+div .plan-room-4-busy:hover {
+    background-color: #E94944;
+}
+
+div .plan-room-4-available {
+    background-color: #9FA6B6;
+}
+
 
 div .plan-room-4-busy {
-    width: 87px;
-    height: 102px;
     background-color: #F95752;
-    line-height: 100px;
-    text-align: center;
 }
 
 div .plan-room-4-available:hover {
@@ -301,14 +304,6 @@ div .plan-room-position-5 {
     position: absolute;
     top: 141px;
     left: 814px;
-}
-
-div .plan-room-5 {
-    width: 100px;
-    height: 90px;
-    background-color: #D7D9DE;
-    line-height: 90px;
-    text-align: center;
 }
 
 .plan-room-line-detail-5 {
@@ -331,20 +326,30 @@ div .plan-room-5 {
     pointer-events: none;
 }
 
-div .plan-room-5-available {
+div .plan-room-5,
+div .plan-room-5-available,
+div .plan-room-5-busy {
     width: 100px;
     height: 90px;
-    background-color: #9FA6B6;
+    background-color: #D7D9DE;
     line-height: 90px;
     text-align: center;
 }
 
+div .plan-room-5:hover {
+     background-color: #D7D9E8;
+}
+
+div .plan-room-5-busy:hover {
+    background-color: #E94944;
+}
+
+div .plan-room-5-available {
+    background-color: #9FA6B6;
+}
+
 div .plan-room-5-busy {
-    width: 100px;
-    height: 90px;
     background-color: #F95752;
-    line-height: 90px;
-    text-align: center;
 }
 
 div .plan-room-5-available:hover {
@@ -357,14 +362,6 @@ div .plan-room-position-6 {
     position: absolute;
     top: 141px;
     left: 913px;
-}
-
-div .plan-room-6 {
-    width: 94px;
-    height: 100px;
-    background-color: #D7D9DE;
-    line-height: 100px;
-    text-align: center;
 }
 
 .plan-room-line-detail-6 {
@@ -387,20 +384,31 @@ div .plan-room-6 {
     pointer-events: none;
 }
 
-div .plan-room-6-busy {
+div .plan-room-6,
+div .plan-room-6-available,
+div .plan-room-6-busy 
+ {
     width: 94px;
     height: 100px;
-    background-color: #F95752;
+    background-color: #D7D9DE;
     line-height: 100px;
     text-align: center;
 }
 
+div .plan-room-6:hover {
+     background-color: #D7D9E8;
+}
+
+div .plan-room-6-busy:hover {
+    background-color: #E94944;
+}
+
+div .plan-room-6-busy {
+    background-color: #F95752;
+}
+
 div .plan-room-6-available {
-    width: 94px;
-    height: 100px;
     background-color: #9FA6B6;
-    line-height: 100px;
-    text-align: center;
 }
 
     div .plan-room-6-available:hover {
@@ -413,14 +421,6 @@ div .plan-room-position-7 {
     position: absolute;
     top: 141px;
     left: 1009px;
-}
-
-div .plan-room-7 {
-    width: 91px;
-    height: 100px;
-    background-color: #D7D9DE;
-    line-height: 100px;
-    text-align: center;
 }
 
 .plan-room-line-detail-7 {
@@ -443,7 +443,9 @@ div .plan-room-7 {
     pointer-events: none;
 }
 
-div .plan-room-7-available {
+div .plan-room-7-available,
+div .plan-room-7-busy,
+div .plan-room-7 {
     width: 91px;
     height: 100px;
     background-color: #9FA6B6;
@@ -451,12 +453,20 @@ div .plan-room-7-available {
     text-align: center;
 }
 
+div .plan-room-7:hover {
+     background-color: #D7D9E8;
+}
+
+div .plan-room-7-busy:hover {
+    background-color: #E94944;
+}
+
+div .plan-room-7 {
+    background-color: #D7D9DE;
+}
+
 div .plan-room-7-busy {
-    width: 91px;
-    height: 100px;
     background-color: #F95752;
-    line-height: 100px;
-    text-align: center;
 }
 
 div .plan-room-7-available:hover {
@@ -469,19 +479,6 @@ div .plan-room-position-8 {
     position: absolute;
     top: 191px;
     left: 1050px;
-}
-
-div .plan-room-8 {
-    width: 142px;
-    height: 42px;
-    background-color: #D7D9DE;
-    line-height: 42px;
-    text-align: center;
-    -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    transform: rotate(90deg);
 }
 
 .plan-room-line-detail-8 {
@@ -518,10 +515,12 @@ div .plan-room-text-8 {
     min-width: 70px;
 }
 
-div .plan-room-8-available {
+div .plan-room-8,
+div .plan-room-8-available,
+div .plan-room-8-busy  {
     width: 142px;
     height: 42px;
-    background-color: #9FA6B6;
+    background-color: #D7D9DE;
     line-height: 42px;
     text-align: center;
     -webkit-transform: rotate(90deg);
@@ -530,6 +529,23 @@ div .plan-room-8-available {
     -ms-transform: rotate(90deg);
     transform: rotate(90deg);
 }
+
+div .plan-room-8:hover {
+     background-color: #D7D9E8;
+}
+
+div .plan-room-8-busy:hover {
+    background-color: #E94944;
+}
+
+div .plan-room-8-available {
+    background-color: #9FA6B6;
+}
+
+div .plan-room-8-busy {
+    background-color: #F95752;
+}
+
 
     div .plan-room-8-available:hover {
         cursor: pointer;
@@ -541,14 +557,6 @@ div .plan-room-position-9 {
     position: absolute;
     top: 280px;
     left: 440px;
-}
-
-div .plan-room-9 {
-    width: 190px;
-    height: 100px;
-    background-color: #D7D9DE;
-    line-height: 100px;
-    text-align: center;
 }
 
 .plan-room-line-detail-9 {
@@ -571,20 +579,31 @@ div .plan-room-9 {
     pointer-events: none;
 }
 
-div .plan-room-9-busy {
+div .plan-room-9,
+div .plan-room-9-available,
+div .plan-room-9-busy 
+ {
     width: 190px;
     height: 100px;
-    background-color: #F95752;
+    background-color: #D7D9DE;
     line-height: 100px;
     text-align: center;
 }
 
+div .plan-room-9:hover {
+     background-color: #D7D9E8;
+}
+
+div .plan-room-9-busy:hover {
+    background-color: #E94944;
+}
+
+div .plan-room-9-busy {
+    background-color: #F95752;
+}
+
 div .plan-room-9-available {
-    width: 190px;
-    height: 100px;
     background-color: #9FA6B6;
-    line-height: 100px;
-    text-align: center;
 }
 
     div .plan-room-9-available:hover {
@@ -597,14 +616,6 @@ div .plan-room-position-10 {
     position: absolute;
     top: 280px;
     left: 630px;
-}
-
-div .plan-room-10 {
-    width: 190px;
-    height: 100px;
-    background-color: #D7D9DE;
-    line-height: 100px;
-    text-align: center;
 }
 
 .plan-room-line-detail-10 {
@@ -628,20 +639,31 @@ div .plan-room-10 {
     pointer-events: none;
 }
 
-div .plan-room-10-busy {
+div .plan-room-10,
+div .plan-room-10-available,
+div .plan-room-10-busy
+ {
     width: 190px;
     height: 100px;
-    background-color: #F95752;
+    background-color: #D7D9DE;
     line-height: 100px;
     text-align: center;
 }
 
+div .plan-room-10:hover {
+     background-color: #D7D9E8;
+}
+
+div .plan-room-10-busy:hover {
+    background-color: #E94944;
+}
+
+div .plan-room-10-busy {
+    background-color: #F95752;
+}
+
 div .plan-room-10-available {
-    width: 190px;
-    height: 100px;
     background-color: #9FA6B6;
-    line-height: 100px;
-    text-align: center;
 }
 
     div .plan-room-10-available:hover {
@@ -687,9 +709,9 @@ div .calemder-section {
     height: 36px;
 }
 
-.plan-room-edit-buttons-up:hover {
-    background-color: #747B79;
-}
+    .plan-room-edit-buttons-up:hover {
+        background-color: #747B79;
+    }
 
 .plan-room-edit-buttons-down {
     background-color: #C8CEDA;
@@ -697,9 +719,9 @@ div .calemder-section {
     height: 36px;
 }
 
-.plan-room-edit-buttons-down:hover {
-    background-color: #C8CED0;
-}
+    .plan-room-edit-buttons-down:hover {
+        background-color: #C8CED0;
+    }
 
 .plan-show-additional-info-short {
     position: absolute;

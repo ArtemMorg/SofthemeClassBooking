@@ -8,5 +8,7 @@ namespace SofthemeClassBooking_BOL.Contract.Services
     {
         IEnumerable<TModel> Get(int eventId);
         int GetCount(int eventId);
+
+        bool IsTakePart(int eventId, string userId);
     }
 }

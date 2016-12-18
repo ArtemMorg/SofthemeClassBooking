@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using SofthemeClassBooking_BOL.Contract.Models;
 using SofthemeClassBooking_BOL.Contract.Services;
 using SofthemeClassBooking_BOL.Enum;
+using SofthemeClassBooking_BOL.Exceptions;
 using SofthemeClassBooking_BOL.Models;
 using SofthemeClassBooking_DAL;
 
@@ -38,6 +39,11 @@ namespace SofthemeClassBooking_BLL.Implementation
 
             }
             return classRoomModel;
+        }
+
+        public bool IsRoomBusy(IEvent eventModel)
+        {
+            return ServiceHelper.IsRoomBusy(eventModel);
         }
 
         public IEnumerable<object> GetNameId()

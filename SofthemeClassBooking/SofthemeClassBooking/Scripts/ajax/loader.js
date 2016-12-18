@@ -74,12 +74,3 @@ function postData(url, data, successHandler, errorHandler) {
     });
 
 }
-
-
-var beforeSendHandler = function (dom) {
-    dom.show();
-}
-
-var errorHandler = function () {
-    alert('Произошла ошибка при загрузке плана этажа. Попробуйте позже');
-}

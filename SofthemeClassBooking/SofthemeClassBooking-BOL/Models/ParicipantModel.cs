@@ -9,6 +9,7 @@ namespace SofthemeClassBooking_BOL.Models
         public int Id { get; set; }
 
         [StringLength(256)]
+        [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$")]
         public string Email { get; set; }
 
     }

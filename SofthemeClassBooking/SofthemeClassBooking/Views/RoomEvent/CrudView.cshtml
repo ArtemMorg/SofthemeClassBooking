@@ -1,0 +1,168 @@
+﻿@model SofthemeClassBooking_BOL.Models.EventModel
+
+@{
+    var isEditMode = ViewBag.isEditMode?? false;
+}
+
+@using (Html.BeginForm("Create", "Event", FormMethod.Post, new { id = "event-modal-form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.BeginingDate, new { id = "event-modal-beginingDate" })
+    @Html.HiddenFor(m => m.EndingDate, new { id = "event-modal-endingDate" })
+
+    <div id="event-modal-crud-section" class="event event-create">
+
+        <div class="event-header-edit">
+            <div class="event-header-datetime-section ">
+                <div class="event-edit-date">
+                    <div id="date-day-up-modal" class="event-edit-up"><i class="fa fa-sort-up"></i></div>
+                    <div id="date-day-value-modal" class="event-edit-value">18</div>
+                    <div id="date-day-down-modal" class="event-edit-down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
+                </div>
+
+                <div class="event-edit-date event-edit-date-month">
+                    <div id="date-month-up-modal" class="event-edit-up"><i class="fa fa-sort-up"></i></div>
+                    <div id="date-month-value-modal" class="event-edit-value">Мая</div>
+                    <div id="date-month-down-modal" class="event-edit-down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
+                </div>
+
+                <div class="event-spacing"></div>
+
+                <div class="event-edit-date event-edit-date-time">
+                    <div id="timebegin-hours-up-modal" class="event-edit-up"><i class="fa fa-sort-up"></i></div>
+                    <div id="timebegin-hours-value-modal" class="event-edit-value">18</div>
+                    <div id="timebegin-hours-down-modal" class="event-edit-down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
+                </div><!----><div class="event-edit-time-delimeter">
+                    <span>:</span>
+                </div><!----><div class="event-edit-date event-edit-date-time">
+                    <div id="timebegin-minutes-up-modal" class="event-edit-up"><i class="fa fa-sort-up"></i></div>
+                    <div  id="timebegin-minutes-value-modal" class="event-edit-value">00</div>
+                    <div  id="timebegin-minutes-down-modal" class="event-edit-down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
+                </div>
+
+                <div class="event-edit-time-delimeter">
+                    <span>-</span>
+                </div>
+
+                <div class="event-edit-date event-edit-date-time">
+                    <div id="timeend-hours-up-modal"  class="event-edit-up"><i class="fa fa-sort-up"></i></div>
+                    <div id="timeend-hours-value-modal" class="event-edit-value">19</div>
+                    <div id="timeend-hours-down-modal" class="event-edit-down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
+                </div><!----><div class="event-edit-time-delimeter">
+                    <span>:</span>
+                </div><!----><div class="event-edit-date event-edit-date-time">
+                    <div id="timeend-minutes-up-modal" class="event-edit-up"><i class="fa fa-sort-up"></i></div>
+                    <div id="timeend-minutes-value-modal" class="event-edit-value">00</div>
+                    <div id="timeend-minutes-down-modal" class="event-edit-down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
+                </div>
+
+                <div class="event-spacing-dropdown"></div>
+
+                <input type="hidden" name="room-id" value="" />
+
+                <div id="event-edit-room-dropdown" class="event-edit-room-dropdown-selected">
+                    <div id="event-edit-room-selected">
+                        <span class="selected-room">Newton Classroom</span>
+                        <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                    </div>
+
+                    <div id="event-edit-room-dropdown-elements">
+                        <div class="event-edit-room-dropdown-variant">Einstein Classroom</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-header-close-section">
+                <div id="event-modal-form-close" class="event-header-close"></div>
+            </div>
+
+        </div>
+
+        <div class="event-edit-title-section">
+            @Html.TextBoxFor(m => m.Title, new { placeholder = Localization.EventTitlePlaceholder, id = "event-modal-title", @class = "event-edit-title" })
+        </div>
+
+        <div class="event-body">
+            @Html.TextAreaFor(m => m.Description, new { placeholder = Localization.EventAdditionalInfoPlaceholder, @class = "event-edit-description" })
+        </div>
+
+
+        <div class="event-edit-access">
+            <div class="checkbox">
+                <input id="IsParticipantsAllowed" name="IsParticipantsAllowed" type="checkbox" value="true">
+                <label for="IsParticipantsAllowed"></label>
+                <input name="IsParticipantsAllowed" type="hidden" value="false">
+            </div>
+            <div class="event-edit-label">@Localization.EventRegisterParticipants</div>
+
+            <div class="event-edit-access-section">
+                <div class="event-edit-access-text">
+                    @Localization.EventPublic
+                </div>
+
+                <div class="checkbox-slider">
+                    <input id="IsPrivate" name="IsPrivate" type="checkbox" value="true">
+                    <label for="IsPrivate"></label>
+                    <input name="IsPrivate" type="hidden" value="false">
+                </div>
+
+                <div class="event-edit-access-text-private">
+                    @Localization.EventPrivate
+                </div>
+            </div>
+
+        </div>
+
+        <div class="event-edit-organizers">
+            <div class="checkbox">
+                <input id="IsAuthorShown" name="IsAuthorShown" type="checkbox" value="true">
+                <label for="IsAuthorShown"></label>
+                <input name="IsAuthorShown" type="hidden" value="false">
+            </div>
+            <div class="event-edit-label">@Localization.EventShowAuthor</div>
+            <div class="event-edit-text-or">@Localization.Or</div>
+
+
+            @Html.TextBoxFor(m => m.Organizer, new { placeholder = Localization.EventSetOrganizerPlaceholder })
+
+
+        </div>
+        
+        <div class="event-modal-status-section">
+            
+            <div class="status-message">
+                <div id="event-modal-status-section" class="display-none">
+                    <div class="icon-place">
+                        
+                    </div>
+                    <div class="message">
+                        <span id="error-mesage-modal">
+                           
+                       </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-edit-buttons">
+                @if (isEditMode)
+                {
+                    <button id="event-modal-submit" class="event-button-create">@Localization.ButtonSave</button>
+                }
+                else
+                {
+                    <button id="event-modal-submit" class="event-button-create">@Localization.ButtonCreate</button>
+                }
+
+            </div>
+
+        </div>
+    </div>
+}
+
+@Scripts.Render("~/bundles/scripts/event-popup")
+
+<script type="text/javascript">
+
+    roomeventPoputCrudInit('@isEditMode');
+
+</script>

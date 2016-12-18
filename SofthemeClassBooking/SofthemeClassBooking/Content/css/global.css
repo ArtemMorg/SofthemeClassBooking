@@ -44,6 +44,20 @@ body button {
     visibility: visible;
 }
 
+.error-message-form {
+    width: 250px;
+    text-align: left;
+    font-size: 11px;
+    color: #626D81;
+}
+
+.error-message-form .fa-exclamation-circle {
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: default !important;
+    color: #FF5651 !important;
+}
+
 *::-webkit-input-placeholder {
     color: #C8C9CC;
 }

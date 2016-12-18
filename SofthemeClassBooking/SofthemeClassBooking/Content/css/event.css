@@ -62,7 +62,7 @@
 
 .event-create {
     position: absolute;
-    top:0;
+    top: 0;
     background-color: #FFFFFF;
     z-index: 50;
     border: 1px solid #9FA6B6;
@@ -150,6 +150,7 @@
     width: 312px;
     height: 46px;
 }
+
 .event-icon-position {
     padding-top: 15px;
     width: 177px;
@@ -335,12 +336,13 @@
 }
 
 .event-edit-description {
-    width: 416px !important;
-    height: 88px !important;
-    text-indent: 12px !important;
+    width: 417px !important;
+    height: 82px;
+    text-indent: 15px !important;
     resize: none;
-    padding-top: 5px;
-    font-size: 14px;
+    margin: 2px 0 0 0;
+    padding: 6px 0 0 0;
+    font-size: 13px;
     font-family: 'Arial';
 }
 
@@ -348,11 +350,11 @@
     width: 100%;
     height: 23px;
     font-size: 12px;
-    padding: 7px 18px;
+    padding: 6px 0 0 13px;
 }
 
 .event-edit-organizers {
-    margin-top: 3px;
+    padding: 17px 0 0 13px;
 }
 
     .event-edit-organizers input[type="text"] {
@@ -366,11 +368,11 @@
 .event-edit-label {
     display: inline-block;
     vertical-align: top;
-    padding-left: 11px;
+    padding-left: 14px;
     font-size: 13px;
     height: 23px;
     color: #4A5158;
-    line-height: 23px;
+    line-height: 25px;
     text-align: left;
 }
 
@@ -378,34 +380,78 @@
     display: inline-block;
     padding-right: 15px;
     vertical-align: top;
-    padding-left: 42px;
+    padding-left: 39px;
 }
 
-.event-edit-access-text {
+.event-edit-access-text,
+.event-edit-access-text-private {
     display: inline-block;
     vertical-align: top;
     line-height: 23px;
     font-size: 13px;
     width: 60px;
     color: #F95752;
+    margin: 0 10px 0 0;
 }
 
 .event-edit-access-text-private {
     color: #697184;
+    padding: 0 0 0 12px;
 }
 
 .event-edit-text-or {
     display: inline-block;
     vertical-align: top;
     height: inherit;
-    line-height: 23px;
-    padding: 0 22px;
+    line-height: 25px;
+    padding: 0 18px 0 20px;
 }
 
-.event-edit-buttons {
-    text-align: right;
-    margin: 14px 15px;
+
+.event-modal-status-section {
+    margin: 20px 18px 9px 0;
 }
+
+.event-modal-status-section .fa-frown-o,
+.event-modal-status-section .fa-calendar-check-o
+{
+    font-size: 34px;
+}
+
+    .event-modal-status-section .event-edit-buttons {
+        display: inline-block;
+        vertical-align: top;
+        padding: 0 0 5px 0;
+        margin: 0 0 0 27px;
+    }
+
+    .event-modal-status-section .status-message {
+        width: 235px;
+        display: inline-block;
+        vertical-align: top;
+        padding: 0 0 0 16px;
+    }
+
+      .event-modal-status-section .icon-place {
+        display: inline-block;
+        vertical-align: top;
+        margin: 0;
+        padding: 0;
+        width: auto;
+        height: auto;
+    }
+
+        .event-modal-status-section  .message {
+        position: relative;
+        top: 1px;
+        left: 4px;
+        font-size: 13px;
+        line-height: 18px;
+        display: inline-block;
+        vertical-align: top;
+        width: 200px;
+    }
+
 
 .event-button-create, .event-button-save-changes {
     cursor: pointer;

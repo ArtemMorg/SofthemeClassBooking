@@ -12,19 +12,16 @@ using SofthemeClassBooking_DAL;
 
 namespace SofthemeClassBooking_BLL.Implementation
 {
+   
+
     public class EventService : IEventService<IEvent>
     {
         public void Add(IEvent eventModel)
         {
             using (var context = new ClassBookingContext())
             {
-                var eventsInSameRange = context.Events
-                    .Count(e => ((e.BeginingDate >= eventModel.BeginingDate && e.BeginingDate <= eventModel.EndingDate) ||
-                    (e.EndingDate >= eventModel.BeginingDate && e.EndingDate <= eventModel.EndingDate) ||
-                    (e.BeginingDate >= eventModel.BeginingDate && e.EndingDate <= eventModel.EndingDate)) &&
-                    (e.ClassRoomId == eventModel.ClassRoomId));
 
-                if (eventsInSameRange > 0)
+                if (ServiceHelper.IsRoomBusy(eventModel))
                 {
                     throw new RoomIsBusyException();
                 }
@@ -145,8 +142,19 @@ namespace SofthemeClassBooking_BLL.Implementation
 
         }
 
-        public void Update(IEvent eventModel)
+        public void Update(IEvent eventModel, IEvent pivotModel)
         {
+
+            if ((DateTime.Compare(eventModel.BeginingDate, pivotModel.BeginingDate) < 0) &&
+                (DateTime.Compare(eventModel.EndingDate, pivotModel.EndingDate) > 0) ||
+                eventModel.ClassRoomId != pivotModel.ClassRoomId)
+            {
+                if (ServiceHelper.IsRoomBusy(eventModel))
+                {
+                    throw new RoomIsBusyException();
+                }
+            }
+
             var events = MapService.Map(eventModel);
             using (var context = new ClassBookingContext())
             {

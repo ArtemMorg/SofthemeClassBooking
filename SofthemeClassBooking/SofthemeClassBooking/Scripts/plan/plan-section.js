@@ -7,12 +7,28 @@ var planSectionConnectionLinePath;
 var planSectionAvailableCssClass;
 var planSectionShowConnectionLineCssClass;
 var planSectionShowAdditionalInfoDom;
+var planSectionLoadParameters;
+var planSectionBusyCssClass;
 
-function planSectionInit() {
+var planSectionCurrentRoom;
+var planSectionPivotClassRoom;
+
+function planSectionInit(isUserAdmin, loadParameters) {
+
+    planSectionLoadParameters = parseInt(loadParameters);
+
+    if (typeof (getSelectedClassRoom) === "function") {
+        planSectionCurrentRoom = getSelectedClassRoom();
+        planSectionPivotClassRoom = planSectionCurrentRoom;
+    }
 
     planSection = $('#plan-section');
 
     planSection.off();
+
+    if (isUserAdmin === 'True') {
+        $('.plan-room').css('cursor', 'pointer');
+    }
 
     planSectionRoomId = '.plan-room';
     planSectionShowAdditionalInfoDom = $('.additional-info');
@@ -21,39 +37,72 @@ function planSectionInit() {
     planSectionConnectionLinePath = $('#classroom-path');
 
     planSectionAvailableCssClass = '-available';
+    planSectionBusyCssClass = '-busy';
     planSectionShowConnectionLineCssClass = 'show plan-room-line-detail-';
 
-    planSection.on('mouseover', planSectionRoomId, function () {
 
-        var selectedClassRoom = $(this);
-        var selectedClassRoomId = selectedClassRoom.attr('id');
+    if (planSectionLoadParameters !== PlanSectionLoadParameters.HoverDisabled) {
 
-        if (selectedClassRoom.hasClass(planSectionAvailableCssClass)) {
 
-            console.log
+        planSection.on('mouseover', planSectionRoomId, function () {
 
-            planSectionShowAdditionalInfoDom.show();
+            var selectedClassRoom = $(this);
+            var selectedClassRoomId = selectedClassRoom.attr('id');
 
-            var url = ajaxUrl.PlanAdditionalUrl + '/' + selectedClassRoomId;
+            if (selectedClassRoom.hasClass(planSectionAvailableCssClass)) {
 
-            loadSection(url, null, function (successResponse) {
-                planSectionAdditionalInfo.html(successResponse);
-                planSectionConnectionLine.attr('class', planSectionShowConnectionLineCssClass + selectedClassRoomId);
+                planSectionShowAdditionalInfoDom.show();
 
-            }, function (errorResponse) {
-                planSectionAdditionalInfo.html(errorResponse);
-            });
+                var url = ajaxUrl.PlanAdditionalUrl + '/' + selectedClassRoomId;
 
-        }
-    });
+                loadSection(url, null, function (successResponse) {
+                    planSectionAdditionalInfo.html(successResponse);
+                    planSectionConnectionLine.attr('class', planSectionShowConnectionLineCssClass + selectedClassRoomId);
 
-    planSection.on('mouseleave', planSectionRoomId, function () {
-        planSectionAdditionalInfo.hide();
-        planSectionConnectionLine.hide();
-    });
+                }, function (errorResponse) {
+                    planSectionAdditionalInfo.html(errorResponse);
+                });
+
+            }
+        });
+
+        planSection.on('mouseleave', planSectionRoomId, function () {
+            planSectionAdditionalInfo.hide();
+            planSectionConnectionLine.hide();
+        });
+
+    }
 
     planSection.on('click', planSectionRoomId, function () {
-        window.location.href = ajaxUrl.RoomPageUrl + '/' + $(this).attr('id');
+
+        var selectedRoom = $(this);
+        var selectedRoomCssClass = selectedRoom.attr('class');
+        var selectedRoomId = $(this).attr('id');
+
+        if (planSectionLoadParameters === PlanSectionLoadParameters.EventRoomSelection) {
+            debugger;
+            $(`#${planSectionCurrentRoom}`).attr('class', `plan-room-${planSectionCurrentRoom}${planSectionAvailableCssClass} plan-room ${planSectionAvailableCssClass}`);
+            $(`#${selectedRoomId}`).attr('class', `plan-room-${selectedRoomId}${planSectionBusyCssClass} plan-room ${planSectionBusyCssClass}`);
+
+            planSectionCurrentRoom = selectedRoomId;
+
+            if (planSectionPivotClassRoom !== planSectionCurrentRoom) {
+                checkRoomIsBusy(selectedRoomId);
+            }
+
+        } else {
+
+            if (isUserAdmin === 'True' ||
+                (~selectedRoomCssClass.indexOf(planSectionAvailableCssClass) ||
+                ~selectedRoomCssClass.indexOf(planSectionBusyCssClass))) {
+
+                window.location.href = ajaxUrl.RoomPageUrl + '/' + selectedRoom.attr('id');
+
+            };
+        }
+
+
     });
+
 
 }

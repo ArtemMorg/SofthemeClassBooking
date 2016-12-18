@@ -1,5 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Configuration;
+using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using SofthemeClassBooking.Models;
 using SofthemeClassBooking_BOL.Contract.Models;
 using SofthemeClassBooking_BOL.Contract.Services;
 using SofthemeClassBooking_BOL.Enum;
@@ -19,16 +22,43 @@ namespace SofthemeClassBooking.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Index(int? id)
+        public ActionResult Index()
         {
+            var classRoomViewModel = new ClassRoomViewModel();
 
-            if (id != null)
+            try
             {
-                ViewBag.SelectedRoomId = id;
+                classRoomViewModel.ClassRooms = _classRoomService.Get();
+                classRoomViewModel.LoadParameters = PlanSectionLoadParameters.Normal;
+                classRoomViewModel.SelectedClassRoom = 0;
+
+                return PartialView(classRoomViewModel);
             }
-            return PartialView(_classRoomService.Get());
+            catch (Exception)
+            {
+                return Json(new {message = Localization.Localization.ErrorGeneralException, success = false});
+            }
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Index(int id, int loadParameters)
+        {
+            var classRoomViewModel = new ClassRoomViewModel();
+
+            try
+            {
+                classRoomViewModel.ClassRooms = _classRoomService.Get();
+                classRoomViewModel.LoadParameters = (PlanSectionLoadParameters)loadParameters;
+                classRoomViewModel.SelectedClassRoom = id;
+
+                return PartialView(classRoomViewModel);
+            }
+            catch (Exception)
+            {
+                return Json(new { message = Localization.Localization.ErrorGeneralException, success = false });
+            }
+        }
 
         [HttpGet]
         public ActionResult GetNameId()
@@ -52,7 +82,7 @@ namespace SofthemeClassBooking.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult AdditionalInfo(IClassRoom classRoomModel)
+        public ActionResult AdditionalInfo(ClassRoomModel classRoomModel)
         {
             return PartialView("AdditionalInfo", classRoomModel);
         }
@@ -66,18 +96,35 @@ namespace SofthemeClassBooking.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "Administrator")]
-        public ActionResult Edit(IClassRoom classRoom)
+        public ActionResult Edit(ClassRoomModel classRoomModel)
         {
             if (ModelState.IsValid)
             {
-                _classRoomService.Update(classRoom);
+                _classRoomService.Update(classRoomModel);
                 return Json(new {success = true});
             }
             return Json(new { success = false });
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Administrator")]
+        [Authorize]
+        public ActionResult IsRoomBusy(EventModel eventModel)
+        {
+            try
+            {
+                return _classRoomService.IsRoomBusy(eventModel) ? 
+                    Json(new {message = Localization.Localization.ErrorRoomIsBusy, success = false}) :
+                    Json(new { message = false, success = true});
+            }
+            catch (Exception)
+            {
+                return Json(new { message = Localization.Localization.ErrorGeneralException, success = false });
+            }
+        }
+        
+
+        [HttpPost]
+        [Authorize]
         public ActionResult ChangeStatus(int id, int classRoomStatus)
         {
             if (ModelState.IsValid)
@@ -85,7 +132,7 @@ namespace SofthemeClassBooking.Controllers
                 _classRoomService.ChangeRoomStatus(id, (ClassRoomStatus)classRoomStatus);
                 return Json(new { success = true });
             }
-            return Json(new { success = false });
+            return Json(new {  message = Localization.Localization.ErrorGeneralException, success = false });
         }
     }
 }

@@ -1,30 +1,35 @@
 ﻿using System.Web.Mvc;
+using SofthemeClassBooking_BOL.Contract.Models;
+using SofthemeClassBooking_BOL.Contract.Services;
 using SofthemeClassBooking_BOL.Models;
 
 namespace SofthemeClassBooking.Controllers
 {
     public class RoomEventController : Controller
     {
-        // GET: Event
+        private IEventService<IEvent> _eventService;
+
+        public RoomEventController(IEventService<IEvent> eventService)
+        {
+            _eventService = eventService;
+        }
+
+
         public ActionResult Index()
         {
             return PartialView();
         }
 
-        public ActionResult New (EventModel newEvent)
+        [HttpGet]
+        public ActionResult CrudView(int? eventId)
         {
+            if (eventId != null)
+            {
+                return PartialView(_eventService.Get((int)eventId));
+            }
+
             return PartialView();
         }
 
-        [HttpPost]
-        public ActionResult Create(EventModel newEvent)
-        {
-            if (ModelState.IsValid)
-            {
-                return Json(new { message = "SuccessMessage" });
-            }
-
-            return Json(new {message = "Not success"});
-        }
     }
 }

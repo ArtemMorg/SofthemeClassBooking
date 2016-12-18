@@ -54,6 +54,7 @@
     <Compile Include="Implementation\FeedbackService.cs" />
     <Compile Include="Implementation\MapService.cs" />
     <Compile Include="Implementation\ParticipantService.cs" />
+    <Compile Include="Implementation\ServiceHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

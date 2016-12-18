@@ -27,10 +27,5 @@ namespace SofthemeClassBooking_BLL.Implementation
         {
             throw new NotImplementedException();
         }
-
-        public void Update(IFeedback model)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

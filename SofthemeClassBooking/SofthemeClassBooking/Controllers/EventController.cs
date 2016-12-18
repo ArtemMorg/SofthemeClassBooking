@@ -136,11 +136,11 @@ namespace SofthemeClassBooking.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Update(EventModel eventModel)
+        public ActionResult Update(EventModel eventModel, EventModel pivotModel)
         {
             try
             {
-                _eventService.Update(eventModel);
+                _eventService.Update(eventModel, pivotModel);
             }
             catch (RoomIsBusyException)
             {

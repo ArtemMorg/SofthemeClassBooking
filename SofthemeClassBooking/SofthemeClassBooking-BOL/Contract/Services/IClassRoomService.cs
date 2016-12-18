@@ -8,7 +8,9 @@ namespace SofthemeClassBooking_BOL.Contract.Services
         where TModel: IClassRoom 
     {
         TModel Get(int id);
+        void Update(TModel classRoom);
         void ChangeRoomStatus(int id, ClassRoomStatus classRoomStatus);
         IEnumerable<object> GetNameId();
+        bool IsRoomBusy(IEvent eventModel);
     }
 }

@@ -16,12 +16,17 @@ namespace SofthemeClassBooking
                         "~/Scripts/datetime.js",
                         "~/Scripts/shared.js",
                         "~/Scripts/dialog.js",
+                        "~/Scripts/event/event-datetime.js",
                          "~/Scripts/event/event-modal.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/jquery").Include(
                         "~/Scripts/jquery/jquery-{version}.js"
                         ));
+
+            bundles.Add(new ScriptBundle("~/bundles/scripts/event-modal").Include(
+                         "~/Scripts/event/event-modal.js"
+                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/jqueryval").Include(
                         "~/Scripts/validation/jquery.validate*"
@@ -36,6 +41,10 @@ namespace SofthemeClassBooking
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/calendar").Include(
                         "~/Scripts/roomevent/calendar.js"
+                        ));
+
+            bundles.Add(new ScriptBundle("~/bundles/scripts/event-popup").Include(
+                        "~/Scripts/roomevent/roomevent-popup.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/roomevent").Include(
@@ -64,6 +73,13 @@ namespace SofthemeClassBooking
 
 
             #region styles
+
+            bundles.Add(new StyleBundle("~/bundles/styles/general-auth").Include(
+                      "~/Content/css/registration.css",
+                      "~/Content/css/font-awesome.css",
+                      "~/Content/css/custom-input.css",
+                      "~/Content/css/dialog.css"
+                      ));
 
             bundles.Add(new StyleBundle("~/bundles/styles/general").Include(
                       "~/Content/css/reset.css",

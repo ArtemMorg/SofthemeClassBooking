@@ -10,6 +10,7 @@
             <li>
                 <i id="add-event" class="fa fa-plus-square" aria-hidden="true"></i>
             </li>
+
             <li>
                 <a href="@Url.Action("Index", "Home")"
                    @(ViewContext.RouteData.Values["controller"].ToString().Equals("Home") && (ViewContext.RouteData.Values["action"].ToString().Equals("Schedule") || ViewContext.RouteData.Values["action"].ToString().Equals("Index")) ? "class=current" : "")>

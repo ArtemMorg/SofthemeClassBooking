@@ -8,7 +8,6 @@ namespace SofthemeClassBooking_BOL.Contract.Services
     {
         void Add(TModel model);
         void Remove(TModel model);
-        void Update(TModel model);
         IEnumerable<TModel> Get();
     }
 }

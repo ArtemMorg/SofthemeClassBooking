@@ -72,12 +72,12 @@ function compareTime(time, timeTo) {
 function copyDate(dateFrom) {
 
     return {
-        year: dateFrom.year,
+        year: dateFrom.year || dateNow.year,
         month: dateFrom.month,
         day: dateFrom.day,
         hour: dateFrom.hour,
         minutes: dateFrom.minutes
-    }
+    };
 }
 
 function compareDates(date, dateTo, ignoreDays, incudeTime) {
@@ -124,7 +124,7 @@ function renderDate(date) {
 
 function getCurrentTime(returnObject) {
     var dateNow = new Date();
-    if (returnObject == true) {
+    if (returnObject === true) {
         return {
             hour: dateNow.getHours(),
             minutes: dateNow.getMinutes()
@@ -163,8 +163,8 @@ function convertToDateObject(dateTimeString, dateFormat) {
 }
 
 function addValueToDate(targetDate, dateObject, add) {
-
-    if (add == true) {
+    var maxDayCount;
+    if (add === true) {
 
         targetDate.year += dateObject.year || 0;
         targetDate.month += dateObject.month || 0;
@@ -177,7 +177,7 @@ function addValueToDate(targetDate, dateObject, add) {
             targetDate.year++;
         }
 
-        var maxDayCount = getDaysInMonth(targetDate.month, targetDate.year);
+        maxDayCount = getDaysInMonth(targetDate.month, targetDate.year);
 
         while (targetDate.minutes >= 60) {
             targetDate.minutes -= 60;
@@ -203,7 +203,7 @@ function addValueToDate(targetDate, dateObject, add) {
 
     } else {
 
-        var maxDayCount = getDaysInMonth(targetDate.month, targetDate.year);
+        maxDayCount = getDaysInMonth(targetDate.month, targetDate.year);
 
         targetDate.year -= dateObject.year || 0;
         targetDate.month -= dateObject.month || 0;

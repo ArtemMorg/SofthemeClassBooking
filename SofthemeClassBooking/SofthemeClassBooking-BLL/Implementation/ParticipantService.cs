@@ -48,6 +48,23 @@ namespace SofthemeClassBooking_BLL.Implementation
             throw new NotImplementedException();
         }
 
+        public bool IsTakePart(int eventId, string userId)
+        {
+            
+            using (var context = new ClassBookingContext())
+            {
+                var userEmail = context.AspNetUsers
+                    .Where(u => u.Id == userId)
+                    .Select(u => u.Email)
+                    .FirstOrDefault();
+
+                var userCount = context.Participants.Count(
+                    p => p.EventId == eventId && 
+                    p.Email == userEmail);
+
+                return userCount > 0;
+            }
+        }
 
         public IEnumerable<IParticipant> Get(int eventId)
         {
@@ -89,11 +106,6 @@ namespace SofthemeClassBooking_BLL.Implementation
 
                 context.SaveChanges();
             }
-        }
-
-        public void Update(IParticipant model)
-        {
-            throw new NotImplementedException();
         }
     }
 }

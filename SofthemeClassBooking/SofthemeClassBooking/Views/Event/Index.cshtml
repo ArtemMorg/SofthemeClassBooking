@@ -9,10 +9,18 @@
 
 @{
     var showEventOwner = Model.Event.IsAuthorShown ? Model.Author : Model.Event.Organizer;
+    if ((showEventOwner == null) || (showEventOwner.Length == 0))
+    {
+        showEventOwner = Localization.ErrorNoAuthor;
+    }
+
     var participantCount = Model.Participants.Count();
     var eventDescription = Model.Event.Description == null ? Localization.ErrorNoDescription : Model.Event.Description;
     var editAccess = (User.Identity.GetUserId() == Model.Event.UserId) ||
                      (User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]));
+    var eventPlanned = DateTime.Compare(Model.Event.EndingDate, DateTime.Now) > 0;
+
+    var participantCssClass = eventPlanned ? "participant" : "participant-took-part";
 }
 
 @section scriptDeclarationInHeader
@@ -20,23 +28,22 @@
     @Scripts.Render("~/bundles/scripts/calendar")
     @Scripts.Render("~/bundles/scripts/eventpage")
 }
-
 <div class="eventpage">
     <div class="eventpage-info">
         <form id="event-edit-info-form" method="post">
-            
+
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.Event.BeginingDate)
             @Html.HiddenFor(m => m.Event.EndingDate)
             @Html.HiddenFor(m => m.Event.UserId)
-            @Html.HiddenFor(m=>m.Event.ClassRoomId)
+            @Html.HiddenFor(m => m.Event.ClassRoomId)
 
             <div class="title">
                 @Model.Event.Title
             </div>
             <div class="title-edit display-none">
-                <span id="event-title-error" class="error-message"> <img src="/Content/images/danger.png" /> @Localization.ErrorEmptyField </span>
-                @Html.TextBoxFor(m => m.Event.Title, new {placeholder = Localization.EventTitlePlaceholder, value = Model.Event.Title})
+                <div id="event-title-error" class="error-message"> <img src="/Content/images/danger.png" /> @Localization.ErrorEmptyField </div>
+                @Html.TextBoxFor(m => m.Event.Title, new { placeholder = Localization.EventTitlePlaceholder, value = Model.Event.Title })
             </div>
 
 
@@ -53,7 +60,7 @@
                     <div class="checkbox">
                         @if (Model.Event.IsAuthorShown)
                         {
-                            <input id="IsAuthorShown" name="IsAuthorShown" type="checkbox" class="checkbox" checked/>
+                            <input id="IsAuthorShown" name="IsAuthorShown" type="checkbox" class="checkbox" checked />
                         }
                         else
                         {
@@ -76,7 +83,7 @@
                 <span>@eventDescription</span>
             </div>
             <div class="description-edit display-none">
-                @Html.TextAreaFor(m => m.Event.Description, new { placeholder = "Дополнительная информация" })
+                @Html.TextAreaFor(m => m.Event.Description, new { placeholder = Localization.EventAdditionalInfoPlaceholder })
             </div>
 
             @if (@Model.Event.IsParticipantsAllowed)
@@ -84,30 +91,27 @@
 
                 <div class="participant-add">
 
-                    @if (DateTime.Compare(@Model.Event.EndingDate, DateTime.Now) > 0)
+                    @if (eventPlanned)
                     {
-                        <div class="text">@Localization.EventPlanningTakePart<span id="participant-count">@participantCount</span> @Localization.People</div>
-                        if (Model.Event.UserId == User.Identity.GetUserId())
-                        {
-                            <input id="Email" name="Email" type="text" placeholder="@Localization.ErrorEventAlreadyEnrolledPlaceholder" disabled/>
-                        }
-                        else
-                        {
-                            <span>@Localization.EventParticipantJoin</span>
-                            using (Html.BeginForm("Add", "Participant", FormMethod.Post, new {id = "add-participant-form"}))
-                            {
-                                <input id="add-participant-email" name="Email" type="text" placeholder="@Localization.EventParticipantJoinPlaceholder" required/>
-                                <i id="add-participant-submit" class="fa fa-plus fa-lg"></i>
-                                <input type="hidden" name="EventId" value="@Model.Event.Id"/>
-                            }
+                        <div class="text">@Localization.EventPlanningTakePart<span id="event-participant-count">@participantCount</span> @Localization.People</div>
 
-                        }
+                        <input id="event-new-email-take-part" class="display-none" name="Email" type="text" placeholder="@Localization.ErrorEventAlreadyEnrolledPlaceholder" disabled />
+
+                        <div id="event-add-participant-form" class="div-wraper display-none">
+
+                            <span>@Localization.EventParticipantJoin</span>
+                            <input id="event-add-participant-email" name="Email" type="text" placeholder="@Localization.EventParticipantJoinPlaceholder" required />
+                            <i id="event-add-participant-submit" class="fa fa-plus fa-lg"></i>
+                            <input type="hidden" name="EventId" value="@Model.Event.Id" />
+                            <div id="event-email-error-message" class="error-message-form noselect-text display-none">
+                                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                @Localization.ErrorEmail
+                            </div>
+
+                        </div>
+
                     }
-                    else
-                    {
-                        <div class="text">@Localization.EventParticipantsTookPart <span id="participant-count">@Model.ParticipantCount</span> @Localization.People</div>
-                        <input type="text" placeholder="@Localization.ErrorEventPassedPlaceholder" disabled/>
-                    }
+
 
                 </div>
             }
@@ -117,7 +121,7 @@
                     <div class="checkbox">
                         @if (Model.Event.IsParticipantsAllowed)
                         {
-                            <input id="IsParticipantsAllowed" name="IsParticipantsAllowed" type="checkbox" value="true" checked/>
+                            <input id="IsParticipantsAllowed" name="IsParticipantsAllowed" type="checkbox" value="true" checked />
                         }
                         else
                         {
@@ -126,9 +130,12 @@
                         <label for="IsParticipantsAllowed"></label>
                         <input name="IsParticipantsAllowed" type="hidden" value="false">
                     </div>
-
                     <div class="label">@Localization.EventRegisterParticipants</div>
-                    <div class="or">@Localization.EventPlanningTakePart <span>@participantCount</span> @Localization.People</div>
+                    @if (Model.Event.IsParticipantsAllowed)
+                    {
+                        <div class="or">@Localization.EventPlanningTakePart <span>@participantCount</span> @Localization.People</div>
+                    }
+
 
                 </div>
             </div>
@@ -167,7 +174,7 @@
 
                 <div class="datetime-section">
                     <i class="fa fa-clock-o" aria-hidden="true"></i>
-                    
+
 
                     <div class="datetime datetime-first">
                         <div id="timebegin-hours-up" class="arrow-up date-edit invisible"> <i class="fa fa-sort-up"></i> </div>
@@ -180,8 +187,8 @@
                         <div id="timebegin-minutes-value" class="value">18</div>
                         <div id="timebegin-minutes-down" class="arrow-down date-edit invisible"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
                     </div>
-                    <div class="delimeter-time delimeter-hyphen" >
-                       -
+                    <div class="delimeter-time delimeter-hyphen">
+                        -
                     </div>
                     <div class="datetime">
                         <div id="timeend-hours-up" class="arrow-up date-edit invisible"> <i class="fa fa-sort-up"></i> </div>
@@ -212,15 +219,31 @@
                 {
                     @Html.AntiForgeryToken()
                 }
+
                 <div class="button-section">
-                    <button id="change-cancel" class="cancel">
-                        <span class="button-edit">@Localization.ButtonEdit</span>
-                        <span class="button-edit-cancel display-none">@Localization.ButtonCancelation</span>
-                    </button>
-                    <button id="save-cancel-event" class="save">
-                        <span class="button-cancel-event">@Localization.ButtonCancel</span>
-                        <span class="button-save-event display-none">@Localization.ButtonSave</span>
-                    </button>
+
+                    @if (eventPlanned)
+                    {
+                        <button id="change-cancel" class="cancel">
+                            <span class="button-edit">@Localization.ButtonEdit</span>
+                            <span class="button-edit-cancel display-none">@Localization.ButtonCancelation</span>
+                        </button>
+                        <button id="save-cancel-event" class="save">
+                            <span class="button-cancel-event">@Localization.ButtonCancel</span>
+                            <span class="button-save-event display-none">@Localization.ButtonSave</span>
+                        </button>
+                    }
+                    else
+                    {
+                        <button id="change-cancel" class="cancel" disabled>
+                            <span class="button-edit">@Localization.ButtonEdit</span>
+                        </button>
+                        <button id="save-cancel-event" class="save button-disabled" disabled>
+                            <span class="button-cancel-event">@Localization.ButtonCancel</span>
+                        </button>
+                    }
+
+
                 </div>
 
                 <div id="eventedit-status" class="error-section display-none">
@@ -233,23 +256,54 @@
                     </div>
                 </div>
             }
+
+            @if (!eventPlanned)
+            {
+                <div class="error-section">
+                    <div class="icon icon-place">
+                        <i class="fa fa-calendar-check-o"></i>
+                    </div>
+
+                    <div class="message">
+                        <span>@Localization.ErrorEventPassedPlaceholder</span>
+                    </div>
+                </div>
+            }
         </div>
 
     </div>
 
-    @if (editAccess)
+    @if (editAccess && Model.Event.IsParticipantsAllowed)
     {
         <div class="participant-list">
-            <div class="header">Зарегистрирование участники:</div>
+            <div class="header">
+                @if (eventPlanned)
+                {
+
+                    @Localization.EventRegistered
+                    if (!Model.Event.IsParticipantsAllowed)
+                    {
+                        <text>(</text>
+                        @Localization.EventOffRegistration
+                        <text>)</text>
+                    }
+                }
+                else
+                {
+                    @Localization.EventTookPart
+                }
+            </div>
 
             <div class="participant-section">
 
                 @foreach (var participant in Model.Participants)
                 {
-                    <div id="participant-@participant.Id" class="participant">
-                        <div class="circle"></div>
-                        <div class="email">@participant.Email</div>
-                        <i id="participant-@participant.Id-remove" class="fa fa-times participant-remove" aria-hidden="true"></i>
+                    <div class="participant-wrapper">
+                        <div id="participant-@participant.Id" class="@participantCssClass">
+                            <div class="circle"></div>
+                            <div class="email">@participant.Email</div>
+                            <i id="participant-@participant.Id-remove" class="fa fa-times participant-remove" aria-hidden="true"></i>
+                        </div>
                     </div>
                 }
 
@@ -332,8 +386,6 @@
 <script type="text/javascript">
 
 
-    eventPageCurrentEvent = new EventPageModel(@Model.Event.Id);
-
     eventPageDialogWindow = new DialogWindow({
         title: '@Localization.DialogCancelEventTitle',
         bodyMessage: ""
@@ -346,22 +398,20 @@
 
         $(function () {
 
+            setEventPageModel(
+                 @Model.Event.Id,
+                '@User.Identity.GetUserId()',
+                '@User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"])',
+                '@Model.Event.ClassRoomId');
+
+
+            isUserTakePart('@Url.Action("IsTakePart","Participant")', @Model.Event.Id);
             //datetime format MM/dd/yyyy HH:mm:SS
-            var eventDateTimeBegin = convertToDateObject('@Model.Event.BeginingDate', dateFormats.CShartDateTime);
-            var eventDateTimeEnd = convertToDateObject('@Model.Event.EndingDate', dateFormats.CShartDateTime);
+            var eventDateTimeBegin = convertToDateObject('@Model.Event.BeginingDate.ToString("yy-MM-dd-HH-mm")');
+            var eventDateTimeEnd = convertToDateObject('@Model.Event.EndingDate.ToString("yy-MM-dd-HH-mm")');
 
             setDateTime(eventDateTimeBegin, eventDateTimeEnd);
-
-            loadSection('@Url.Action("Index","Classroom", new {id = Model.Event.ClassRoomId})', beforeSendHandler(planLoadingDiv), function (result) {
-                $('#plan-section').html(result);
-                $('#plan-room-path').addClass('plan-room-path-@Model.Event.ClassRoomId');
-                $('#eventpage-room-name').html($('#eventpage-selected-room').val());
-            });
-            
-
-            $('#schedule-all-rooms').click(function () {
-                window.location = '@Url.Action("Index","Home")';
-            });
+            eventpageLoadSelectedClassRoom();
 
             $('#schedule-all-rooms').click(function () {
                 window.location = '@Url.Action("Index","Home")';
@@ -371,14 +421,14 @@
                 window.location = '@Url.Action("RoomPage","Classroom", new {id = Model.Event.ClassRoomId})';
             });
 
-
-            renderMapSection();
+            renderSection('@Url.Action("MapPartial","Home")', $('#map-section'), $('#map-loading'));
 
         });
 
         // The rest of the code goes here!
     }(window.jQuery, window, document));
 
+  
 </script>
 
 @section scriptDeclarationAfterFooter {

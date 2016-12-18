@@ -16,6 +16,7 @@ var firstTimeCellHour;
 var firstTimeCellDate;
 
 var sliderTimeInterval = 1000 * 60;
+var sliderTimeHour = dateNow.hour;
 
 var shortRoomEventTable = 5;
 var longRoomEventTable = 8;
@@ -29,12 +30,76 @@ var eventBlockType = { short: 0, long: 1 };
 
 var renderClassRooms;
 var renderEvents;
+var isUserCanEdit;
 
 var minumumAllowedTimeToBook = 20 * minutePerPixel;
 var roomCountPrevious;
 
-//Event adding to DOM section
+var roomeventPoputId = singleRoomeventPopupId;
 
+var roomeventPopupDom = '<div id="' + roomeventPoputId + '" class="event-modal"></div>';
+
+var dateNow = {
+    year: date.getFullYear(),
+    month: (date.getMonth() + 1),
+    day: date.getDate(),
+    hour: date.getHours(),
+    minutes: date.getMinutes()
+};
+
+var roomeventAddStartDateTimePopup = {
+
+    year: 0,
+    month: 0,
+    day: 0,
+    hour: 0,
+    minutes:0
+
+}
+
+function setIsUserCanEdit(canEdit) {
+    isUserCanEdit = canEdit;
+}
+
+function setDateNow() {
+    var date = new Date();
+
+    dateNow = {
+        year: date.getFullYear(),
+        month: (date.getMonth() + 1),
+        day: date.getDate(),
+        hour: date.getHours(),
+        minutes: date.getMinutes()
+    };
+
+}
+
+var dateNowStartClock = setInterval(setDateNow, oneMinute);
+
+
+var roomeventCreateNewCorrectDateTime;
+
+var roomeventModalCreateNewDateTimeTargetBegin = {
+    year: dateNow.year,
+    month: dateNow.month,
+    day: dateNow.day,
+    hour: dateNow.hour,
+    minutes: dateNow.minutes
+};
+
+var roomeventModalSelectedClassRoom;
+
+var roomeventModalCreateNewDateTimeTargetEnd = {
+    year: dateNow.year,
+    month: dateNow.month,
+    day: dateNow.day,
+    hour: dateNow.hour,
+    minutes: dateNow.minutes
+};
+
+
+
+//Event adding to DOM section
 $(document).on('click', '#large', function () {
 
     if (!largeView.hasClass('fa-selected')) {
@@ -73,12 +138,36 @@ $(document).on('click', '#short', function () {
 });
 
 
+$(document).on('click', '.eventblock-add', function (e) {
 
+    $('.event-position').remove();
+    $('body').append(roomeventPopupDom);
+
+    $(`#${roomeventPoputId}`).css({
+        'left': (e.pageX / 2),
+        'top': e.pageY
+    });
+
+    loadSection(
+        ajaxUrl.RoomEventPopupViewUrl,
+        null,
+        function (successResponse) {
+
+            $(`#${roomeventPoputId}`).html(successResponse);
+
+        },
+        function (errorResponse) {
+            console.log(errorResponse);
+        });
+
+});
 
 $(document).on('click', '.eventblock-exist', function (e) {
 
     var currentEventId = $(this).attr('id').split('-')[1];
     var currentEventBlockId = 'event-modal-' + currentEventId;
+
+
 
     $('body').append('<div id="' + currentEventBlockId + '" class="event-modal"></div>');
     $('#' + currentEventBlockId)
@@ -97,8 +186,11 @@ $(document).on('click', '.eventblock-exist', function (e) {
 
 });
 
-
 $(document).on('mouseover', '.roomevent-room-cell-middle', function (e) {
+
+    if (!isUserCanEdit) {
+        return;
+    }
 
     var currentRoomCell = $(this);
     var existBlock = currentRoomCell.find('.eventblock-exist');
@@ -118,8 +210,25 @@ $(document).on('mouseover', '.roomevent-room-cell-middle', function (e) {
         mouseRelativePosition: (e.pageX - offset.left)
     };
 
-    renderEventAdd(currentRoomCellObject);
+    var splittedDateTime = convertToDateObject(currentRoomCell.attr('id'));
 
+    roomeventModalCreateNewDateTimeTargetBegin.year = splittedDateTime.year;
+    roomeventModalCreateNewDateTimeTargetBegin.month = splittedDateTime.month;
+    roomeventModalCreateNewDateTimeTargetBegin.day = splittedDateTime.day;
+    roomeventModalCreateNewDateTimeTargetBegin.hour = splittedDateTime.hour;
+
+    roomeventModalSelectedClassRoom = splittedDateTime.minutes; //On minutes place classroom id
+    roomeventModalCreateNewDateTimeTargetBegin.minutes = Math.round(currentRoomCellObject.dataLeftOccupied / minutePerPixel) ;
+
+
+    roomeventModalCreateNewDateTimeTargetEnd.year = splittedDateTime.year;
+    roomeventModalCreateNewDateTimeTargetEnd.month = splittedDateTime.month;
+    roomeventModalCreateNewDateTimeTargetEnd.day = splittedDateTime.day;
+    roomeventModalCreateNewDateTimeTargetEnd.hour = splittedDateTime.hour;
+    roomeventModalCreateNewDateTimeTargetEnd.minutes = roomeventModalCreateNewDateTimeTargetBegin.minutes;
+    addValueToDate(roomeventModalCreateNewDateTimeTargetEnd, { minutes: minumumAllowedMinutes }, true);
+
+    renderEventAdd(currentRoomCellObject);
 
     //console.log(e.pageX - offset.left);
 
@@ -201,6 +310,7 @@ function renderRooms(timeCellCount, resetTime) {
 
         renderSliders(timeCellCount);
         renterStaticSliderTime();
+        activateStaticSlider();
 
         var noReset = resetTime || true;
 
@@ -227,8 +337,7 @@ function renderRooms(timeCellCount, resetTime) {
 
             for (var cell = 0; cell < timeCellCount; cell++) {
 
-                var cellId = currentRoomId + '_' + renderDate.year + '-' + renderDate.month
-                    + '-' + renderDate.day + '_' + renderDate.hour;
+                var cellId = renderDate.year + '-' + renderDate.month + '-' + renderDate.day + '-' + renderDate.hour + '-' + currentRoomId;
                 addValueToDate(renderDate, { hour: 1 }, true);
                 currentRow.append('<div id=' + cellId + ' class="roomevent-room-cell roomevent-room-cell-middle" data-left-occupied="0" data-right-occupied="0" data-inside-event="0"><div></div></div>');
             }
@@ -237,7 +346,6 @@ function renderRooms(timeCellCount, resetTime) {
         if (roomeventEventsByUser) {
 
             getEventsBriefByUser().done(function (events) {
-                debugger;
                 renderEvents = JSON.parse(events);
                 doEventStuff();
             });
@@ -404,7 +512,8 @@ function renderSliders(timeCellCount) {
             '</div>');
 
     $('#slider, #slider-static').css('height', ((renderClassRooms.length * 47) + 43));
-    $('.slider-time').html(renderTimeMinutes(firstTimeCellHour, 0));
+    $('.slider-time').html(renderTimeMinutes(sliderTimeHour, dateNow.minutes));
+
     $('#slider').draggable({
         axis: "x",
         cursor: 'pointer',
@@ -415,6 +524,10 @@ function renderSliders(timeCellCount) {
             renterSliderTime($(this).position().left);
         }
     });
+
+    var sliderOffset = (dateNow.hour - firstTimeCellHour) + (minutePerPixel * dateNow.minutes) + 1;
+
+    $('#slider').css('left', sliderOffset);
 }
 
 function renterStaticSliderTime() {
@@ -463,6 +576,7 @@ function renterSliderTime(leftPosition) {
     }
 
     $('.slider-time').html(renderTimeMinutes(renderHours, minutes));
+    sliderTimeHour = renderHours;
 }
 
 //Functions
@@ -531,7 +645,7 @@ function calculateEventBlockPosition() {
 
         }
 
-        var cellIdFirst = '#' + classRoomId + '_' + year + '-' + month + '-' + day + '_' + hourBegin;
+        var cellIdFirst = '#' + year + '-' + month + '-' + day + '-' + hourBegin + '-' + classRoomId;
 
         if ((hourEnd == hourBegin) || ((hoursDuration == 1) && (minutesBegin == 0 && minutesEnd == 0))) {
 
@@ -550,7 +664,7 @@ function calculateEventBlockPosition() {
 
             $(cellIdFirst).attr('data-right-occupied', dataRightOccupied);
 
-            var cellIdLast = '#' + classRoomId + '_' + year + '-' + month + '-' + day + '_' + hourEnd;
+            var cellIdLast = '#'  +  year + '-' + month + '-' + day + '-' + hourEnd + '-' + classRoomId;
             $(cellIdLast).attr('data-left-occupied', dataLeftOccupied);
 
             renderEventBlock(eventBlock, cellIdFirst);
@@ -595,3 +709,4 @@ function getEventObject(longRoomEventId) {
 
     return EventObject;
 }
+

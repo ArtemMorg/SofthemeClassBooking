@@ -2,7 +2,9 @@
 {
     public enum PlanSectionLoadParameters
     {
-        Full = 0,
-        SelectedRoomOnly
+        Normal = 0,
+        SelectedRoom,
+        EventRoomSelection,
+        HoverDisabled
     }
 }

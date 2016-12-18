@@ -64,6 +64,7 @@
     }
 
     .event-when .time-section {
+         padding: 0 0 0 0;
         position: relative;
         top: -1px;
     }
@@ -226,7 +227,8 @@
         width: 245px;
     }
 
-    .submit-section .save {
+    .submit-section .save,
+    .submit-section .save-ready  {
         outline: none;
         vertical-align: top;
         border: none;

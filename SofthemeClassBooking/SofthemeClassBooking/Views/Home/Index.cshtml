@@ -49,6 +49,16 @@
             renderSection('@Url.Action("MapPartial","Home")', $('#map-section'), $('#map-loading'));
             renderSection('@Url.Action("Index","RoomEvent")', $('#roomevent-section'), $('#roomevent-loading'));
 
+
+
+
+            $.validator.addMethod("email-check",
+                function (value, element, regexp) {
+                    var re = new RegExp(regexp);
+                    return this.optional(element) || re.test(value);
+                },
+                ""
+        );
         });
 
     }(window.jQuery, window, document));

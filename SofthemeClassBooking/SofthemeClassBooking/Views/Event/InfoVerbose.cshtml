@@ -7,7 +7,7 @@
 }
 
 <div class="event event-public">
-    
+
     <div class="event-public-header">
         <div class="event-header-datetime-section ">
             <div id="event-date" class="event-header-datetime">Пт, 18 Мая</div>
@@ -43,14 +43,14 @@
 
         <div class="event-participant">
             <i class="fa fa-users fa-2x"></i>
-            <div class="event-participants" id="participant-count">@Model.ParticipantCount</div>
+            <div class="event-participants" id="verbose-participant-count">@Model.ParticipantCount</div>
         </div>
     </div>
 
     @if (@Model.Event.IsParticipantsAllowed)
     {
         <div class="event-add">
-            
+
             @if (DateTime.Compare(@Model.Event.EndingDate, DateTime.Now) > 0)
             {
                 if (Model.Event.UserId == User.Identity.GetUserId())
@@ -59,20 +59,22 @@
                 }
                 else
                 {
-                    using (Html.BeginForm("Add", "Participant", FormMethod.Post, new { id = "add-participant-form" }))
+                    using (Html.BeginForm("Add", "Participant", FormMethod.Post, new { id = "verbose-add-participant-form" }))
                     {
-
-                        <input id="add-participant-email" name="Email" type="text" placeholder="@Localization.EventParticipantJoin" required />
-                        <i id="add-participant-submit" class="fa fa-plus fa-lg"></i>
-                        <input type="hidden" name="EventId" value="@Model.Event.Id"/>
-                        
+                        <input id="verbose-add-participant-email" name="Email" type="text" placeholder="@Localization.EventParticipantJoin" required />
+                        <i id="verbose-add-participant-submit" class="fa fa-plus fa-lg"></i>
+                        <input type="hidden" name="EventId" value="@Model.Event.Id" />
+                        <div id="verbose-email-error-message" class="error-message-form noselect-text display-none">
+                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                            @Localization.ErrorEmail
+                        </div>
                     }
                 }
 
             }
             else
             {
-                <input id="Email" name="Email" type="text" placeholder="@Localization.ErrorEventPassedPlaceholder" disabled/>
+                <input id="Email" name="Email" type="text" placeholder="@Localization.ErrorEventPassedPlaceholder" disabled />
             }
 
         </div>
@@ -84,7 +86,7 @@
             <i class="fa fa-envelope-o fa-lg"></i>
             <i class="fa fa-print fa-lg"></i>
             <i id="event-@Model.Event.Id" class="fa fa-link fa-lg"></i>
-            
+
         </div>
     </div>
 

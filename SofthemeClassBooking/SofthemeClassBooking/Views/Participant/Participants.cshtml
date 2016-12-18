@@ -1,0 +1,12 @@
+﻿@model IEnumerable<SofthemeClassBooking_BOL.Contract.Models.IParticipant>
+
+@foreach (var participant in Model)
+{
+    <div class="participant-wrapper">
+        <div id="participant-@participant.Id" class="participant">
+            <div class="circle"></div>
+            <div class="email">@participant.Email</div>
+            <i id="participant-@participant.Id-remove" class="fa fa-times participant-remove" aria-hidden="true"></i>
+        </div>
+    </div>
+}

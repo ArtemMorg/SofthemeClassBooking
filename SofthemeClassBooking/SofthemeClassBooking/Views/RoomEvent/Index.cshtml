@@ -1,5 +1,11 @@
-﻿@Styles.Render("~/bundles/styles/roomevent")
+﻿@using System.Web.Configuration
+@Styles.Render("~/bundles/styles/roomevent")
 @Scripts.Render("~/bundles/scripts/roomevent")
+
+@{
+    var isUserCanEdit = User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]) ||
+                        User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAuthorized"]);
+}
 
 <div class="roomevent-section">
 
@@ -59,45 +65,6 @@
 
 </div>
 
-<script type="text/javascript">
-
-    var popupId;
-
-    roomEventInit();
-
-    $(document).on('click', '.eventblock-add', function () {
-
-        $('.event-position').remove();
-
-        var currentRoomEventCell = $(this);
-        popupId = 'event-' + currentRoomEventCell.attr('id');
-        var position = currentRoomEventCell.parent().position();
-
-        console.log(currentRoomEventCell);
-
-        $('body').append('<div id="'+ popupId + '" class="event-position"></div>');
-
-        var popupDiv = $('#' + popupId);
-        popupDiv.css('top', position.top).css('left', position.left);
-
-
-
-        $.ajax({
-            url: '@Url.Action("New", "RoomEvent")',
-            method: 'GET',
-            cache: false,
-            dataType: 'html',
-
-            success: function (result) {
-                popupDiv.html(result);
-            }
-
-        });
-
-    });
-
-    $(document).on('click', '.event-header-close', function () {
-        $('#' + popupId).remove();
-    });
-
+<script>
+    roomEventInit('@isUserCanEdit');
 </script>

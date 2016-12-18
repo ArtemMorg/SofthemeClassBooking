@@ -9,18 +9,20 @@
     
     @Scripts.Render("~/bundles/scripts/general")
     <script type="text/javascript">
-        
+
         var url = {
             HomeUrl: '@Url.Action("Index","Home")',
             HomeMapLinkUrl: '@Url.Action("MapLink","Home")',
             FeedbackSendUrl: '@Url.Action("Send","Feedback")',
             RoomIdNameUrl: '@Url.Action("GetNameId","Classroom")',
             RoomEventSectionUrl: '@Url.Action("Index", "RoomEvent")',
-            PlanSectionUrl: '@Url.Action("Index", "Classroom")',
+            RoomEventPopupViewUrl: '@Url.Action("CrudView", "RoomEvent")',
+            PlanSectionUrl: '@Url.Action("Index", "Classroom")' + '/Index',
             MapSectionUrl: '@Url.Action("MapPartial", "Home")',
             PlanAdditionalUrl: '@Url.Action("AdditionalInfo","Classroom")',
             RoomPageUrl: '@Url.Action("RoomPage","Classroom")',
             RoomEditUrl: '@Url.Action("Edit","Classroom")',
+            IsRoomBusy: '@Url.Action("IsRoomBusy","Classroom")',
             RoomChangeStatusUrl: '@Url.Action("ChangeStatus","Classroom")',
             EventUsersUrl: '@Url.Action("UserEvents", "Event")',
             EventCreateUrl: '@Url.Action("Create", "Event")',
@@ -31,6 +33,8 @@
             EventInfoVerbose: '@Url.Action("InfoVerbose", "Event")',
             ParticipantAddUrl: '@Url.Action("Add","Participant")',
             ParticipantRemoveUrl: '@Url.Action("Remove","Participant")',
+            ParticipantExist: '@Url.Action("IsTakePart","Participant")',
+            ParticipantsUrl: '@Url.Action("Participants","Participant")',
             DialogWindowUrl: '@Url.Action("DialogWindow","Home")'
         };
         setEngineUrl(url);

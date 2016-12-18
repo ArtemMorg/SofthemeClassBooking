@@ -10,5 +10,6 @@ namespace SofthemeClassBooking_BOL.Contract.Services
         IEnumerable<TModel> GetBrief();
 
         IEnumerable<TModel> GetByUser(string id);
+        void Update(IEvent eventModel, IEvent pivotModel);
     }
 }

@@ -1,34 +1,35 @@
-﻿@model IEnumerable<SofthemeClassBooking_BOL.Contract.Models.IClassRoom>
-@{
-    string className = String.Empty;
-}
+﻿@using System.Web.Configuration
+@using SofthemeClassBooking_BOL.Enum
+@model SofthemeClassBooking.Models.ClassRoomViewModel
 
-<h1 class="plan-stage">@Localization.Stage 10</h1>
-@foreach (var classroom in Model)
+<h1 class="plan-stage">
+    @(Model.LoadParameters == PlanSectionLoadParameters.EventRoomSelection ? Localization.StageSelect : Localization.Stage)
+    10
+</h1>
+
+
+@foreach (var classroom in Model.ClassRooms)
 {
     var nameParts = classroom.Name.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+    
 
-    if (ViewBag.SelectedRoomId != null)
+    var className = classroom.IsLocked ? String.Empty : "-available";
+
+    if (Model.LoadParameters == PlanSectionLoadParameters.SelectedRoom)
     {
-        if (classroom.Id == ViewBag.SelectedRoomId)
-        {
-            className = "-busy";
-            <input id="eventpage-selected-room" type="hidden" value="@classroom.Name"/>
-        }
-        else
-        {
-            className = "";
-        }
-    }
-    else
+        className = classroom.Id == Model.SelectedClassRoom ? "-busy" : "";
+
+    }else if (Model.LoadParameters == PlanSectionLoadParameters.EventRoomSelection)
     {
-        className = classroom.IsLocked ? String.Empty : "-available";
+        className = classroom.Id == Model.SelectedClassRoom ? "-busy" : className;
     }
+
 
     var english = classroom.Id == 8 ? "plan-room-text-8" : "plan-room-text";
 
-    <div class="plan-wrapper">
 
+    <div class="plan-wrapper">
+        <input id="eventpage-selected-room-@classroom.Id" type="hidden" value="@classroom.Name" />
         <div class="plan-room-position-@classroom.Id">
             <div id="@classroom.Id" class="plan-room-@classroom.Id@className plan-room @className">
                 @if (nameParts.Length > 0)
@@ -61,5 +62,7 @@
 @Scripts.Render("~/bundles/scripts/plan")
 
 <script type="text/javascript">
-    planSectionInit();
+    planSectionInit(
+        '@User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"])', 
+         '@((int)Model.LoadParameters)');
 </script>

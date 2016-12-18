@@ -1,16 +1,37 @@
 ﻿var eventPageDialogWindow;
-var eventPageCurrentEvent;
-var eventPageDateCorrect = true;
+var eventPageCurrentEvent = {};
 
-var eventPageDateTimeBegin = {};
-var eventPageDateTimeEnd = {};
+var eventPageDateTimeBegin;
+var eventPageDateTimeEnd;
 
-var eventPageStartDateTimeBegin = {};
-var eventPageStartDateTimeEnd = {};
+var eventpageCorrectDateTime;
 
-function EventPageModel(id) {
-    var self = this;
-    self.id = id;
+var eventPageDateTimeBegin = {
+    year: dateNow.year,
+    month: dateNow.month,
+    day: dateNow.day,
+    hour: dateNow.hour,
+    minutes: dateNow.minutes
+};
+
+var eventPageDateTimeEnd = {
+    year: dateNow.year,
+    month: dateNow.month,
+    day: dateNow.day,
+    hour: dateNow.hour,
+    minutes: dateNow.minutes
+};
+
+var eventPageStartDateTimeBegin;
+var eventPageStartDateTimeEnd;
+
+function setEventPageModel(id, userId, isAdmin, classRoomId) {
+    eventPageCurrentEvent.id = id;
+    eventPageCurrentEvent.userId = userId;
+    eventPageCurrentEvent.isAdmin = isAdmin;
+    eventPageCurrentEvent.classRoomId = classRoomId;
+    eventPageCurrentEvent.beginingDate = "";
+    eventPageCurrentEvent.endingDate = "";
 }
 
 var eventPageModes = {
@@ -21,171 +42,189 @@ var eventPageModes = {
 var eventPageCurrentMode = eventPageModes.read;
 
 
-function addDayToEvent() {
-    addValueToDate(eventPageDateTimeBegin, { day: 1 }, true);
-    renderNewEventDateTime(eventPageDateTimeBegin);
+function getSelectedClassRoom() {
+    return eventPageCurrentEvent.classRoomId;
 }
 
-function subDayToEvent() {
-    addValueToDate(eventPageDateTimeBegin, { day: 1 }, false);
-    renderNewEventDateTime(eventPageDateTimeBegin);
-}
+function checkRoomIsBusy(id) {
 
-function addMonthToEvent() {
+    var response;
+    $('#Event_ClassRoomId').val(id);
 
-    addValueToDate(eventPageDateTimeBegin, { month: 1 }, true);
-    renderNewEventDateTime(eventPageDateTimeBegin);
-}
+    postData(
+        ajaxUrl.IsRoomBusy,
+        {
+            ClassRoomId: id,
+            BeginingDate: convertToDateTime(eventPageDateTimeBegin),
+            EndingDate: convertToDateTime(eventPageDateTimeEnd),
+            Id: eventPageCurrentEvent.id
+        },
+        function(successResponse) {
 
-function subMonthToEvent() {
-    addValueToDate(eventPageDateTimeBegin, { month: 1 }, false);
-    renderNewEventDateTime(eventPageDateTimeBegin);
-}
+            if (successResponse.message !== false) {
 
-function addYearToEvent() {
+                $('#eventedit-status').attr('class', 'error-section');
+                $('.icon-place').html('<i id="status-icon-bad" class="fa fa-frown-o"></i>');
+                $('#error-message').html(successResponse.message);
 
-    addValueToDate(eventPageDateTimeBegin, { year: 1 }, true);
-    renderNewEventDateTime(eventPageDateTimeBegin);
-}
+            } else {
 
-function subYearToEvent() {
-    addValueToDate(eventPageDateTimeBegin, { year: 1 }, false);
-    renderNewEventDateTime(eventPageDateTimeBegin);
-}
+                $('#eventedit-status').attr('class', 'error-section display-none');
 
-function addHourToEventBegin() {
-    addValueToDate(eventPageDateTimeBegin, { hour: 1 }, true);
-    renderNewEventDateTime(eventPageDateTimeBegin);
-}
+            }
 
-function subHourToEventBegin() {
-    addValueToDate(eventPageDateTimeBegin, { hour: 1 }, false);
-    renderNewEventDateTime(eventPageDateTimeBegin);
-}
+        },
+        function (errorResponse) {
+            console.log(errorResponse);
+            eventPageDialogWindowError.dialogModel.BodyMessage = errorResponse;
+            eventPageDialogWindowError.show();
+        });
 
-function addMinutesToEventBegin() {
-    addValueToDate(eventPageDateTimeBegin, { minutes: 1 }, true);
-    renderNewEventDateTime(eventPageDateTimeBegin);
-}
-
-function subMinutesToEventBegin() {
-    addValueToDate(eventPageDateTimeBegin, { minutes: 1 }, false);
-    renderNewEventDateTime(eventPageDateTimeBegin);
-}
-
-function addHourToEventEnd() {
-    addValueToDate(eventPageDateTimeEnd, { hour: 1 }, true);
-    renderNewEventDateTimeEnd(eventPageDateTimeEnd);
-}
-
-function subHourToEventEnd() {
-    addValueToDate(eventPageDateTimeEnd, { hour: 1 }, false);
-    renderNewEventDateTimeEnd(eventPageDateTimeEnd);
-}
-
-function addMinutesToEventEnd() {
-    addValueToDate(eventPageDateTimeEnd, { minutes: 1 }, true);
-    renderNewEventDateTimeEnd(eventPageDateTimeEnd);
-}
-
-function subMinutesToEventEnd() {
-    addValueToDate(eventPageDateTimeEnd, { minutes: 1 }, false);
-    renderNewEventDateTimeEnd(eventPageDateTimeEnd);
-}
-
-
-function renderNewEventDateTime(dateTime) {
-    var renderedTime = renderTimeMinutes(dateTime.hour, dateTime.minutes, true);
-
-    $('#date-day-value').html(dateTime.day);
-    $('#date-month-value').html(renderDate(dateTime.month));
-    $('#date-year-value').html(String(dateTime.year).slice(-2));
-    $('#timebegin-hours-value').html(renderedTime.hour);
-    $('#timebegin-minutes-value').html(renderedTime.minutes);
-
-
-}
-
-function renderNewEventDateTimeEnd(dateTime) {
-    var renderedTime = renderTimeMinutes(dateTime.hour, dateTime.minutes, true);
-
-    $('#timeend-hours-value').html(renderedTime.hour);
-    $('#timeend-minutes-value').html(renderedTime.minutes);
 }
 
 
 function setDateTime(eventDateTimeBegin, eventDateTimeEnd) {
+    var eventpage = $('.eventpage');
 
-    eventPageDateTimeBegin = {
-        year: eventDateTimeBegin.year,
-        month: eventDateTimeBegin.month,
-        day: eventDateTimeBegin.day,
-        hour: eventDateTimeBegin.hour,
-        minutes: eventDateTimeBegin.minutes
-    };
+    eventPageStartDateTimeBegin = copyDate(eventDateTimeBegin);
+    eventPageStartDateTimeEnd = copyDate(eventDateTimeEnd);
 
-    eventPageStartDateTimeBegin = copyDate(eventPageDateTimeBegin);
+    eventPageCurrentEvent.beginingDate = convertToDateTime(eventPageDateTimeBegin);
+    eventPageCurrentEvent.endingDate = convertToDateTime(eventPageStartDateTimeEnd);
 
-    eventPageDateTimeEnd = {
-        year: eventDateTimeEnd.year,
-        month: eventDateTimeEnd.month,
-        day: eventDateTimeEnd.day,
-        hour: eventDateTimeEnd.hour,
-        minutes: eventDateTimeEnd.minutes
-    }
+    setDateTimeObject(
+       eventPageDateTimeBegin,
+       eventPageDateTimeEnd,
+       eventDateTimeBegin,
+       eventDateTimeEnd,
+       eventpage,
+       {
+           dateYearUp: $('#date-year-up'),
+           dateYearDown: $('#date-year-up'),
+           dateDayUp: $('#date-day-up'),
+           dateDayDown: $('#date-day-down'),
+           dateMonthUp: $('#date-month-up'),
+           dateMonthDown: $('#date-month-down'),
+           timebeginHoursUp: $('#timebegin-hours-up'),
+           timebeginHoursDown: $('#timebegin-hours-down'),
+           timebeginMinutesUp: $('#timebegin-minutes-up'),
+           timebeginMinutesDown: $('#timebegin-minutes-down'),
+           timeendHoursUp: $('#timeend-hours-up'),
+           timeendHoursDown: $('#timeend-hours-down'),
+           timeendMinutesUp: $('#timeend-minutes-up'),
+           timeendMinutesDown: $('#timeend-minutes-down')
+       },
+       {
+           yearValue: $('#date-year-value'),
+           dayValue: $('#date-day-value'),
+           monthValue: $('#date-month-value'),
+           timeBeginHourValue: $('#timebegin-hours-value'),
+           timeBeginMinutesValue: $('#timebegin-minutes-value'),
+           timeEndHourValue: $('#timeend-hours-value'),
+           timeEndMinutesValue: $('#timeend-minutes-value')
+       },
+       function () {
+           errorIncorrectDateTime(true);
+       },
+       function () {
+           $('#eventedit-status').attr('class', 'error-section');
+           errorIncorrectDateTime(false);
 
-    eventPageStartDateTimeEnd = copyDate(eventPageDateTimeEnd);
+       },
+       renderDateTimeType.numertic
+   );
 
-    $('.eventpage').off();
-
-    $('.eventpage').on('click', '#date-day-up', addDayToEvent);
-    $('.eventpage').on('click', '#date-day-down', subDayToEvent);
-
-    $('.eventpage').on('click', '#date-month-up', addMonthToEvent);
-    $('.eventpage').on('click', '#date-month-down', subMonthToEvent);
-
-    $('.eventpage').on('click', '#date-year-up', addYearToEvent);
-    $('.eventpage').on('click', '#date-year-down', subYearToEvent);
-
-    $('.eventpage').on('click', '#timebegin-hours-up', addHourToEventBegin);
-    $('.eventpage').on('click', '#timebegin-hours-down', subHourToEventBegin);
-
-    $('.eventpage').on('click', '#timebegin-minutes-up', addMinutesToEventBegin);
-    $('.eventpage').on('click', '#timebegin-minutes-down', subMinutesToEventBegin);
-
-    $('.eventpage').on('click', '#timeend-hours-up', addHourToEventEnd);
-    $('.eventpage').on('click', '#timeend-hours-down', subHourToEventEnd);
-
-    $('.eventpage').on('click', '#timeend-minutes-up', addMinutesToEventEnd);
-    $('.eventpage').on('click', '#timeend-minutes-down', subMinutesToEventEnd);
-
-    renderNewEventDateTime(eventPageDateTimeBegin);
-    renderNewEventDateTimeEnd(eventPageDateTimeEnd);
 }
 
-/**
- *         public string Title { get; set; }
-        public string UserId { get; set; }
+function loadParticipants() {
 
-        public int ClassRoomId { get; set; }
+    loadSection(
+        ajaxUrl.ParticipantsUrl + "?eventId=" + eventPageCurrentEvent.id,
+        null,
+        function (successResponse) {
+            $('.participant-section').html(successResponse);
+        },
+        function (errorResponse) {
+            eventPageDialogWindowError.dialogModel.BodyMessage = errorResponse;
+            eventPageDialogWindowError.show();
+        });
 
-        public DateTime BeginingDate { get; set; }
+}
 
-        public string Description { get; set; }
+function isUserTakePart(url, eventModelId) {
 
-        public DateTime EndingDate { get; set; }
+    postData(
+        url,
+        { eventId: eventModelId },
+        function (successResponse) {
+            if (successResponse.success) {
+                if (successResponse.message) {
+                    $('#event-new-email-take-part').attr('class', ' ');
+                    $('#event-add-participant-form').attr('class', 'display-none');
+                } else {
+                    $('#event-add-participant-form').attr('class', 'div-wraper');
+                    $('#event-new-email-take-part').attr('class', 'display-none');
 
-        public int Id { get; set; }
+                }
+            }
+        });
+}
 
-        public bool IsAuthorShown { get; set; }
+function errorIncorrectDateTime(dateValid) {
+    eventpageCorrectDateTime = dateValid;
+    if (!dateValid) {
 
-        public bool IsPrivate { get; set; }
+        $('#eventedit-status').attr('class', 'error-section');
+        $('.icon-place').html('<i id="status-icon-bad" class="fa fa-calendar-times-o"></i>');
+        $('#error-message').html("Указана неверная дата и (или) время");
+    } else {
+        $('#eventedit-status').attr('class', 'error-section display-none');
+    }
 
-        public bool IsParticipantsAllowed { get; set; }
+}
 
-        public string Organizer { get; set; }
- */
+$(document).on('click', '#event-add-participant-submit', function () {
 
+    var eventPageDateErrorMessage = $('#event-email-error-message');
+    var eventPageDateEmail = $('#event-add-participant-email');
+
+    if (!eventPageDateErrorMessage.hasClass('display-none')) {
+        eventPageDateErrorMessage.addClass('display-none');
+    }
+
+    if (isValidEmailAddress(eventPageDateEmail.val())) {
+
+        addParticipant(
+            {
+                EventId: eventPageCurrentEvent.id,
+                Email: eventPageDateEmail.val()
+            },
+            {
+                email: $('#event-add-participant-email'),
+                submit: $('#event-add-participant-submit'),
+                count: $('#event-participant-count'),
+                callback: loadParticipants
+            },
+            false
+        );
+    } else {
+        eventPageDateErrorMessage.removeClass('display-none');
+    }
+
+    loadParticipants();
+});
+
+function checkEventTitle() {
+    if ($('#Event_Title').val().length < 1) {
+        $('#event-title-error').show();
+        return false;
+    } else {
+        $('#event-title-error').hide();
+        return true;
+    }
+}
+
+$(document).on('keyup', '#Event_Title', checkEventTitle);
 
 $(document).on('click', '#save-cancel-event', function () {
     if (eventPageCurrentMode === eventPageModes.read) {
@@ -194,9 +233,9 @@ $(document).on('click', '#save-cancel-event', function () {
         //submit stuff
         $('#eventedit-status').attr('class', 'error-section display-none');
 
-        if ($('#Event_Title').val().length >= 1) {
-           
-            if (eventPageDateCorrect) {
+        if (checkEventTitle()) {
+
+            if (eventpageCorrectDateTime) {
 
                 $('#Event_BeginingDate').val(convertToDateTime(eventPageDateTimeBegin));
                 $('#Event_EndingDate').val(convertToDateTime(eventPageDateTimeEnd));
@@ -213,11 +252,21 @@ $(document).on('click', '#save-cancel-event', function () {
                     IsPrivate: $('#IsPrivate').is(":checked"),
                     IsParticipantsAllowed: $('#IsParticipantsAllowed').is(":checked"),
                     Organizer: $('#Event_Organizer').val()
-                }
+                };
 
-                postData(ajaxUrl.EventUpdateUrl,eventModel,
-                    function(response) {
-                        debugger;
+                var pivotModel = {
+                    BeginingDate: eventPageCurrentEvent.beginingDate,
+                    EndingDate: eventPageCurrentEvent.endingDate,
+                    ClassRoomId: eventPageCurrentEvent.classRoomId
+                };
+   
+                postData(ajaxUrl.EventUpdateUrl,
+                    {
+                        eventModel: eventModel,
+                        pivotModel: pivotModel
+                    },
+                    function (response) {
+
                         $('#eventedit-status').attr('class', 'error-section');
 
                         if (response.success) {
@@ -231,46 +280,66 @@ $(document).on('click', '#save-cancel-event', function () {
 
                         } else {
                             $('.icon-place').html('<i id="status-icon-bad" class="fa fa-frown-o"></i>');
-                                                   }
+                        }
+
                         $('#error-message').html(response.message);
 
                     },
-                    function() {
+                    function (responce) {
+                        console.log(responce);
                         eventPageDialogWindowError.show();
                     });
 
             } else {
-                alert(2);
+                errorIncorrectDateTime(eventpageCorrectDateTime);
             }
-        } else {
-            alert(1);
         }
     }
 });
 
 
 $(document).on('click', '.participant-remove', function () {
+
+    var participantFormDom = $('#event-participant-count');
     var participant = $(this);
     var data = {
         id: participant.attr('id').split('-')[1]
     }
 
-    postData(ajaxUrl.ParticipantRemoveUrl, data, function (response) {
-        if (response.success) {
-            participant.remove();
-        }
+    if (data.id == eventPageCurrentEvent.userId || eventPageCurrentEvent.isAdmin) {
 
-    }, function (response) {
-        debugger;
-        eventPageDialogWindowError.dialogModel.BodyMessage = response;
-        eventPageDialogWindowError.show();
-    });
+        postData(ajaxUrl.ParticipantRemoveUrl, data, function (successResponse) {
+            if (successResponse.success) {
+                participant.parent().remove();
+                participantFormDom.html(parseInt(participantFormDom.html()) - 1);
+
+                isUserTakePart(ajaxUrl.ParticipantExist, eventPageCurrentEvent.id);
+                loadParticipants();
+            }
+
+        }, function (errorResponse) {
+            eventPageDialogWindowError.dialogModel.BodyMessage = errorResponse;
+            eventPageDialogWindowError.show();
+        });
+
+    }
 });
 
 $(document).on('click', '#change-cancel', function () {
     if (eventPageCurrentMode === eventPageModes.read) {
 
+        eventpageLoadToSelectRoom();
+        eventpageLoadToSelectRoom();
+
         eventPageCurrentMode = eventPageModes.edit;
+
+        errorIncorrectDateTime(compareDates({
+            year: 2000 + parseInt(eventPageStartDateTimeBegin.year),
+            month: eventPageStartDateTimeBegin.month,
+            day: eventPageStartDateTimeBegin.day,
+            hour: eventPageStartDateTimeBegin.hour,
+            minutes: eventPageStartDateTimeBegin.minutes
+        }, dateNow, false, true) > 0);
 
         $('.title').addClass('display-none');
         $('.title-edit').removeClass('display-none');
@@ -301,6 +370,8 @@ $(document).on('click', '#change-cancel', function () {
 
         eventPageCurrentMode = eventPageModes.read;
 
+        errorIncorrectDateTime(true);
+
         $('.title-edit').addClass('display-none');
         $('.title').removeClass('display-none');
 
@@ -326,10 +397,31 @@ $(document).on('click', '#change-cancel', function () {
         $('.button-save-event').addClass('display-none');
         $('.button-cancel-event').removeClass('display-none');
 
-        renderNewEventDateTime(eventPageStartDateTimeBegin);
-        renderNewEventDateTimeEnd(eventPageStartDateTimeEnd);
+        renderNewEventStartDateTimeBegin(eventPageStartDateTimeBegin);
+        renderNewEventStartDateTimeEnd(eventPageStartDateTimeEnd);
+
+        eventpageLoadSelectedClassRoom();
     }
 });
+
+
+function renderNewEventStartDateTimeBegin(dateTime) {
+    var renderedTime = renderTimeMinutes(dateTime.hour, dateTime.minutes, true);
+
+    $('#date-day-value').html(dateTime.day);
+    $('#date-year-value').html(dateTime.year);
+    $('#date-month-value').html(renderDate(dateTime.month));
+    $('#timebegin-hours-value').html(renderedTime.hour);
+    $('#timebegin-minutes-value').html(renderedTime.minutes);
+
+}
+
+function renderNewEventStartDateTimeEnd(dateTime) {
+
+    var renderedTime = renderTimeMinutes(dateTime.hour, dateTime.minutes, true);
+    $('#timeend-hours-value').html(renderedTime.hour);
+    $('#timeend-minutes-value').html(renderedTime.minutes);
+}
 
 function cancelEvent() {
     eventPageDialogWindow.close();
@@ -351,4 +443,36 @@ function cancelEvent() {
 
 function cancelCancelEvent() {
     eventPageDialogWindow.close();
+}
+
+function eventpageLoadToSelectRoom() {
+
+    $('#plan-loading').show();
+
+    postData(ajaxUrl.PlanSectionUrl,
+        {
+            id: eventPageCurrentEvent.classRoomId,
+            loadParameters: PlanSectionLoadParameters.EventRoomSelection
+        },
+        function (result) {
+            $('#plan-section').html(result);
+            $('#plan-loading').hide();
+        });
+
+}
+
+function eventpageLoadSelectedClassRoom() {
+    $('#plan-loading').show();
+
+    postData(ajaxUrl.PlanSectionUrl,
+        {
+            id: eventPageCurrentEvent.classRoomId,
+            loadParameters: PlanSectionLoadParameters.SelectedRoom
+        },
+        function (result) {
+            $('#plan-section').html(result);
+            $('#classroom-path').addClass(`plan-room-path-${eventPageCurrentEvent.classRoomId}`);
+            $('#eventpage-room-name').html($('#eventpage-selected-room').val());
+            $('#plan-loading').hide();
+        });
 }
