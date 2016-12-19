@@ -23,7 +23,7 @@ var roomeventPopupModalId;
 var roomeventPopupCrudSelectedClassRoomFromList = {
     id: 0,
     name: ''
-}
+};
 
 var roomeventModalCreateNewDateTimeBegin = {
     year: 0,
@@ -50,13 +50,14 @@ CRUD Section
 */
 
 
-function setEventModalModel(id, userId, isAdmin, classRoomId) {
+function setEventModalModel(id, userId, isAdmin, classRoomId, beginingDate, endingDate) {
+   
     roomeventPopupCrudCurrentEvent.id = id;
     roomeventPopupCrudCurrentEvent.userId = userId;
     roomeventPopupCrudCurrentEvent.isAdmin = isAdmin;
     roomeventPopupCrudCurrentEvent.classRoomId = classRoomId;
-    roomeventPopupCrudCurrentEvent.beginingDate = "";
-    roomeventPopupCrudCurrentEvent.endingDate = "";
+    roomeventPopupCrudCurrentEvent.beginingDate = beginingDate;
+    roomeventPopupCrudCurrentEvent.endingDate = endingDate;
 }
 
 function roomeventPoputCrudInit(mode) {
@@ -86,12 +87,12 @@ function roomeventPoputCrudInit(mode) {
 
     $(document).off('click', '#event-edit-room-dropdown');
     $(document).on('click', '#event-edit-room-dropdown', listDropDown);
-
+    
     setDateTimeObject(
        roomeventModalCreateNewDateTimeBegin,
        roomeventModalCreateNewDateTimeEnd,
-       roomeventModalCreateNewDateTimeTargetBegin,
-       roomeventModalCreateNewDateTimeTargetEnd,
+       roomeventPoputCrudModeEdit?  roomeventPopupCrudCurrentEvent.beginingDate : roomeventModalCreateNewDateTimeTargetBegin,
+       roomeventPoputCrudModeEdit ? roomeventPopupCrudCurrentEvent.endingDate : roomeventModalCreateNewDateTimeTargetEnd,
        roomeventPopupCrudSection,
        {
            dateDayUp: $('#date-day-up-modal'),
@@ -142,20 +143,6 @@ $(document).on('click', '#event-modal-submit', function(e) {
         return;
     }
 
-    var eventModel = {
-        Title: $('#event-modal-title').val(),
-        UserId: $('#event-modal-userid').val(),
-        ClassRoomId: $('#event-modal-userid').val(),
-        BeginingDate: convertToDateTime(roomeventModalCreateNewDateTimeBegin),
-        Description: $('#event-modal-description').val(),
-        EndingDate: convertToDateTime(roomeventModalCreateNewDateTimeEnd),
-        Id: setEventModalModel.id,
-        IsAuthorShown: $('#IsAuthorShown-modal').is(":checked"),
-        IsPrivate: $('#IsPrivate-modal').is(":checked"),
-        IsParticipantsAllowed: $('#IsParticipantsAllowed-modal').is(":checked"),
-        Organizer: $('#event-modal-organizer').val()
-    };
-
     var eventmodalCreateNewIconPlace = $('#event-modal-icon');
     var eventmodalCreteNewForm = $('#event-modal-form');
     var eventmodalCreateNewStatusSection = $('#event-modal-status-section');
@@ -163,11 +150,49 @@ $(document).on('click', '#event-modal-submit', function(e) {
 
     if (roomeventPoputCrudModeEdit) {
 
-        var pivotModel = {
-            BeginingDate: eventPageCurrentEvent.beginingDate,
-            EndingDate: eventPageCurrentEvent.endingDate,
-            ClassRoomId: eventPageCurrentEvent.classRoomId
+        var eventModel = {
+            Title: $('#event-modal-title').val(),
+            UserId: $('#event-modal-userid').val(),
+            ClassRoomId: $('#event-modal-classRoomId').val(),
+            BeginingDate: convertToDateTime(roomeventModalCreateNewDateTimeBegin),
+            Description: $('#event-modal-description').val(),
+            EndingDate: convertToDateTime(roomeventModalCreateNewDateTimeEnd),
+            Id: roomeventPopupCrudCurrentEvent.id,
+            IsAuthorShown: $('#IsAuthorShown-modal').is(":checked"),
+            IsPrivate: $('#IsPrivate-modal').is(":checked"),
+            IsParticipantsAllowed: $('#IsParticipantsAllowed-modal').is(":checked"),
+            Organizer: $('#event-modal-organizer').val()
         };
+
+
+        var pivotModel = {
+            BeginingDate: convertToDateTime(roomeventPopupCrudCurrentEvent.beginingDate),
+            EndingDate: convertToDateTime(roomeventPopupCrudCurrentEvent.endingDate),
+            ClassRoomId: roomeventPopupCrudCurrentEvent.classRoomId
+        };
+        console.log(eventmodalCreteNewForm.serialize());
+
+        postData(ajaxUrl.EventUpdateUrl,
+            {
+                eventModel: eventModel,
+                pivotModel: pivotModel
+            },
+            function (successResponse) {
+
+                eventmodalCreateNewStatusSection.attr('class', 'status-message display-inline-block');
+
+                if (successResponse.success) {
+                    eventmodalCreateNewIconPlace.html('<i id="status-icon-bad" class="fa fa-calendar-check-o"></i>');
+                    document.getElementById(`${eventmodalCreteNewForm.attr('id')}`).reset();
+                } else {
+                    eventmodalCreateNewIconPlace.html('<i id="status-icon-bad" class="fa fa-frown-o"></i>');
+                }
+
+                eventmodalCreateNewErrorMessage.html(successResponse.message);
+            },
+            function(errorResponse) {
+                console.log(errorResponse);
+            });
 
     } else {
 
@@ -293,7 +318,7 @@ function listDropDown() {
         $('.event-edit-room-dropdown-variant').css('display', 'none');
         listed = false;
     }
-};
+}
 
 
 /*
@@ -350,9 +375,35 @@ $(document).on('click', '#event-modal-close', function() {
     $(`#popups-${singleRoomeventPopupId}`).remove();
 });
 
-$(document).off('click','.event-button-cancel')
+$(document).off('click', '.event-button-cancel');
 $(document).on('click','.event-button-cancel', function() {
     roomeventDialogWindow.show();
+});
+
+$(document).off('click', '.event-button-change');
+$(document).on('click', '.event-button-change', function (e) {
+
+    $(`#popups-${singleRoomeventPopupId}`).remove();
+    $('.event-position').remove();
+
+    $('body').append(roomeventPopupDom);
+    $(`#${roomeventPoputId}`).css({
+        'left': (e.pageX / 2),
+        'top': e.pageY
+    });
+
+    loadSection(
+        ajaxUrl.RoomEventPopupViewUrl + "?eventId=" + roomeventPopupModalId,
+        null,
+        function (successResponse) {
+
+            $(`#${roomeventPoputId}`).html(successResponse);
+
+        },
+        function (errorResponse) {
+            console.log(errorResponse);
+        });
+
 });
 
 function cancelEvent() {

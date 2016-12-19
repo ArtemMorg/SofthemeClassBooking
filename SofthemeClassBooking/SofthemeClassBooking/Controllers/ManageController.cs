@@ -8,6 +8,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PagedList;
 using SofthemeClassBooking.Models;
+using SofthemeClassBooking_BLL.Implementation;
+using SofthemeClassBooking_BOL.Contract.Models;
+using SofthemeClassBooking_BOL.Contract.Services;
 
 namespace SofthemeClassBooking.Controllers
 {
@@ -16,15 +19,18 @@ namespace SofthemeClassBooking.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+         private IEventService<IEvent> _eventService;
 
-        public ManageController()
+         public ManageController(IEventService<IEvent> eventService)
         {
+            _eventService = eventService;
         }
 
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IEventService<IEvent> eventService)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _eventService = eventService;
         }
 
         public ApplicationSignInManager SignInManager
@@ -69,6 +75,12 @@ namespace SofthemeClassBooking.Controllers
 
         }
 
+        [Authorize(Roles = "admin")]
+        
+        public int GetNumberOfEventsByUser(string id)
+        {
+            return _eventService.GetByUser(id).Count();
+        }
         //
         // POST: /Manage/RemoveLogin
         [Authorize(Roles = "admin")]
@@ -85,11 +97,14 @@ namespace SofthemeClassBooking.Controllers
                 await
                     UserManager.RemoveLoginAsync(userId,
                         new UserLoginInfo(loginProvider, providerKey));
+
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(userId);
                 if (user != null)
                 {
+                    _eventService.RemoveAllEventsFromUser(user.Id);
+                    
                     result = await UserManager.DeleteAsync(user);
                     message = ManageMessageId.RemoveLoginSuccess;
                 }

@@ -36,9 +36,7 @@ namespace SofthemeClassBooking_BLL.Implementation
                 }
 
                 var events = MapService.Map(eventModel);
-                var userEmail = context.AspNetUsers
-                    .Where(u => u.Id == eventModel.UserId)
-                    .Select(u => u.Email).FirstOrDefault();
+                var userEmail = ServiceHelper.GetUserEmail(eventModel.UserId);
 
                 context.Events.Add(events);
                 context.Participants.Add(new Participants
@@ -108,15 +106,30 @@ namespace SofthemeClassBooking_BLL.Implementation
         public IEnumerable<IEvent> GetByUser(string id)
         {
             var eventsList = new List<IEvent>();
-            var dateNow = DateTime.Now;
+            var dateNow = DateTime.UtcNow.AddHours(EventSettings.DateTimeUtcOffset);
 
             using (var context = new ClassBookingContext())
             {
-                var events = context.Events
-                    .Where(e => e.UserId == id && e.EndingDate > dateNow).ToList();
+
+                var userEmail = ServiceHelper.GetUserEmail(id);
+
+                var events = (from e in context.Events
+                              join p in context.Participants on e.Id equals p.EventId
+                              where e.EndingDate > dateNow && p.Email == userEmail
+                              select new EventModel
+                              {
+                                  Id = e.Id,
+                                  ClassRoomId = e.ClassRoomId,
+                                  BeginingDate = e.BeginingDate,
+                                  EndingDate = e.EndingDate,
+                                  Title = e.Title,
+                                  Description = e.Description
+                              }).ToList();
+
+
                 foreach (var _event in events)
                 {
-                    eventsList.Add(MapService.Map(_event));
+                    eventsList.Add(_event);
                 }
             }
             return eventsList;
@@ -137,6 +150,43 @@ namespace SofthemeClassBooking_BLL.Implementation
                 context.Events.Attach(events);
                 context.Events.Remove(events);
                 
+                context.SaveChanges();
+            }
+
+        }
+
+        public int GetNumberOfEventsByUser(string id)
+        {
+
+            var eventsList = new List<IEvent>();
+
+            int count = 0;
+            using (var context = new ClassBookingContext())
+            {
+
+                count = context.Events.Where(e => e.UserId == id).ToList().Count;
+            }
+            return count;
+
+        }
+
+        public void RemoveAllEventsFromUser(string id)
+        {
+            var eventsList = new List<IEvent>();
+            var dateNow = DateTime.Now;
+
+            using (var context = new ClassBookingContext())
+            {
+
+                var events = context.Events.Where(e => e.UserId == id).ToList();
+                foreach (var _event in events)
+                {
+                    context.Participants.RemoveRange(context.Participants
+                            .Where(p => p.EventId == _event.Id));
+
+                    context.Events.Attach(_event);
+                    context.Events.Remove(_event);
+                }
                 context.SaveChanges();
             }
 

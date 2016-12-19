@@ -357,6 +357,7 @@
     <Content Include="Scripts\jquery\jquery-3.1.1.min.map" />
     <None Include="Scripts\validation\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\plan\plan-section.js" />
+    <Content Include="Scripts\profile\profile.js" />
     <Content Include="Scripts\validation\profile.js" />
     <Content Include="Scripts\roomevent\calendar.js" />
     <Content Include="Scripts\roomevent\initialization.js" />
@@ -434,7 +435,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Scripts\profile\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>

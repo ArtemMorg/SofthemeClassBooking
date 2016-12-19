@@ -53,10 +53,7 @@ namespace SofthemeClassBooking_BLL.Implementation
             
             using (var context = new ClassBookingContext())
             {
-                var userEmail = context.AspNetUsers
-                    .Where(u => u.Id == userId)
-                    .Select(u => u.Email)
-                    .FirstOrDefault();
+                var userEmail = ServiceHelper.GetUserEmail(userId);
 
                 var userCount = context.Participants.Count(
                     p => p.EventId == eventId && 

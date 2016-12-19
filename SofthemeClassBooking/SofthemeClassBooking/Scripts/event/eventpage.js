@@ -472,7 +472,7 @@ function eventpageLoadToSelectRoom() {
         });
 
 }
-
+    
 function eventpageLoadSelectedClassRoom() {
     $('#plan-loading').show();
 
@@ -484,7 +484,7 @@ function eventpageLoadSelectedClassRoom() {
         function (result) {
             $('#plan-section').html(result);
             $('#classroom-path').addClass(`plan-room-path-${eventPageCurrentEvent.classRoomId}`);
-            $('#eventpage-room-name').html($('#eventpage-selected-room').val());
+            $('#eventpage-room-name').html($(`#eventpage-selected-room-${eventPageCurrentEvent.classRoomId}`).val());
             $('#plan-loading').hide();
         });
 }

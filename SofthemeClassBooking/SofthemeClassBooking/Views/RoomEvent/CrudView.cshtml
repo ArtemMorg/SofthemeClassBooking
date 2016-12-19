@@ -3,7 +3,11 @@
 @model SofthemeClassBooking_BOL.Models.EventModel
 
 @{
-    var isEditMode = ViewBag.isEditMode ?? false;
+    var isEditMode = false;
+    if (Model != null)
+    {
+        isEditMode = true;
+    }
 }
 
 @using (Html.BeginForm("Create", "Event", FormMethod.Post, new { id = "event-modal-form" }))
@@ -17,7 +21,6 @@
     @Html.HiddenFor(m => m.ClassRoomId, new {id="event-modal-classRoomId"})
 
     <div id="event-modal-crud-section" class="event event-create">
-
         <div class="event-header-edit noselect-text">
             <div class="event-header-datetime-section ">
                 <div class="event-edit-date">
@@ -168,14 +171,18 @@
 
 @Scripts.Render("~/bundles/scripts/event-popup")
 
+
 <script type="text/javascript">
 
-    roomeventPoputCrudInit('@isEditMode');
-
     setEventModalModel(
-                     @(Model != null? Model.Id : 0),
-                    '@User.Identity.GetUserId()',
-                    '@User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"])',
-                    '@(Model != null? Model.ClassRoomId : 0)');
+                 @(Model != null? Model.Id : 0),
+                '@User.Identity.GetUserId()',
+                '@User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"])',
+                '@(Model != null? Model.ClassRoomId : 0)',
+                convertToDateObject('@(Model != null ? Model.BeginingDate.ToString("yyyy-MM-dd-HH-mm") : "")'),
+                convertToDateObject('@(Model != null ? Model.EndingDate.ToString("yyyy-MM-dd-HH-mm") : "")')
+                );
+
+    roomeventPoputCrudInit('@isEditMode');
 
 </script>

@@ -111,13 +111,15 @@
 
 @Scripts.Render("~/bundles/scripts/event-popup")
 
+
 <script>
 
 
+
     roomeventPopupVerboseInit(
-                convertToDateObject('@Model.Event.BeginingDate.ToString("yyyy-MM-dd-HH-mm")'),
-                convertToDateObject('@Model.Event.EndingDate.ToString("yyyy-MM-dd-HH-mm")'),
-                '@Model.Event.Id');
+        convertToDateObject('@Model.Event.BeginingDate.ToString("yyyy-MM-dd-HH-mm")'),
+        convertToDateObject('@Model.Event.EndingDate.ToString("yyyy-MM-dd-HH-mm")'),
+        '@Model.Event.Id');
 
 
     roomeventDialogWindow = new DialogWindow({

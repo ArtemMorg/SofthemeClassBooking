@@ -14,6 +14,7 @@ namespace SofthemeClassBooking.Controllers
     public class ClassroomController : Controller
     {
         private IClassRoomService<IClassRoom> _classRoomService;
+        private static object _lock = new object();
         // GET: Classroom
         public ClassroomController(IClassRoomService<IClassRoom> classRoomService)
         {
@@ -100,8 +101,12 @@ namespace SofthemeClassBooking.Controllers
         {
             if (ModelState.IsValid)
             {
-                _classRoomService.Update(classRoomModel);
-                return Json(new {success = true});
+                lock (_lock)
+                {
+                    _classRoomService.Update(classRoomModel);
+                    return Json(new { success = true });
+                }
+
             }
             return Json(new { success = false });
         }
@@ -129,8 +134,12 @@ namespace SofthemeClassBooking.Controllers
         {
             if (ModelState.IsValid)
             {
-                _classRoomService.ChangeRoomStatus(id, (ClassRoomStatus)classRoomStatus);
-                return Json(new { success = true });
+                lock (_lock)
+                {
+                    _classRoomService.ChangeRoomStatus(id, (ClassRoomStatus)classRoomStatus);
+                    return Json(new { success = true });
+                }
+
             }
             return Json(new {  message = Localization.Localization.ErrorGeneralException, success = false });
         }

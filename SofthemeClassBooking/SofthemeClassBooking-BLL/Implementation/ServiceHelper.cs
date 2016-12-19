@@ -12,10 +12,11 @@ namespace SofthemeClassBooking_BLL.Implementation
             using (var context = new ClassBookingContext())
             {
                 var eventsInSameRange = context.Events
-                  .Count(e => ((e.BeginingDate >= eventModel.BeginingDate && e.BeginingDate <= eventModel.EndingDate) ||
-                  (e.EndingDate >= eventModel.BeginingDate && e.EndingDate <= eventModel.EndingDate) ||
-                  (e.BeginingDate >= eventModel.BeginingDate && e.EndingDate <= eventModel.EndingDate)) &&
-                  (e.ClassRoomId == eventModel.ClassRoomId));
+                    .Count(
+                        e => ((e.BeginingDate >= eventModel.BeginingDate && e.BeginingDate <= eventModel.EndingDate) ||
+                              (e.EndingDate >= eventModel.BeginingDate && e.EndingDate <= eventModel.EndingDate) ||
+                              (e.BeginingDate >= eventModel.BeginingDate && e.EndingDate <= eventModel.EndingDate)) &&
+                             (e.ClassRoomId == eventModel.ClassRoomId));
 
                 if (eventsInSameRange > 0)
                 {
@@ -25,5 +26,16 @@ namespace SofthemeClassBooking_BLL.Implementation
 
             return false;
         }
+
+        public static string GetUserEmail(string id)
+        {
+            using (var context = new ClassBookingContext())
+            {
+                return context.AspNetUsers.Where(u => u.Id == id)
+                    .Select(u => u.Email)
+                    .FirstOrDefault();
+            }
+        }
+
     }
 }

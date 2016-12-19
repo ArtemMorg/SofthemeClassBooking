@@ -49,7 +49,7 @@
 
                 </td>
                 <td>
-                    <img src="~/Content/images/calendar.png" />  &nbsp;23
+                    <img src="~/Content/images/calendar.png" />  &nbsp;@Html.Action("GetNumberOfEventsByUser","Manage",new { id=user.Id})
                 </td>
                 <td>
                     @if (user.UserName != User.Identity.Name)

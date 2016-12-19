@@ -16,6 +16,7 @@ namespace SofthemeClassBooking.Controllers
     {
         private IEventService<IEvent> _eventService;
         private IParticipantService<IParticipant> _participantService;
+        private static object _lock = new object();
 
         public EventController(
             IEventService<IEvent> eventService,
@@ -67,12 +68,15 @@ namespace SofthemeClassBooking.Controllers
         {
             try
             {
-                _eventService.Remove(new EventModel
+                lock (_lock)
                 {
-                    Id = id
-                });
+                    _eventService.Remove(new EventModel
+                    {
+                        Id = id
+                    });
 
-                return Json(new { success = true });
+                    return Json(new {success = true});
+                }
             }
             catch (Exception)
             {
@@ -149,7 +153,10 @@ namespace SofthemeClassBooking.Controllers
             eventModel.UserId = User.Identity.GetUserId();
             try
             {
-                _eventService.Add(eventModel);
+                lock (_lock)
+                {
+                    _eventService.Add(eventModel);
+                }
             }
             catch (RoomIsBusyException)
             {
@@ -173,7 +180,10 @@ namespace SofthemeClassBooking.Controllers
         {
             try
             {
-                _eventService.Update(eventModel, pivotModel);
+                lock (_lock)
+                {
+                    _eventService.Update(eventModel, pivotModel);
+                }
             }
             catch (RoomIsBusyException)
             {

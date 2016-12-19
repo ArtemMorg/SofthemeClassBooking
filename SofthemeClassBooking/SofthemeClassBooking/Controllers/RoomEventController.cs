@@ -25,7 +25,10 @@ namespace SofthemeClassBooking.Controllers
         {
             if (eventId != null)
             {
-                return PartialView(_eventService.Get((int)eventId));
+                var eventModel = _eventService.Get((int) eventId);
+                eventModel.Id = (int)eventId;
+
+                return PartialView(eventModel);
             }
 
             return PartialView();

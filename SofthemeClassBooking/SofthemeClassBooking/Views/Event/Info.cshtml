@@ -6,7 +6,7 @@
 
     var editAccess = (User.Identity.GetUserId() == Model.UserId) ||
                  (User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]));
-
+    var eventPlanned = DateTime.Compare(Model.EndingDate, DateTime.UtcNow.AddHours(2)) > 0;
 }
 
 <div class="event event-public">
@@ -25,8 +25,16 @@
         @if (editAccess)
         {
             <div class="event-buttons">
-                <button class="event-button-change">@Localization.ButtonEdit</button>
-                <button class="event-button-cancel">@Localization.ButtonCancel</button>
+                @if (eventPlanned)
+                {
+                    <button id="event-modal-button-change" class="event-button-change">@Localization.ButtonEdit</button>
+                    <button id="event-modal-button-cancel" class="event-button-cancel">@Localization.ButtonCancel</button>
+                }
+                else
+                {
+                    <button class="event-button-change" disabled>@Localization.ButtonEdit</button>
+                    <button class="event-button-cancel" disabled>@Localization.ButtonCancel</button>
+                }
             </div>
         }
 
