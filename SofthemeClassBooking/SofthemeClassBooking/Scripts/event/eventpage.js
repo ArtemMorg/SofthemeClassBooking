@@ -4,7 +4,7 @@ var eventPageCurrentEvent = {};
 var eventPageDateTimeBegin;
 var eventPageDateTimeEnd;
 
-var eventpageCorrectDateTime;
+var eventpageCorrectDateTime = true;
 
 var eventPageDateTimeBegin = {
     year: dateNow.year,
@@ -237,7 +237,15 @@ $(document).on('click', '#save-cancel-event', function () {
             return;
         }
 
-        if (compareDates(roomeventModalCreateNewDateTimeBegin, dateNow, false, true) < 0 || !eventpageCorrectDateTime) {
+        if (compareDates(
+            {
+                year: 2000 + eventPageStartDateTimeBegin.year,
+                month: eventPageStartDateTimeBegin.month,
+                day: eventPageStartDateTimeBegin.day,
+                hour: eventPageStartDateTimeBegin.hour,
+                minutes: eventPageStartDateTimeBegin.minutes
+            },
+            dateNow, false, true) < 0 || !eventpageCorrectDateTime) {
             errorIncorrectDateTime(false);
             return;
         }

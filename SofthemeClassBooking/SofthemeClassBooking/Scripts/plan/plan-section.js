@@ -80,7 +80,7 @@ function planSectionInit(isUserAdmin, loadParameters) {
         var selectedRoomId = $(this).attr('id');
 
         if (planSectionLoadParameters === PlanSectionLoadParameters.EventRoomSelection) {
-            debugger;
+    
             $(`#${planSectionCurrentRoom}`).attr('class', `plan-room-${planSectionCurrentRoom}${planSectionAvailableCssClass} plan-room ${planSectionAvailableCssClass}`);
             $(`#${selectedRoomId}`).attr('class', `plan-room-${selectedRoomId}${planSectionBusyCssClass} plan-room ${planSectionBusyCssClass}`);
 
