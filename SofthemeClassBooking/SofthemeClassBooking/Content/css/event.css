@@ -31,6 +31,7 @@
 }
 
 .event-private {
+     background-color: #FFFFFF;
     border: 1px solid #9FA6B6;
     width: 312px;
 }
@@ -182,6 +183,12 @@
     border-radius: 14px;
     padding: 2px 6px;
     cursor: pointer;
+}
+
+.event-button-change:disabled,
+.event-button-cancel:disabled {
+    cursor: default;
+    background-color: #C0C0C0;
 }
 
 .event-button-cancel {

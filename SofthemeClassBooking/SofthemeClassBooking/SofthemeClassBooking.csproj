@@ -423,13 +423,11 @@
     <Content Include="Views\RoomEvent\Short.cshtml" />
     <Content Include="Views\RoomEvent\CrudView.cshtml" />
     <Content Include="Views\Event\Index.cshtml" />
-    <Content Include="Views\Event\Edit.cshtml" />
     <Content Include="Views\Event\Info.cshtml" />
     <Content Include="Views\Home\Profile.cshtml" />
     <Content Include="Views\Home\ChangeUserNameEmail.cshtml" />
     <Content Include="Views\Event\Create.cshtml" />
     <Content Include="Views\Home\UserList.cshtml" />
-    <Content Include="Views\Event\EventOwner.cshtml" />
     <Content Include="Views\Home\DialogWindow.cshtml" />
     <Content Include="Views\Home\MapLink.cshtml" />
     <Content Include="Views\Participant\Participants.cshtml" />

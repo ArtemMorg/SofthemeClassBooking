@@ -98,6 +98,39 @@ namespace SofthemeClassBooking.Controllers
 
         [HttpGet]
         [Authorize]
+        public ActionResult InfoPrivate(int id)
+        {
+          
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(ApplicationDbContext.Create()));
+            var eventInfo = _eventService.Get(id);
+
+            if (User.Identity.GetUserId() != eventInfo.UserId)
+            {
+                return null;
+            }
+
+                eventInfo.Id = id;
+
+            return PartialView(new EventViewModel
+            {
+                Event = eventInfo,
+                ParticipantCount = _participantService.GetCount(id),
+                Author = userManager.FindById(eventInfo.UserId).UserName
+            });
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Info(int id)
+        {
+            var eventInfo = _eventService.Get(id);
+            eventInfo.Id = id;
+
+            return PartialView(eventInfo);
+        }
+
+        [HttpGet]
+        [Authorize]
         public ActionResult Create()
         {
             return PartialView();

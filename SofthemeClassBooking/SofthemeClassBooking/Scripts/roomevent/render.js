@@ -30,6 +30,8 @@ var eventBlockType = { short: 0, long: 1 };
 
 var renderClassRooms;
 var renderEvents;
+
+var isUserAdmin;
 var isUserCanEdit;
 
 var minumumAllowedTimeToBook = 20 * minutePerPixel;
@@ -53,12 +55,13 @@ var roomeventAddStartDateTimePopup = {
     month: 0,
     day: 0,
     hour: 0,
-    minutes:0
+    minutes: 0
 
 }
 
-function setIsUserCanEdit(canEdit) {
-    isUserCanEdit = canEdit;
+function setIsUserAdmin(userAdmin, userCanEdit) {
+    isUserCanEdit = userCanEdit;
+    isUserAdmin = userAdmin;
 }
 
 function setDateNow() {
@@ -102,7 +105,6 @@ var roomeventModalCreateNewDateTimeTargetEnd = {
 };
 
 
-
 //Event adding to DOM section
 $(document).on('click', '#large', function () {
 
@@ -144,6 +146,7 @@ $(document).on('click', '#short', function () {
 
 $(document).on('click', '.eventblock-add', function (e) {
 
+
     $('.event-position').remove();
     $('body').append(roomeventPopupDom);
 
@@ -166,10 +169,29 @@ $(document).on('click', '.eventblock-add', function (e) {
 
 });
 
-$(document).on('click', '.eventblock-exist', function (e) {
+$(document).on('click', '.eventblock-lock', function () {
 
     $('.event-position').remove();
-    var currentEventId = $(this).attr('id').split('-')[1];
+
+    var currentEventBlock = $(this);
+
+    var eventPrivate = currentEventBlock.attr('data-private');
+    var eventBlockType = currentEventBlock.attr('data-eventblock-type');
+
+    console.log(eventPrivate);
+    console.log(eventBlockType);
+
+});
+
+$(document).on('click', '.eventblock-exist, .eventblock-lock', function (e) {
+
+    $('.event-position').remove();
+
+    var currentEventBlock = $(this);
+
+    var selectedEventBlockType = currentEventBlock.attr('data-eventblock-type');
+    var eventPrivate = currentEventBlock.attr('data-private');
+    var currentEventId = currentEventBlock.attr('id').split('-')[1];
 
     $('body').append(roomeventPopupDom);
     $(`#${roomeventPoputId}`).css({
@@ -177,11 +199,41 @@ $(document).on('click', '.eventblock-exist', function (e) {
         'top': e.pageY
     });
 
-    getEventInfoVerbose(currentEventId)
-        .done(function (successResponse) {
-            $(`#${roomeventPoputId}`).html(successResponse);
 
-        });
+    if (eventPrivate === 'true' && isUserAdmin) {
+
+
+        getEventInfoVerbose(currentEventId)
+           .done(function (successResponse) {
+
+               $(`#${roomeventPoputId}`).html(successResponse);
+               $('#event').removeClass('event-public').addClass('event-private');
+               $('#event-header').attr('class', 'event-private-header');
+               $('#event-modal-button-change, #event-modal-button-cancel ').addClass('event-button-change-private');
+
+           });
+
+    } else if(eventPrivate === 'false') {
+
+        if (parseInt(selectedEventBlockType) === eventBlockType.long) {
+
+            getEventInfoVerbose(currentEventId)
+                .done(function (successResponse) {
+                    $(`#${roomeventPoputId}`).html(successResponse);
+
+                });
+
+        } else {
+
+            getEventInfo(currentEventId).done(function (successResponse) {
+                $(`#${roomeventPoputId}`).html(successResponse);
+            });
+        }
+
+    }
+
+
+
 
 });
 
@@ -217,7 +269,7 @@ $(document).on('mouseover', '.roomevent-room-cell-middle', function (e) {
     roomeventModalCreateNewDateTimeTargetBegin.hour = splittedDateTime.hour;
 
     roomeventModalSelectedClassRoom = splittedDateTime.minutes; //On minutes place classroom id
-    roomeventModalCreateNewDateTimeTargetBegin.minutes = Math.round(currentRoomCellObject.dataLeftOccupied / minutePerPixel) ;
+    roomeventModalCreateNewDateTimeTargetBegin.minutes = Math.round(currentRoomCellObject.dataLeftOccupied / minutePerPixel);
 
 
     roomeventModalCreateNewDateTimeTargetEnd.year = splittedDateTime.year;
@@ -339,7 +391,7 @@ function renderRooms(timeCellCount, resetTime) {
                 currentRow.append('<div id=' + cellId + ' class="roomevent-room-cell roomevent-room-cell-middle" data-left-occupied="0" data-right-occupied="0" data-inside-event="0"><div></div></div>');
             }
         }
-   
+
         if (roomeventEventsByUser) {
 
             getEventsBriefByUser().done(function (events) {
@@ -374,20 +426,25 @@ function renderEventBlock(eventBlock, roomEventCellId) {
     if (eventBlock.isPrivate) {
 
         eventBlockRenderIcon = '<i class="fa fa-lock fa-3x"></i>';
-        if (eventBlock.blockType == eventBlockType.short) {
-            eventBlockRender = '<div id="' + eventBlock.id + '" class="eventblock-lock short-time">';
+        if (eventBlock.blockType === eventBlockType.short) {
+            eventBlockRender = '<div id="' + eventBlock.id + `" class="eventblock-lock short-time" data-private="true" data-eventblock-type="${eventBlockType.short}">`;
         } else {
-            eventBlockRender = '<div id="' + eventBlock.id + '" class="eventblock-lock long-time">';
+            eventBlockRender = '<div id="' + eventBlock.id + `" class="eventblock-lock long-time" data-private="true" data-eventblock-type="${eventBlockType.long}">`;
         }
 
     } else {
-        if (eventBlock.blockType == eventBlockType.short) {
-            eventBlockRender = '<div id="' + eventBlock.id + '" class="eventblock-exist short-time">';
+        if (eventBlock.blockType === eventBlockType.short) {
+            eventBlockRender = '<div id="' + eventBlock.id + `" class="eventblock-exist short-time" data-private="false" data-eventblock-type="${eventBlockType.short}">`;
         } else {
-            eventBlockRender = '<div id="' + eventBlock.id + '" class="eventblock-exist long-time">';
-            descriptionPart = '<div class="eventblock-description">' +
-                              '<div class="text">' + eventBlock.title + '</div>' +
-                              '<div class="text">' + eventBlock.description + '</div></div>';
+            eventBlockRender = '<div id="' + eventBlock.id + `" class="eventblock-exist long-time"  data-private="false" data-eventblock-type="${eventBlockType.long}">`;
+            descriptionPart = '<div class="eventblock-description">';
+
+            if (eventBlock.description == null || eventBlock.description.length <= 0) {
+                descriptionPart += '<div class="text">&nbsp</div>' + '<div class="text">' + eventBlock.title + '</div></div>';
+            } else {
+                descriptionPart += '<div class="text">' + eventBlock.title + '</div>' + '<div class="text">' + eventBlock.description + '</div></div>';
+            }
+
         }
 
     }
@@ -664,7 +721,7 @@ function calculateEventBlockPosition() {
 
             $(cellIdFirst).attr('data-right-occupied', dataRightOccupied);
 
-            var cellIdLast = '#'  +  year + '-' + month + '-' + day + '-' + hourEnd + '-' + classRoomId;
+            var cellIdLast = '#' + year + '-' + month + '-' + day + '-' + hourEnd + '-' + classRoomId;
             $(cellIdLast).attr('data-left-occupied', dataLeftOccupied);
 
             renderEventBlock(eventBlock, cellIdFirst);

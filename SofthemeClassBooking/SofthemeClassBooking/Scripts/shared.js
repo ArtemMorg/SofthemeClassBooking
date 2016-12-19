@@ -16,10 +16,11 @@ var defaultNewEventStartMinutesOffset = 5;
 //Shared id for all popups - only 1 at a time
 var singleRoomeventPopupId = 777;
 
+
 var renderDateTimeType = {
     withMonthNames: 0,
     numertic: 1
-}
+};
 
 var RoomEventPopupCrudMode = {
     create: 0,
@@ -76,6 +77,8 @@ function setEngineUrl(url) {
         EventCancelUrl: url.EventCancelUrl,
         EventUpdateUrl: url.EventUpdateUrl,
         EventsBriefUrl: url.EventsBriefUrl,
+        EventInfo: url.EventInfo,
+        EventInfoPrivate: url.EventInfoPrivate,
         EventUrl: url.EventUrl,
         EventInfoVerbose: url.EventInfoVerbose,
         ParticipantAddUrl: url.ParticipantAddUrl,
@@ -102,6 +105,15 @@ function getEventsBriefByUser() {
 function getEventInfoVerbose(eventId) {
     return loadSection(ajaxUrl.EventInfoVerbose + '/' + eventId);
 }
+
+function getEventInfoPrivate(eventId) {
+    return loadSection(ajaxUrl.EventInfoPrivate + '/' + eventId);
+}
+
+function getEventInfo(eventId) {
+    return loadSection(ajaxUrl.EventInfo + '/' + eventId);
+}
+
 
 function renderSection(url, domElement, domLoadingElement, finallyFunction) {
     loadSection(url, function () {

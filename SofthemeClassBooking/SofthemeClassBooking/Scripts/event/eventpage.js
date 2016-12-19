@@ -239,11 +239,11 @@ $(document).on('click', '#save-cancel-event', function () {
 
         if (compareDates(
             {
-                year: 2000 + eventPageStartDateTimeBegin.year,
-                month: eventPageStartDateTimeBegin.month,
-                day: eventPageStartDateTimeBegin.day,
-                hour: eventPageStartDateTimeBegin.hour,
-                minutes: eventPageStartDateTimeBegin.minutes
+            year: 2000 + eventPageDateTimeBegin.year,
+                month: eventPageDateTimeBegin.month,
+                    day: eventPageDateTimeBegin.day,
+                        hour: eventPageDateTimeBegin.hour,
+                            minutes: eventPageDateTimeBegin.minutes
             },
             dateNow, false, true) < 0 || !eventpageCorrectDateTime) {
             errorIncorrectDateTime(false);

@@ -18,7 +18,7 @@
     var eventDescription = Model.Event.Description == null ? Localization.ErrorNoDescription : Model.Event.Description;
     var editAccess = (User.Identity.GetUserId() == Model.Event.UserId) ||
                      (User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]));
-    var eventPlanned = DateTime.Compare(Model.Event.EndingDate, DateTime.Now) > 0;
+    var eventPlanned = DateTime.Compare(Model.Event.EndingDate, DateTime.UtcNow.AddHours(2)) > 0;
 
     var participantCssClass = eventPlanned ? "participant" : "participant-took-part";
 }
@@ -153,19 +153,19 @@
 
                     <div class="datetime datetime-first">
                         <div id="date-day-up" class="arrow-up date-edit invisible"> <i class="fa fa-sort-up"></i> </div>
-                        <div id="date-day-value" class="value">14</div>
+                        <div id="date-day-value" class="value"></div>
                         <div id="date-day-down" class="arrow-down date-edit invisible"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
                     </div> <!----><div class="delimeter delimeter-middle">
                         .
                     </div><!----><div class="datetime datetime-middle">
                         <div id="date-month-up" class="arrow-up date-edit invisible"> <i class="fa fa-sort-up"></i> </div>
-                        <div id="date-month-value" class="value">12</div>
+                        <div id="date-month-value" class="value"></div>
                         <div id="date-month-down" class="arrow-down date-edit invisible"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
                     </div><!----><div class="delimeter">
                         .
                     </div><!----><div class="datetime">
                         <div id="date-year-up" class="arrow-up date-edit invisible"> <i class="fa fa-sort-up"></i> </div>
-                        <div id="date-year-value" class="value">17</div>
+                        <div id="date-year-value" class="value"></div>
                         <div id="date-year-down" class="arrow-down date-edit invisible"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
                     </div>
 
@@ -178,13 +178,13 @@
 
                     <div class="datetime datetime-first">
                         <div id="timebegin-hours-up" class="arrow-up date-edit invisible"> <i class="fa fa-sort-up"></i> </div>
-                        <div id="timebegin-hours-value" class="value">18</div>
+                        <div id="timebegin-hours-value" class="value"></div>
                         <div id="timebegin-hours-down" class="arrow-down date-edit invisible"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
                     </div> <!----><div class="delimeter-time">
                         :
                     </div><!----><div class="datetime datetime-time">
                         <div id="timebegin-minutes-up" class="arrow-up date-edit invisible"> <i class="fa fa-sort-up"></i> </div>
-                        <div id="timebegin-minutes-value" class="value">18</div>
+                        <div id="timebegin-minutes-value" class="value"></div>
                         <div id="timebegin-minutes-down" class="arrow-down date-edit invisible"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
                     </div>
                     <div class="delimeter-time delimeter-hyphen">
@@ -192,13 +192,13 @@
                     </div>
                     <div class="datetime">
                         <div id="timeend-hours-up" class="arrow-up date-edit invisible"> <i class="fa fa-sort-up"></i> </div>
-                        <div id="timeend-hours-value" class="value">18</div>
+                        <div id="timeend-hours-value" class="value"></div>
                         <div id="timeend-hours-down" class="arrow-down date-edit invisible"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
                     </div> <!----><div class="delimeter-time">
                         :
                     </div><!----><div class="datetime datetime-time">
                         <div id="timeend-minutes-up" class="arrow-up date-edit invisible"> <i class="fa fa-sort-up"></i> </div>
-                        <div id="timeend-minutes-value" class="value">18</div>
+                        <div id="timeend-minutes-value" class="value"></div>
                         <div id="timeend-minutes-down" class="arrow-down date-edit invisible"> <i class="fa fa-sort-desc" aria-hidden="true"></i> </div>
                     </div>
 

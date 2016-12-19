@@ -3,8 +3,8 @@
 @Scripts.Render("~/bundles/scripts/roomevent")
 
 @{
-    var isUserCanEdit = User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]) ||
-                        User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAuthorized"]);
+    var isUserAdmin = User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]);
+    var isUserCanEdit = isUserAdmin || User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAuthorized"]);
 }
 
 <div class="roomevent-section">
@@ -66,5 +66,5 @@
 </div>
 
 <script>
-    roomEventInit('@isUserCanEdit');
+    roomEventInit('@isUserAdmin', '@isUserCanEdit');
 </script>

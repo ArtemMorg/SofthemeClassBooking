@@ -4,11 +4,15 @@
 @model SofthemeClassBooking.Models.EventViewModel
 @{
     var eventPage = Url.Action("Index", "Event") + "/" + Model.Event.Id;
+    var eventPlanned = DateTime.Compare(Model.Event.EndingDate, DateTime.UtcNow.AddHours(2)) > 0;
+    var editAccess = (User.Identity.GetUserId() == Model.Event.UserId) ||
+                     (User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]));
+
 }
 
-<div class="event event-public">
+<div id="event" class="event event-public">
 
-    <div class="event-public-header">
+    <div id="event-header" class="event-public-header">
         <div class="event-header-datetime-section ">
             <div id="event-verbose-date" class="event-header-datetime"></div>
             <div id="event-verbose-time" class="event-header-datetime-time"></div>
@@ -19,11 +23,20 @@
         </div>
 
         <!-- buttons to change-->
-        @if ((User.Identity.GetUserId() == @Model.Event.UserId) || (User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"])))
+        @if (editAccess)
         {
             <div class="event-buttons">
-                <button class="event-button-change">@Localization.ButtonEdit</button>
-                <button class="event-button-cancel">@Localization.ButtonCancel</button>
+                @if (eventPlanned)
+                {
+                    <button id="event-modal-button-change" class="event-button-change">@Localization.ButtonEdit</button>
+                    <button id="event-modal-button-cancel" class="event-button-cancel">@Localization.ButtonCancel</button>
+                }
+                else
+                {
+                    <button class="event-button-change" disabled>@Localization.ButtonEdit</button>
+                    <button class="event-button-cancel" disabled>@Localization.ButtonCancel</button>
+                }
+
             </div>
         }
 
@@ -47,29 +60,27 @@
         </div>
     </div>
 
+
     @if (@Model.Event.IsParticipantsAllowed)
     {
         <div class="event-add">
 
-            @if (DateTime.Compare(@Model.Event.EndingDate, DateTime.Now) > 0)
+            @if (eventPlanned)
             {
-                if (Model.Event.UserId == User.Identity.GetUserId())
+
+                <input id="event-modal-email-take-part" class="display-none" name="Email" type="text" placeholder="@Localization.ErrorEventAlreadyEnrolledPlaceholder" disabled />
+
+                using (Html.BeginForm("Add", "Participant", FormMethod.Post, new { id = "verbose-add-participant-form", @class="display-none" }))
                 {
-                    <input id="Email" name="Email" type="text" placeholder="@Localization.ErrorEventAlreadyEnrolledPlaceholder" disabled />
-                }
-                else
-                {
-                    using (Html.BeginForm("Add", "Participant", FormMethod.Post, new { id = "verbose-add-participant-form" }))
-                    {
-                        <input id="verbose-add-participant-email" name="Email" type="text" placeholder="@Localization.EventParticipantJoin" required />
+                    <input id="verbose-add-participant-email" name="Email" type="text" placeholder="@Localization.EventParticipantJoin" required />
                         <i id="verbose-add-participant-submit" class="fa fa-plus fa-lg"></i>
                         <input type="hidden" name="EventId" value="@Model.Event.Id" />
                         <div id="verbose-email-error-message" class="error-message-form noselect-text display-none">
                             <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
                             @Localization.ErrorEmail
                         </div>
-                    }
                 }
+
 
             }
             else

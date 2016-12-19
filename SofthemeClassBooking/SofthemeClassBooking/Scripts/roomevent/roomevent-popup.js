@@ -212,6 +212,26 @@ function errorIncorrectDateTime(dateValid) {
 
 }
 
+function isUserTakePart(url, eventModelId) {
+
+    postData(
+        url,
+        { eventId: eventModelId },
+        function (successResponse) {
+            if (successResponse.success) {
+      
+                if (successResponse.message) {
+                    
+                    $('#event-modal-email-take-part').attr('class', ' ');
+                    $('#verbose-add-participant-form').attr('class', 'display-none');
+                } else {
+                    $('#verbose-add-participant-form').attr('class', '');
+                    $('#event-modal-email-take-part').attr('class', 'display-none');
+
+                }
+            }
+        });
+}
 
 
 function checkEventTitle() {
@@ -314,6 +334,7 @@ $(document).on('click',
 function roomeventPopupVerboseInit(datetime, datetimeEnd, popupId) {
 
     roomeventPopupModalId = popupId;
+    isUserTakePart(ajaxUrl.ParticipantExist, popupId);
 
     var dayOfWeek = getDayOfWeek(new Date(datetime.year + '-' + datetime.month + '-' + datetime.day).getDay());
     $('#event-verbose-date').html(dayNames[dayOfWeek] + ',' + datetime.day + " " + monthNamesAccusative[datetime.month-1]);
@@ -356,4 +377,23 @@ function cancelEvent() {
 
 function cancelCancelEvent() {
     roomeventDialogWindow.close();
+}
+
+/*
+
+roomeventPopupInfoInit
+
+*/
+
+function roomeventPopupInfoInit(datetime, datetimeEnd, popupId) {
+    
+    roomeventPopupModalId = popupId;
+
+    var dayOfWeek = getDayOfWeek(new Date(datetime.year + '-' + datetime.month + '-' + datetime.day).getDay());
+    $('#event-info-date').html(dayNames[dayOfWeek] + ',' + datetime.day + " " + monthNamesAccusative[datetime.month - 1]);
+
+    var timeBegin = renderTimeMinutes(datetime.hour, datetime.minutes);
+    var timeEnd = renderTimeMinutes(datetimeEnd.hour, datetimeEnd.minutes);
+    $('#event-info-time').html(timeBegin + '-' + timeEnd);
+
 }

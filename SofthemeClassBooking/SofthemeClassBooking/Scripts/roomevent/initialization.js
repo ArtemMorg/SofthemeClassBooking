@@ -1,9 +1,9 @@
-﻿function roomEventInit(isUserCanEdit) {
+﻿function roomEventInit(userAdmin, userCanEdit) {
 
     resetCurrentCalendarCell();
     renderCalendar(currentCalendarMonth);
     setDateHeader(currentCalendarCell);
     renderTime(shortRoomEventTable);
     renderRooms(shortRoomEventTable, null);
-    setIsUserCanEdit(isUserCanEdit === 'True');
+    setIsUserAdmin(userAdmin === 'True', userCanEdit === 'True');
 }

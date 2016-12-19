@@ -23,7 +23,7 @@ function checkCurrentTimeInterval(cancel) {
     if (cancel) {
         clearInterval(checkFunctionInterval);
     } else {
-        debugger;
+  
         checkFunctionInterval = setInterval(function () {
 
             eventmodalCreateNewCorrectDateTime =
@@ -160,7 +160,7 @@ function eventmodalCreateNewInit() {
                     eventmodalCreteNewForm,
                     defaultAjaxDataType,
                     function (successResponse) {
-                        debugger;
+                
                         eventmodalCreateNewStatusSection.attr('class', 'status-message display-inline-block');
 
                         if (successResponse.success) {

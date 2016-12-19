@@ -1,113 +1,65 @@
-﻿
+﻿@using System.Web.Configuration
+@using Microsoft.AspNet.Identity
+@model SofthemeClassBooking_BOL.Models.EventModel
+@{
+    var eventPage = Url.Action("Index", "Event") + "/" + Model.Id;
 
-<div class="eventpage-info">
+    var editAccess = (User.Identity.GetUserId() == Model.UserId) ||
+                 (User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]));
 
-    <div class="title">English class for Juniors & Seniors</div>
+}
 
-    <div class="author">
-        <i class="fa fa-user"></i>
-        <div class="event-creator-name">Daniel</div>
+<div class="event event-public">
+
+    <div class="event-public-header">
+        <div class="event-header-datetime-section ">
+            <div id="event-info-date" class="event-header-datetime"></div>
+            <div id="event-info-time" class="event-header-datetime"></div>
+        </div>
+
+        <div class="event-header-close-section">
+            <div id="event-modal-close" class="event-header-close"></div>
+        </div>
+
+        <!-- buttons to change-->
+        @if (editAccess)
+        {
+            <div class="event-buttons">
+                <button class="event-button-change">@Localization.ButtonEdit</button>
+                <button class="event-button-cancel">@Localization.ButtonCancel</button>
+            </div>
+        }
+
     </div>
 
-    <div class="description">
-        30 min listening (Native speakers). Guys who have to speak with clients and have problems
-        with understanding, this lesson is for you, we'll help you with that in 30 min 3 times a week :) Find some time.
-    </div>
+    <h4 id="event-title">@Model.Title</h4>
 
-    <div class="participants">
-        <span>Планируют принять участие <span>9</span> человек</span>
 
-        <div class="participant-add">
-            <span>Присоединиться</span>
-            <input type="text" placeholder="Укажите e-mail чтобы присоединиться" />
-            <i class="fa fa-plus fa-lg"></i>
+    <div class="event-icon-section">
+        <div class="event-icon-position">
+            <i class="fa fa-calendar-plus-o fa-lg"></i>
+            <i class="fa fa-envelope-o fa-lg"></i>
+            <i class="fa fa-print fa-lg"></i>
+            <i id="event-@Model.Id" class="fa fa-link fa-lg"></i>
         </div>
     </div>
-
 </div>
 
-<div class="eventpage-calendar-section">
+@Scripts.Render("~/bundles/scripts/event-popup")
 
-    <div class="eventpage-calendar">
-        <div class="eventpage-calendar-header">
-
-            <div class="datetime">
-                <div class="cell-icon">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                </div><!----><div class="cell">
-                    <div class="up"><i class="fa fa-sort-up"></i></div>
-                    <div class="value">18</div>
-                    <div class="down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
-                </div><!----><div class="delimeter">
-                    <span>.</span>
-                </div><!----><div class="cell">
-                    <div class="up"><i class="fa fa-sort-up"></i></div>
-                    <div class="value">05</div>
-                    <div class="down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
-                </div><!----><div class="delimeter">
-                    <span>.</span>
-                </div><!----><div class="cell">
-                    <div class="up"><i class="fa fa-sort-up"></i></div>
-                    <div class="value">16</div>
-                    <div class="down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
-                </div>
-
-            </div>
+<script>
 
 
-            <div class="datetime">
-                <div class="cell-icon-time">
-                    <i class="fa fa-clock-o" aria-hidden="true"></i>
-                </div><!----><div class="cell">
-                    <div class="up"><i class="fa fa-sort-up"></i></div>
-                    <div class="value">18</div>
-                    <div class="down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
-                </div><!----><div class="delimeter">
-                    <span>:</span>
-                </div><!----><div class="cell">
-                    <div class="up"><i class="fa fa-sort-up"></i></div>
-                    <div class="value">05</div>
-                    <div class="down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
-                </div><!----><div class="time-delimeter">
-                    <span>-</span>
-                </div><!----><div class="cell">
-                    <div class="up"><i class="fa fa-sort-up"></i></div>
-                    <div class="value">16</div>
-                    <div class="down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
-                </div><!----><div class="delimeter">
-                    <span>:</span>
-                </div><!----><div class="cell">
-                    <div class="up"><i class="fa fa-sort-up"></i></div>
-                    <div class="value">05</div>
-                    <div class="down"><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
-                </div>
+    roomeventDialogWindow = new DialogWindow({
+        title: '@Localization.DialogCancelEventTitle',
+        bodyMessage: ""
+    });
 
-            </div>
+    roomeventDialogWindow.setDialogAnswerNoHandler(cancelCancelEvent);
+    roomeventDialogWindow.setDialogAnswerYesHandler(cancelEvent);
 
-        </div>
-
-        <div class="icon-section">
-            <div class="icon-position">
-                <i class="fa fa-calendar-plus-o"></i>
-                <i class="fa fa-envelope-o"></i>
-                <i class="fa fa-print"></i>
-            </div>
-        </div>
-
-        <div class="button-section">
-            <button class="cancel">Отмена</button>
-            <button class="save">Сохранить</button>
-        </div>
-
-        <div class="error-section">
-            <div class="icon">
-                <i class="fa fa-frown-o"></i>
-            </div>
-
-            <div class="message">
-                <span>Эта аудитория занята на выбранное время. Выберите, пожалуйста, другое.</span>
-            </div>
-
-        </div>
-
-    </div>
+    roomeventPopupInfoInit(
+                convertToDateObject('@Model.BeginingDate.ToString("yyyy-MM-dd-HH-mm")'),
+                convertToDateObject('@Model.EndingDate.ToString("yyyy-MM-dd-HH-mm")'),
+                '@Model.Id');
+</script>
