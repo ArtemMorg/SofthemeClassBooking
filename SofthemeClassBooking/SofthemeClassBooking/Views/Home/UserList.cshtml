@@ -1,6 +1,6 @@
 ﻿@using PagedList.Mvc
 @using System.Web.Security;
-@model PagedList.IPagedList<SofthemeClassBooking.Models.ApplicationUser>
+@model SofthemeClassBooking.Models.UserSearchModel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,15 +10,34 @@
     @Styles.Render("~/bundles/styles/users")
 }
 
-<div></div>
-<p id="users-title">
-    @Localization.AccountUserList
-</p>
-<p id="users-list-count">@Localization.Total:  @Model.Count</p>
+<div class="user-wripper">
+    <p id="users-title">
+        @Localization.AccountUserList
+    </p>
+    <span id="users-list-count">@Localization.Total:  @Model.SearchResults.Count</span>
+
+
+
+
+
+
+    @using (Ajax.BeginForm("Search", "Manage", new AjaxOptions { UpdateTargetId = "users" }))
+    {
+
+        @Html.TextBoxFor(m => m.SearchButton)
+        <button type="submit" id="completed-task" class="users-search-button">
+            <i class="fa fa-search"></i>
+        </button>
+    }
+</div>
+
+
+
+
 <div id="users">
     <table>
 
-        @foreach (var user in Model)
+        @foreach (var user in Model.SearchResults)
         {
             <tr>
                 <td>
@@ -28,16 +47,28 @@
                 <td>
                     @user.Email
 
-
                 </td>
                 <td>
                     <img src="~/Content/images/calendar.png" />  &nbsp;23
                 </td>
                 <td>
-                    <img src="~/Content/images/DeleteUser.png" />
+                    @if (user.UserName != User.Identity.Name)
+                    {
+                        using (Html.BeginForm("RemoveLogin", "Manage", new { userId = user.Id }))
+                        {@Html.AntiForgeryToken()
+                            <button type="submit" id="completed-task" class="users-search-button">
+                                <img src="~/Content/images/DeleteUser.png" />
+                            </button>
+
+                        }
+                    }
                 </td>
             </tr>
         }
     </table>
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    @Html.PagedListPager(Model.SearchResults, page => Url.Action("Index", new { page, id = "PageList" }))
+
+
 </div>
+<div class="clearfix"></div>
+<br />

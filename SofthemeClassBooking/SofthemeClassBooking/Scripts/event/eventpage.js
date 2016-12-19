@@ -59,7 +59,7 @@ function checkRoomIsBusy(id) {
             EndingDate: convertToDateTime(eventPageDateTimeEnd),
             Id: eventPageCurrentEvent.id
         },
-        function(successResponse) {
+        function (successResponse) {
 
             if (successResponse.message !== false) {
 
@@ -233,67 +233,71 @@ $(document).on('click', '#save-cancel-event', function () {
         //submit stuff
         $('#eventedit-status').attr('class', 'error-section display-none');
 
-        if (checkEventTitle()) {
-
-            if (eventpageCorrectDateTime) {
-
-                $('#Event_BeginingDate').val(convertToDateTime(eventPageDateTimeBegin));
-                $('#Event_EndingDate').val(convertToDateTime(eventPageDateTimeEnd));
-
-                var eventModel = {
-                    Title: $('#Event_Title').val(),
-                    UserId: $('#Event_UserId').val(),
-                    ClassRoomId: $('#Event_ClassRoomId').val(),
-                    BeginingDate: $('#Event_BeginingDate').val(),
-                    Description: $('#Event_Description').val(),
-                    EndingDate: $('#Event_EndingDate').val(),
-                    Id: eventPageCurrentEvent.id,
-                    IsAuthorShown: $('#IsAuthorShown').is(":checked"),
-                    IsPrivate: $('#IsPrivate').is(":checked"),
-                    IsParticipantsAllowed: $('#IsParticipantsAllowed').is(":checked"),
-                    Organizer: $('#Event_Organizer').val()
-                };
-
-                var pivotModel = {
-                    BeginingDate: eventPageCurrentEvent.beginingDate,
-                    EndingDate: eventPageCurrentEvent.endingDate,
-                    ClassRoomId: eventPageCurrentEvent.classRoomId
-                };
-   
-                postData(ajaxUrl.EventUpdateUrl,
-                    {
-                        eventModel: eventModel,
-                        pivotModel: pivotModel
-                    },
-                    function (response) {
-
-                        $('#eventedit-status').attr('class', 'error-section');
-
-                        if (response.success) {
-
-                            $('.icon-place').html('<i id="status-icon-bad" class="fa fa-calendar-check-o"></i>');
-
-                            eventPageStartDateTimeBegin = copyDate(eventPageDateTimeBegin);
-                            eventPageStartDateTimeEnd = copyDate(eventPageDateTimeEnd);
-
-                            location.reload();
-
-                        } else {
-                            $('.icon-place').html('<i id="status-icon-bad" class="fa fa-frown-o"></i>');
-                        }
-
-                        $('#error-message').html(response.message);
-
-                    },
-                    function (responce) {
-                        console.log(responce);
-                        eventPageDialogWindowError.show();
-                    });
-
-            } else {
-                errorIncorrectDateTime(eventpageCorrectDateTime);
-            }
+        if (!checkEventTitle()) {
+            return;
         }
+
+        if (compareDates(roomeventModalCreateNewDateTimeBegin, dateNow, false, true) < 0 || !eventpageCorrectDateTime) {
+            errorIncorrectDateTime(false);
+            return;
+        }
+
+
+
+        $('#Event_BeginingDate').val(convertToDateTime(eventPageDateTimeBegin));
+        $('#Event_EndingDate').val(convertToDateTime(eventPageDateTimeEnd));
+
+        var eventModel = {
+            Title: $('#Event_Title').val(),
+            UserId: $('#Event_UserId').val(),
+            ClassRoomId: $('#Event_ClassRoomId').val(),
+            BeginingDate: $('#Event_BeginingDate').val(),
+            Description: $('#Event_Description').val(),
+            EndingDate: $('#Event_EndingDate').val(),
+            Id: eventPageCurrentEvent.id,
+            IsAuthorShown: $('#IsAuthorShown').is(":checked"),
+            IsPrivate: $('#IsPrivate').is(":checked"),
+            IsParticipantsAllowed: $('#IsParticipantsAllowed').is(":checked"),
+            Organizer: $('#Event_Organizer').val()
+        };
+
+        var pivotModel = {
+            BeginingDate: eventPageCurrentEvent.beginingDate,
+            EndingDate: eventPageCurrentEvent.endingDate,
+            ClassRoomId: eventPageCurrentEvent.classRoomId
+        };
+
+        postData(ajaxUrl.EventUpdateUrl,
+            {
+                eventModel: eventModel,
+                pivotModel: pivotModel
+            },
+            function (response) {
+
+                $('#eventedit-status').attr('class', 'error-section');
+
+                if (response.success) {
+
+                    $('.icon-place').html('<i id="status-icon-bad" class="fa fa-calendar-check-o"></i>');
+
+                    eventPageStartDateTimeBegin = copyDate(eventPageDateTimeBegin);
+                    eventPageStartDateTimeEnd = copyDate(eventPageDateTimeEnd);
+
+                    location.reload();
+
+                } else {
+                    $('.icon-place').html('<i id="status-icon-bad" class="fa fa-frown-o"></i>');
+                }
+
+                $('#error-message').html(response.message);
+
+            },
+            function (responce) {
+                console.log(responce);
+                eventPageDialogWindowError.show();
+            });
+
+
     }
 });
 

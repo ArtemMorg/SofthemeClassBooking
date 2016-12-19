@@ -1,25 +1,25 @@
 ﻿
-
 #users-title {
      font-size: 28px;
-    position: relative;
-    top: 17px;
-    left: 115px;
+   
     color: #4A5158;
 }
 #users-list-count {
     font-size: 14px;
-    position: relative;
-    top: 5px;
-    left: 134px;
+  position: relative;
+   top: 20px;
+    left: 18px;
 }
 #users table tr td  {
     color: #5B6168;
+    vertical-align: middle;
+        padding-left: 30px;
+}
+#users table {
+ 
 }
 #users {
-    position: relative;
-    left: 134px;
-    top: 12px;
+    min-height: 415px;
 }
 #users tr td {
      
@@ -32,27 +32,45 @@
 #users td:nth-of-type(2) 
 {
      width: 281px;
+         padding-left: 0px;
 }
 #users td:nth-of-type(3) {
         width: 140px;
+            padding-left: 0px;
+   
+}
+#users td:nth-of-type(4) {
+        width: 64px;
+            padding-left: 0px;
+}
+#users td:nth-of-type(4) img {
+    visibility: hidden;
    
 }
 #users table tr:hover {
     background-color: #EFF1F8;
 }
+    #users table tr:hover   td:nth-of-type(4) img {
+        visibility: visible;
+        cursor: pointer;
+    }
     
 #users table {
-    position: relative;
-    top: 4px;
-    left: -14px;
-    border-collapse: collapse; 
+  
+        border-collapse: collapse;
+    margin-top: 20px;
+    margin-left: 116px;
        
+}
+.pagination-container {
+        margin-left: 751px;
+           
 }
 #users table tr td {
     border-spacing: 0px;
     border-width: 0px;
 }
- table tr td span  {
+ #users table tr td span  {
             color: white;
             font-size: 11px;
             background: #f95752;
@@ -60,3 +78,41 @@
             padding: 4px 12px 5px;
             font-weight: 100;
         }
+ #users table tr td img {
+      margin-left: 8px;
+ }
+ .user-wripper {
+    margin-top: 47px;
+    margin-left: 125px;
+ }
+ .user-wripper  input {
+    box-sizing: border-box;
+    display: block;
+    border-width: 1px;
+    height: 34px;
+    border-radius: 19px;
+    outline: none;
+    border: 2px solid #F2F4FA;
+    margin-left: 495px;
+    width: 222px;
+    padding-left: 20px;
+    padding-right: 30px;
+    margin-top: -5px;
+}
+    .user-wripper .users-search-button{
+       
+    position: relative;
+    left: 687px;
+    top: 110px;
+    top: -26px;
+    }
+    .fa-search {
+            color: #9FA6B6;
+        cursor: pointer;
+    font-size: 18px;
+    }
+    .users-search-button {
+  background: none;
+  padding: 0px;
+  border: none;
+}

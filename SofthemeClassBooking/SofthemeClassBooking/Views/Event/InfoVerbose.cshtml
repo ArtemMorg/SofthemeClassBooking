@@ -10,12 +10,12 @@
 
     <div class="event-public-header">
         <div class="event-header-datetime-section ">
-            <div id="event-date" class="event-header-datetime">Пт, 18 Мая</div>
-            <div id="event-time" class="event-header-datetime">18:30-19:00</div>
+            <div id="event-verbose-date" class="event-header-datetime"></div>
+            <div id="event-verbose-time" class="event-header-datetime-time"></div>
         </div>
 
         <div class="event-header-close-section">
-            <div id="event-modal-@Model.Event.Id-close" class="event-header-close"></div>
+            <div id="event-modal-close" class="event-header-close"></div>
         </div>
 
         <!-- buttons to change-->
@@ -29,7 +29,7 @@
 
     </div>
 
-    <h4 id="event-title">English class</h4>
+    <h4 id="event-title">@Model.Event.Title</h4>
 
     <div class="event-body">
         @Model.Event.Description
@@ -91,3 +91,30 @@
     </div>
 
 </div>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "event-cancel-token" }))
+{
+    @Html.AntiForgeryToken()
+}
+
+
+@Scripts.Render("~/bundles/scripts/event-popup")
+
+<script>
+
+
+    roomeventPopupVerboseInit(
+                convertToDateObject('@Model.Event.BeginingDate.ToString("yyyy-MM-dd-HH-mm")'),
+                convertToDateObject('@Model.Event.EndingDate.ToString("yyyy-MM-dd-HH-mm")'),
+                '@Model.Event.Id');
+
+
+    roomeventDialogWindow = new DialogWindow({
+        title: '@Localization.DialogCancelEventTitle',
+        bodyMessage: ""
+    });
+
+    roomeventDialogWindow.setDialogAnswerNoHandler(cancelCancelEvent);
+    roomeventDialogWindow.setDialogAnswerYesHandler(cancelEvent);
+
+</script>

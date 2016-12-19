@@ -1,0 +1,280 @@
+﻿
+        
+       #WeekCalendar div.clear {
+            clear: both;
+        }
+        
+      #WeekCalendar  .tableWrap {
+            position: relative;
+            width: 945px;
+            margin: auto;
+        }
+        
+       #WeekCalendar table {
+            /*background: cadetblue;*/
+            border-collapse: collapse;
+            position: relative;
+        }
+        
+       #WeekCalendar table td {
+            border: 2px solid #eef0f8;
+        }
+        
+       #WeekCalendar .dateGlobal div {
+            display: inline-block;
+            position: absolute;
+        }
+        
+        #WeekCalendar .dateGlobal {
+            width: 945px;
+            margin: auto;
+            position: relative;
+            text-align: center;
+        }
+        
+       #WeekCalendar .dateGlobal p {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+      #WeekCalendar  .dateGlobal .left {
+            left: 0;
+            top: -2px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-right: 11px solid #9fa6b6;
+            border-bottom: 10px solid transparent;
+        }
+        
+       #WeekCalendar .dateGlobal .right {
+            right: 0;
+            top: -2px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-left: 11px solid #9fa6b6;
+            border-bottom: 10px solid transparent;
+        }
+        
+      #WeekCalendar  table tr td:nth-of-type(5) {
+            background: #ebeef7;
+        }
+        
+      #WeekCalendar  table tr:nth-of-type(1) td:nth-of-type(5) span {
+            float: right;
+            color: #697184;
+        }
+        
+       #WeekCalendar table tr td {
+            width: 5%;
+            padding: 5px 9px;
+            height: 48px;
+            vertical-align: top;
+            text-align: right;
+            box-sizing: border-box;
+            color: #c0c4cf;
+            font-size: 11px;
+        }
+        
+     #WeekCalendar   table tr:not(:nth-of-type(1)):not(:last-of-type) td:not(:nth-of-type(5)):not(.busy):not(.not1):hover {
+            background: #fdbcba url(/Content/images/plus3.png) no-repeat center center;
+            cursor: pointer;
+        }
+        
+      #WeekCalendar  span.date {
+            /*background: red;*/
+            float: right;
+        }
+        
+      #WeekCalendar  table tr:nth-of-type(1) td {
+            text-align: left;
+            height: 26px;
+            color: #697184;
+            font-size: 14px;
+        }
+        
+     #WeekCalendar   table tr:nth-of-type(1) td span {
+            color: #c0c4cf;
+        }
+        
+      #WeekCalendar  table tr:last-of-type td {
+            border: 0;
+            vertical-align: middle;
+            text-align: center;
+        }
+        
+      #WeekCalendar  table tr:last-of-type td:nth-of-type(5) {
+            background: none;
+        }
+        
+      #WeekCalendar  table td.busy {
+            background: #f95752;
+            /*width: 100%;
+            height: 100%;*/
+            color: white;
+        }
+        
+      #WeekCalendar  table td.busy div.busy {
+            /*background: red;*/
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+     #WeekCalendar   table td.busy div.busy p {
+            margin: 0;
+            text-align: left;
+            letter-spacing: 1px;
+            position: absolute;
+            bottom: 0px;
+        }
+        
+     #WeekCalendar   table td.busy.half {
+            position: relative;
+            top: 25px;
+        }
+        
+      #WeekCalendar  table td p.prost_time {
+            margin: 0;
+            background: #f95752;
+            position: relative;
+            left: -5px;
+            width: calc(100% + 5px);
+            line-height: 22px;
+            margin-top: 3px;
+            color: white;
+            padding-right: 5px;
+            cursor: pointer;
+        }
+        
+      #WeekCalendar  div.window1 {
+            width: 312px;
+            height: 113px;
+            background: #f95752;
+            position: absolute;
+            left: 0;
+            z-index: 10;
+            padding-top: 5px;
+            bottom: -150px;
+        }
+        
+     #WeekCalendar   div.window1 p,
+     #WeekCalendar   div.window2 p {
+            margin: 0;
+            font-size: 11px;
+            color: white;
+            margin-left: 9px;
+            margin-bottom: 3px;
+        }
+        
+     #WeekCalendar   div.window1 div.close,
+    #WeekCalendar    div.window2 div.close {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            width: 13px;
+            height: 3px;
+            z-index: 11;
+            background: #fdbcba;
+        }
+        
+      #WeekCalendar  div.window1 div.info,
+     #WeekCalendar   div.window2 div.info {
+            background: white;
+            height: 79px;
+            width: 310px;
+            position: absolute;
+            bottom: 1px;
+            left: 1px;
+            text-align: center;
+        }
+        
+    #WeekCalendar    div.window1 div.info p,
+    #WeekCalendar    div.window2 div.info p {
+            color: #697184;
+            font-size: 16px;
+            margin-top: 8px;
+            text-align: left;
+        }
+        
+      #WeekCalendar  div.window1 div.info div.icons img,
+      #WeekCalendar  div.window2 div.info div.icons img {
+            margin: 15px 5px 0px;
+        }
+        
+       #WeekCalendar div.window1 div.info img:hover,
+      #WeekCalendar  div.window2 div.info img:hover {
+            filter: brightness(0.5);
+            cursor: pointer;
+        }
+        
+    #WeekCalendar    div.window2 {
+            width: 312px;
+            height: 245px;
+            background: #f95752;
+            position: absolute;
+            right: 0;
+            z-index: 10;
+            padding-top: 5px;
+            bottom: -280px;
+        }
+        
+      #WeekCalendar  div.window2 div.info {
+            height: 211px;
+        }
+        
+      #WeekCalendar  div.window2 div.info p {
+            padding-right: 10px;
+            padding-left: 10px;
+            margin-left: 0;
+        }
+        
+       #WeekCalendar div.window2 div.info p.text {
+            font-size: 12px;
+        }
+        
+      #WeekCalendar  div.window2 div.info div.left {
+            float: left;
+            margin-left: 13px;
+            margin-top: 5px;
+        }
+        
+       #WeekCalendar div.window2 div.info div.right {
+            float: right;
+            margin-right: 13px;
+            margin-top: 5px;
+        }
+        
+      #WeekCalendar  div.window2 div.info img {
+            vertical-align: bottom;
+        }
+        
+      #WeekCalendar  div.window2 div.info span {
+            font-size: 12px;
+            margin-left: 7px;
+            margin-right: 10px;
+        }
+        
+       #WeekCalendar  div.window2 div.info input {
+            border-radius: 10px;
+            border: 1px solid #ebeef7;
+            padding: 5px 10px;
+            width: 255px;
+            box-sizing: border-box;
+            float: left;
+            margin-left: 10px;
+            margin-top: 15px;
+        }
+        
+       #WeekCalendar  div.window2 div.info input[type=submit] {
+            background: transparent;
+            border: 0;
+            font-size: 44px;
+            line-height: 10px;
+            float: left;
+            width: 45px;
+            height: 27px;
+            color: #a4a8ab;
+            margin-left: 0;
+        }

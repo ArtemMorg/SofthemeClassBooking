@@ -46,9 +46,180 @@
 
 </div>
 
-<div style="height: 335px">
-    calendar goes here
+
+<div id="WeekCalendar">
+    <div class="tableWrap">
+        <table>
+            <div class="dateGlobal">
+                <p id="CurrentMonth">Октябрь, 2016</p>
+                <div class="left"></div>
+                <div class="right"></div>
+            </div>
+            <tr>
+                <td>Вт <span class="date">11.10</span></td>
+                <td>Ср <span class="date">12.10</span></td>
+                <td>Чт <span class="date">13.10</span></td>
+                <td>Пт <span class="date">14.10</span></td>
+                <td>Сб <span>Вс</span></td>
+                <td>Пн <span class="date">17.10</span></td>
+                <td>Вт <span class="date">18.10</span></td>
+                <td>Ср <span class="date">19.10</span></td>
+            </tr>
+            <tr>
+                <td>09:00</td>
+                <td></td>
+                <td>09:00</td>
+                <td class="busy half">
+                    <div class="busy">
+                        9:30 - 10:30
+                        <p>English class</p>
+                    </div>
+                </td>
+                <td></td>
+                <td class="not1">
+                    09:00
+                    <p class="prost_time">9:20 - 9:50</p>
+                </td>
+                <td></td>
+                <td>09:00</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>10:00</td>
+                <td></td>
+                <td class="busy half">
+                    <div class="busy">
+                        10:30 - 11:30
+                        <p>English class</p>
+                    </div>
+                </td>
+                <td></td>
+                <td> </td>
+                <td>10:00</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>11:00</td>
+                <td class="busy">
+                    <div class="busy">
+                        11:00 - 12:00
+                        <p>English class - Speaking for ...</p>
+                    </div>
+                </td>
+                <td>11:00</td>
+                <td class="not1"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>11:00</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>12:00</td>
+                <td></td>
+                <td>12:00</td>
+                <td></td>
+                <td> </td>
+                <td>12:00</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>13:00</td>
+                <td></td>
+                <td class="busy">
+                    <div class="busy">
+                        13:00 - 14:00
+                        <p>English class - Speaking for ...</p>
+                    </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td>13:00</td>
+                <td></td>
+                <td>13:00</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>14:00</td>
+                <td></td>
+                <td>14:00</td>
+                <td></td>
+                <td> </td>
+                <td>14:00</td>
+                <td class="not1">
+                    <p class="prost_time">14:10 - 14:30</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>15:00</td>
+                <td></td>
+                <td>15:00</td>
+                <td></td>
+                <td></td>
+                <td>15:00</td>
+                <td></td>
+                <td>15:00</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>16:00</td>
+                <td></td>
+                <td>16:00</td>
+                <td></td>
+                <td> </td>
+                <td>16:00</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>17:00</td>
+                <td></td>
+                <td>17:00</td>
+                <td></td>
+                <td></td>
+                <td>17:00</td>
+                <td></td>
+                <td>17:00</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>18:00</td>
+                <td></td>
+                <td>18:00</td>
+                <td></td>
+                <td> </td>
+                <td>18:00</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>19:00</td>
+                <td></td>
+                <td>19:00</td>
+                <td></td>
+                <td></td>
+                <td>19:00</td>
+                <td></td>
+                <td>19:00</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Сегодня</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
 </div>
+
+
+
 <script type="text/javascript">
 
     classRoomDialogWindow = new DialogWindow ({
@@ -71,5 +242,19 @@
         });
     }(window.jQuery, window, document));
 
+
+
+    $(".dateGlobal p").html(monthNames[dateNow.month - 1]+", "+ dateNow.year);
+    var dates= $("#WeekCalendar tr:first-child td span");
+    var currentDay=(dateNow.day);
+    var currentBox = 4;
+
+
+    for (var i = 0; i < currentBox; i++) {
+      
+      
+        dates[i].innerHTML= currentDay - i;
+        alert(dates[i].innerHTML);
+    }
 
 </script>

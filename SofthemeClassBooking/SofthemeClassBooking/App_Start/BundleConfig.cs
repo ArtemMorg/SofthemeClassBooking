@@ -47,6 +47,13 @@ namespace SofthemeClassBooking
                         "~/Scripts/roomevent/roomevent-popup.js"
                         ));
 
+            bundles.Add(new ScriptBundle("~/bundles/scripts/WeekCalendar").Include(
+                       "~/Scripts/jquery/jquery-ui.js",
+                        "~/Scripts/roomevent/calendar.js",
+                        "~/Scripts/roomevent/render.js",
+                        "~/Scripts/roomevent/initialization.js"
+                      ));
+
             bundles.Add(new ScriptBundle("~/bundles/scripts/roomevent").Include(
                         "~/Scripts/jquery/jquery-ui.js",
                         "~/Scripts/roomevent/calendar.js",
@@ -96,30 +103,39 @@ namespace SofthemeClassBooking
                       ));
 
             bundles.Add(new StyleBundle("~/bundles/styles/layout").Include(
-                  "~/Content/css/layout.css"));
+                  "~/Content/css/layout.css"
+                  ));
 
             bundles.Add(new StyleBundle("~/bundles/styles/maplink").Include(
-                  "~/Content/css/maplink.css"));
+                  "~/Content/css/maplink.css"
+                  ));
 
             bundles.Add(new StyleBundle("~/bundles/styles/feedback").Include(
-                    "~/Content/css/feedback.css"));
+                    "~/Content/css/feedback.css"
+                    ));
 
             bundles.Add(new StyleBundle("~/bundles/styles/profile").Include(
-                    "~/Content/css/profile.css"));
+                    "~/Content/css/profile.css"
+                    ));
 
             bundles.Add(new StyleBundle("~/bundles/styles/users").Include(
-                     "~/Content/css/users.css"));
+                     "~/Content/css/users.css"
+                     ));
 
             bundles.Add(new StyleBundle("~/bundles/styles/plan").Include(
                     "~/Content/css/plan.css",
-                    "~/Content/css/additionalInfoRoom.css"));
+                    "~/Content/css/additionalInfoRoom.css",
+                    "~/Content/css/WeekCalendar.css"
+                    ));
 
             bundles.Add(new StyleBundle("~/bundles/styles/event").Include(
-                    "~/Content/css/eventpage.css"));
+                    "~/Content/css/eventpage.css"
+                    ));
 
             bundles.Add(new StyleBundle("~/bundles/styles/roomevent").Include(
                     "~/Content/css/roomevent.css",
-                    "~/Content/css/event.css"));
+                    "~/Content/css/event.css"
+                    ));
             #endregion
         }
     }

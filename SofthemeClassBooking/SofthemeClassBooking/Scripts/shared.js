@@ -161,7 +161,7 @@ function addParticipant(participantForm, participantFormDom, isForm) {
 
 $(document).on('click', '#add-participant-submit', function () {
     if ($('#add-participant-email').val().length >= 1) {
-        debugger;
+
         postFormData(ajaxUrl.ParticipantAddUrl, $('#add-participant-form'), 'json', addParticipantSubmitCallback, function (message) {
             console.log(message);
         });

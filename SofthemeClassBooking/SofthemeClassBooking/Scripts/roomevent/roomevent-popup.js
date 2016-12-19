@@ -5,11 +5,25 @@ var roomeventPopupVerboseCountId = "verbose-participant-count";
 
 var roomeventPopupVerboseErrorMessageId = "verbose-email-error-message";
 
-var roomeventPoputCrudMode;
+var roomeventDialogWindow;
+
+var roomeventPoputCrudModeEdit;
 var roomeventPoputCrudForm;
 var roomeventPopupCrudSection;
 
-var roomeventCreateNewCorrectDateTime;
+var roomeventCreateNewCorrectDateTime = true;
+var roomeventPopupCrudCurrentEvent = {};
+var roomeventPopupCrudClassRoomListBox;
+var roomeventPopupCrudClassRoomDom;
+
+var roomeventPopupCrudClassRooms = {};
+
+var roomeventPopupModalId;
+
+var roomeventPopupCrudSelectedClassRoomFromList = {
+    id: 0,
+    name: ''
+}
 
 var roomeventModalCreateNewDateTimeBegin = {
     year: 0,
@@ -36,23 +50,42 @@ CRUD Section
 */
 
 
+function setEventModalModel(id, userId, isAdmin, classRoomId) {
+    roomeventPopupCrudCurrentEvent.id = id;
+    roomeventPopupCrudCurrentEvent.userId = userId;
+    roomeventPopupCrudCurrentEvent.isAdmin = isAdmin;
+    roomeventPopupCrudCurrentEvent.classRoomId = classRoomId;
+    roomeventPopupCrudCurrentEvent.beginingDate = "";
+    roomeventPopupCrudCurrentEvent.endingDate = "";
+}
+
 function roomeventPoputCrudInit(mode) {
+
+    roomeventPopupCrudClassRoomListBox = $('#event-edit-room-dropdown-elements');
+    roomeventPopupCrudClassRoomDom = $('#event-modal-classRoomId');
+
+    roomeventPopupCrudClassRoomDom.val(getRoomeventModalSelectedClassRoom());
+    fillClassRoomList();
+
 
     roomeventPopupCrudSection = $('#event-modal-crud-section');
     roomeventPoputCrudForm = $('event-modal-form');
 
     roomeventPopupCrudSection.off();
 
-    roomeventPoputCrudMode = mode === 'True';
+    roomeventPoputCrudModeEdit = mode === 'True';
 
-    console.log(this);
+    $(document).off('keyup', '#event-modal-title');
+    $(document).on('keyup', '#event-modal-title', checkEventTitle);
 
-
-    $(roomeventPopupCrudSection).on('click', '#event-modal-form-close', function () {
-        roomeventPopupCrudSection.remove();
+    $(document).off('click', '#event-modal-form-close');
+    $(document).on('click', '#event-modal-form-close', function () {
+        $(`#popups-${singleRoomeventPopupId}`).remove();
+        renderRooms(currentMode);
     });
 
-    console.log(roomeventModalCreateNewDateTimeTargetEnd);
+    $(document).off('click', '#event-edit-room-dropdown');
+    $(document).on('click', '#event-edit-room-dropdown', listDropDown);
 
     setDateTimeObject(
        roomeventModalCreateNewDateTimeBegin,
@@ -93,22 +126,155 @@ function roomeventPoputCrudInit(mode) {
        renderDateTimeType.withMonthNames
    );
 
-
-
 }
+
+$(document).off('click', '#event-modal-submit');
+$(document).on('click', '#event-modal-submit', function(e) {
+
+    e.preventDefault();
+
+    if (!checkEventTitle()) {
+        return;
+    }
+
+    if (compareDates(roomeventModalCreateNewDateTimeBegin, dateNow, false, true) < 0) {
+        errorIncorrectDateTime(false);
+        return;
+    }
+
+    var eventModel = {
+        Title: $('#event-modal-title').val(),
+        UserId: $('#event-modal-userid').val(),
+        ClassRoomId: $('#event-modal-userid').val(),
+        BeginingDate: convertToDateTime(roomeventModalCreateNewDateTimeBegin),
+        Description: $('#event-modal-description').val(),
+        EndingDate: convertToDateTime(roomeventModalCreateNewDateTimeEnd),
+        Id: setEventModalModel.id,
+        IsAuthorShown: $('#IsAuthorShown-modal').is(":checked"),
+        IsPrivate: $('#IsPrivate-modal').is(":checked"),
+        IsParticipantsAllowed: $('#IsParticipantsAllowed-modal').is(":checked"),
+        Organizer: $('#event-modal-organizer').val()
+    };
+
+    var eventmodalCreateNewIconPlace = $('#event-modal-icon');
+    var eventmodalCreteNewForm = $('#event-modal-form');
+    var eventmodalCreateNewStatusSection = $('#event-modal-status-section');
+    var eventmodalCreateNewErrorMessage = $('#error-mesage-modal');
+
+    if (roomeventPoputCrudModeEdit) {
+
+        var pivotModel = {
+            BeginingDate: eventPageCurrentEvent.beginingDate,
+            EndingDate: eventPageCurrentEvent.endingDate,
+            ClassRoomId: eventPageCurrentEvent.classRoomId
+        };
+
+    } else {
+
+        $('#event-modal-beginingDate').val(convertToDateTime(roomeventModalCreateNewDateTimeBegin));
+        $('#event-modal-endingDate').val(convertToDateTime(roomeventModalCreateNewDateTimeEnd));
+
+        postFormData(
+                ajaxUrl.EventCreateUrl,
+                eventmodalCreteNewForm,
+                defaultAjaxDataType,
+                function (successResponse) {
+                    
+                    eventmodalCreateNewStatusSection.attr('class', 'status-message display-inline-block');
+
+                    if (successResponse.success) {
+                        eventmodalCreateNewIconPlace.html('<i id="status-icon-bad" class="fa fa-calendar-check-o"></i>');
+                        document.getElementById(`${eventmodalCreteNewForm.attr('id')}`).reset();
+                    } else {
+                        eventmodalCreateNewIconPlace.html('<i id="status-icon-bad" class="fa fa-frown-o"></i>');
+                    }
+
+                    eventmodalCreateNewErrorMessage.html(successResponse.message);
+
+                }, function (errorResponse) {
+                    console.log(errorResponse);
+                });
+    }
+
+});
+
 
 function errorIncorrectDateTime(dateValid) {
     roomeventCreateNewCorrectDateTime = dateValid;
     if (!dateValid) {
 
-        $('#eventedit-status').attr('class', 'error-section');
-        $('.icon-place').html('<i id="status-icon-bad" class="fa fa-calendar-times-o"></i>');
-        $('#error-message').html("Указана неверная дата и (или) время");
+        $('#event-modal-status-section').attr('class', '');
+        $('#event-modal-icon').html('<i id="status-icon-bad" class="fa fa-calendar-times-o"></i>');
+        $('#error-mesage-modal').html("Указана неверная дата и (или) время");
     } else {
-        $('#eventedit-status').attr('class', 'error-section display-none');
+        $('#event-modal-status-section').attr('class', 'display-none');
     }
 
 }
+
+
+
+function checkEventTitle() {
+    if ($('#event-modal-title').val().length < 1) {
+        $('#event-modal-title-error').show();
+        return false;
+    } else {
+        $('#event-modal-title-error').hide();
+        return true;
+    }
+}
+
+
+function fillClassRoomList() {
+
+    getClassRooms().done(function (rooms) {
+        roomeventPopupCrudClassRooms = JSON.parse(rooms);
+        var divList = '';
+        for (var i = 0; i < roomeventPopupCrudClassRooms.length; i++) {
+            divList += ' <div class="event-edit-room-dropdown-variant" id="room-option-' +
+                roomeventPopupCrudClassRooms[i].Id + '">' +
+                roomeventPopupCrudClassRooms[i].Name + '</div>';
+        }
+
+        roomeventPopupCrudClassRoomListBox.html(divList);
+        selectClassRoomInList();
+
+    });
+
+}
+
+function selectClassRoomInList(id) {
+
+    roomeventPopupCrudSelectedClassRoomFromList.id = id || getRoomeventModalSelectedClassRoom();
+    roomeventPopupCrudClassRoomDom.val(roomeventPopupCrudSelectedClassRoomFromList.id);
+    roomeventPopupCrudSelectedClassRoomFromList.name = $(`#room-option-${roomeventPopupCrudSelectedClassRoomFromList.id}`).html();
+    $('#event-modal-selected-room').html(roomeventPopupCrudSelectedClassRoomFromList.name);
+
+}
+
+$(document).off('click', '.event-edit-room-dropdown-variant');
+$(document).on('click', '.event-edit-room-dropdown-variant', function () {
+    selectClassRoomInList($(this).attr('id').split('-')[2]);
+});
+
+var listed = false;
+function listDropDown() {
+    if (!listed) {
+        $('#event-edit-room-dropdown').addClass('event-edit-room-dropdown-list');
+        $('#event-edit-room-dropdown').removeClass('event-edit-room-dropdown-selected');
+        $('#event-edit-room-selected').addClass('event-edit-room-dropdown-variant-selected');
+        $('.event-edit-room-dropdown-variant').css('display', 'inline-block');
+
+        listed = true;
+    } else {
+        $('#event-edit-room-dropdown').removeClass('event-edit-room-dropdown-list');
+        $('#event-edit-room-dropdown').addClass('event-edit-room-dropdown-selected');
+        $('#event-edit-room-selected').removeClass('event-edit-room-dropdown-variant-selected');
+        $('.event-edit-room-dropdown-variant').css('display', 'none');
+        listed = false;
+    }
+};
+
 
 /*
 
@@ -117,7 +283,7 @@ Event block exists section
 */
 
 
-
+$(document).off('click', `#${roomeventPopupVerboseSubmitId}`);
 $(document).on('click',
         `#${roomeventPopupVerboseSubmitId}`,
         function() {
@@ -145,20 +311,49 @@ $(document).on('click',
         });
 
 
+function roomeventPopupVerboseInit(datetime, datetimeEnd, popupId) {
 
-var listed = false;
-$(document).on('click', '#event-edit-room-dropdown', function () {
-    if (!listed) {
-        $('#event-edit-room-dropdown').addClass('event-edit-room-dropdown-list');
-        $('#event-edit-room-dropdown').removeClass('event-edit-room-dropdown-selected');
-        $('#event-edit-room-selected').addClass('event-edit-room-dropdown-variant-selected');
-        $('.event-edit-room-dropdown-variant').css('display', 'inline-block');
-        listed = true;
-    } else {
-        $('#event-edit-room-dropdown').removeClass('event-edit-room-dropdown-list');
-        $('#event-edit-room-dropdown').addClass('event-edit-room-dropdown-selected');
-        $('#event-edit-room-selected').removeClass('event-edit-room-dropdown-variant-selected');
-        $('.event-edit-room-dropdown-variant').css('display', 'none');
-        listed = false;
-    }
+    roomeventPopupModalId = popupId;
+
+    var dayOfWeek = getDayOfWeek(new Date(datetime.year + '-' + datetime.month + '-' + datetime.day).getDay());
+    $('#event-verbose-date').html(dayNames[dayOfWeek] + ',' + datetime.day + " " + monthNamesAccusative[datetime.month-1]);
+
+    var timeBegin = renderTimeMinutes(datetime.hour, datetime.minutes);
+    var timeEnd = renderTimeMinutes(datetimeEnd.hour, datetimeEnd.minutes);
+    $('#event-verbose-time').html(timeBegin + '-' + timeEnd);
+
+}
+
+$(document).off('click', '#event-modal-close');
+$(document).on('click', '#event-modal-close', function() {
+    $(`#popups-${singleRoomeventPopupId}`).remove();
 });
+
+$(document).off('click','.event-button-cancel')
+$(document).on('click','.event-button-cancel', function() {
+    roomeventDialogWindow.show();
+});
+
+function cancelEvent() {
+    roomeventDialogWindow.close();
+
+    var form = $('#event-cancel-token');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
+    var data = {
+        __RequestVerificationToken: token,
+        id: roomeventPopupModalId
+    };
+
+    postData(ajaxUrl.EventCancelUrl, data, function () {
+
+        $(`#popups-${singleRoomeventPopupId}`).remove();
+        $(`#eventblock-${roomeventPopupModalId}`).remove();
+
+    }, function () {
+        roomeventDialogWindow.show();
+    });
+}
+
+function cancelCancelEvent() {
+    roomeventDialogWindow.close();
+}

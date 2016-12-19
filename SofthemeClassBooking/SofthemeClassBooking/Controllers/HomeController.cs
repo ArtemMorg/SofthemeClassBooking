@@ -24,7 +24,7 @@ namespace SofthemeClassBooking.Controllers
             return PartialView();
         }
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult DialogWindow(DialogViewModel dialogModel)
         {
             return PartialView(dialogModel);
