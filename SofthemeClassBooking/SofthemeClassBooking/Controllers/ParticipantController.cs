@@ -76,15 +76,11 @@ namespace SofthemeClassBooking.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Remove(int id)
+        public ActionResult Remove(ParicipantModel participantModel)
         {
             try
             {
-                _participantService.Remove(new ParicipantModel
-                {
-                    Id = id
-                });
-
+                _participantService.Remove(participantModel);
                 return Json(new { success = true });
             }
             catch (Exception)

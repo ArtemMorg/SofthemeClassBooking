@@ -52,6 +52,7 @@ function setDateTimeObject(
         sectionDom.on('click', `#${controlDateTimeDom.dateYearUp.attr('id')}`, function () {
 
             addValueToDate(dateTimeTargetBegin, { year: 1 }, true);
+            addValueToDate(dateTimeTargetEnd, { year: 1 }, true);
             checkDateTime(dateTimeTargetBegin, dateTimeTargetEnd, successDateCheckHandler, errorDateCheckHandler);
             renderNewEventDateTime(dateTimeTargetBegin, renderValuesDom);
         });
@@ -59,6 +60,7 @@ function setDateTimeObject(
         sectionDom.on('click', `#${controlDateTimeDom.dateYearDown.attr('id')}`, function () {
 
             addValueToDate(dateTimeTargetBegin, { year: 1 }, false);
+            addValueToDate(dateTimeTargetEnd, { year: 1 }, false);
             renderNewEventDateTime(dateTimeTargetBegin, renderValuesDom);
             checkDateTime(dateTimeTargetBegin, dateTimeTargetEnd, successDateCheckHandler, errorDateCheckHandler);
 
@@ -69,6 +71,7 @@ function setDateTimeObject(
     sectionDom.on('click', `#${controlDateTimeDom.dateDayUp.attr('id')}`, function () {
 
         addValueToDate(dateTimeTargetBegin, { day: 1 }, true);
+        addValueToDate(dateTimeTargetEnd, { day: 1 }, true);
         renderNewEventDateTime(dateTimeTargetBegin, renderValuesDom);
         checkDateTime(dateTimeTargetBegin, dateTimeTargetEnd, successDateCheckHandler, errorDateCheckHandler);
 
@@ -77,6 +80,7 @@ function setDateTimeObject(
     sectionDom.on('click', `#${controlDateTimeDom.dateDayDown.attr('id')}`, function () {
 
         addValueToDate(dateTimeTargetBegin, { day: 1 }, false);
+        addValueToDate(dateTimeTargetEnd, { day: 1 }, false);
         renderNewEventDateTime(dateTimeTargetBegin, renderValuesDom);
         checkDateTime(dateTimeTargetBegin, dateTimeTargetEnd, successDateCheckHandler, errorDateCheckHandler);
 
@@ -85,6 +89,7 @@ function setDateTimeObject(
     sectionDom.on('click', `#${controlDateTimeDom.dateMonthUp.attr('id')}`, function () {
 
         addValueToDate(dateTimeTargetBegin, { month: 1 }, true);
+        addValueToDate(dateTimeTargetEnd, { month: 1 }, true);
         renderNewEventDateTime(dateTimeTargetBegin, renderValuesDom);
         checkDateTime(dateTimeTargetBegin, dateTimeTargetEnd, successDateCheckHandler, errorDateCheckHandler);
 
@@ -93,6 +98,7 @@ function setDateTimeObject(
     sectionDom.on('click', `#${controlDateTimeDom.dateMonthDown.attr('id')}`, function () {
 
         addValueToDate(dateTimeTargetBegin, { month: 1 }, false);
+        addValueToDate(dateTimeTargetEnd, { month: 1 }, false);
         renderNewEventDateTime(dateTimeTargetBegin, renderValuesDom);
         checkDateTime(dateTimeTargetBegin, dateTimeTargetEnd, successDateCheckHandler, errorDateCheckHandler);
 
@@ -165,28 +171,68 @@ function setDateTimeObject(
 
     renderNewEventDateTime(dateTimeTargetBegin, renderValuesDom);
     renderNewEventDateTimeEnd(dateTimeTargetEnd, renderValuesDom);
+    checkDateTime(dateTimeTargetBegin, dateTimeTargetEnd, successDateCheckHandler, errorDateCheckHandler);
 }
 
 function checkDateTime(datetime, datetimeTo, succesHandler, errorHandler) {
 
-    var dateActualComparisonResult = compareDates(datetime, datetimeTo, false);
-    var timeComparisonResult = compareTime({ hour: datetime.hour, minutes: (parseInt(datetime.minutes) + minumumAllowedMinutes) }, datetimeTo);
+    var testDate = copyDate(datetime);
+    addValueToDate(testDate, { minutes: minumumAllowedMinutes }, true);
 
-    if ((compareTime(datetime, dateNow) < 0) ||
-        (timeComparisonResult > 0) ||
-        (dateActualComparisonResult < 0)) {
+    if (testDate.year < defaultYearAddToShor) {
+        testDate.year += defaultYearAddToShor;
+    }
+
+    if ((compareTime({ hour: defaultMaximumBookHour, minutes: defaultMaximumBookMinutes }, datetimeTo) < 0) ||
+        (compareTime({ hour: defaultMaximumBookHour, minutes: defaultMaximumBookMinutes }, datetime) < 0)) {
 
         if (typeof (errorHandler) === "function") {
             errorHandler();
         }
+        return false;
+    }
 
-    } else {
+
+    if ((compareTime({ hour: defaultMinimumBookHour, minutes: defaultMinimumBookMinutes }, datetime) > 0) ||
+        (compareTime({ hour: defaultMinimumBookHour, minutes: defaultMinimumBookMinutes }, datetimeTo) > 0)) {
+
+        if (typeof (errorHandler) === "function") {
+            errorHandler();
+        }
+        return false;
+    }
+
+    if (compareDates(testDate, datetimeTo, false) > 0) {
 
         if (typeof (succesHandler) === "function") {
             succesHandler();
         }
+        return true;
+    }
+
+    if ((compareDates(testDate, datetimeTo, false, true) > 0) ||
+        (compareDates(testDate, dateNow, false, true) < 0)) {
+
+        if (typeof (errorHandler) === "function") {
+            errorHandler();
+        }
+        return false;
 
     }
+
+    if (getDurationInMinutes(datetimeTo.hour - testDate.hour, Math.abs(testDate.minutes - minumumAllowedMinutes - datetimeTo.minutes)) > defaultMaximumDurationMinutes) {
+
+        if (typeof (errorHandler) === "function") {
+            errorHandler();
+        }
+        return false;
+    }
+
+
+    if (typeof (succesHandler) === "function") {
+        succesHandler();
+    }
+    return true;
 
 }
 

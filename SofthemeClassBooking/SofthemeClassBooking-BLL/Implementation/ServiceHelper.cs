@@ -13,9 +13,10 @@ namespace SofthemeClassBooking_BLL.Implementation
             {
                 var eventsInSameRange = context.Events
                     .Count(
-                        e => ((e.BeginingDate >= eventModel.BeginingDate && e.BeginingDate <= eventModel.EndingDate) ||
-                              (e.EndingDate >= eventModel.BeginingDate && e.EndingDate <= eventModel.EndingDate) ||
-                              (e.BeginingDate >= eventModel.BeginingDate && e.EndingDate <= eventModel.EndingDate)) &&
+                        e => ((e.BeginingDate > eventModel.BeginingDate && e.BeginingDate < eventModel.EndingDate) ||
+                              (e.EndingDate > eventModel.BeginingDate && e.EndingDate < eventModel.EndingDate) ||
+                              (e.BeginingDate > eventModel.BeginingDate && e.BeginingDate < eventModel.EndingDate) ||
+                              (e.BeginingDate < eventModel.BeginingDate && e.EndingDate > eventModel.EndingDate)) &&
                              (e.ClassRoomId == eventModel.ClassRoomId));
 
                 if (eventsInSameRange > 0)

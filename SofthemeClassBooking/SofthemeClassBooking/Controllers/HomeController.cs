@@ -4,6 +4,7 @@ using SofthemeClassBooking.Models;
 
 namespace SofthemeClassBooking.Controllers
 {
+    [HandleError(View = "Error")]
     public class HomeController : Controller
     {
         public ActionResult Index()

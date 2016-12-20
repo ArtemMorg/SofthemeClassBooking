@@ -108,6 +108,10 @@ function getDaysInMonth(month, year) {
     return new Date(year, month, 0).getDate();
 }
 
+function getDurationInMinutes(hour, minutes) {
+    return parseInt(hour) * 60 + parseInt(minutes);
+}
+
 function renderTimeMinutes(hours, minutes, asObject) {
     var renderHours = hours > 9 ? hours : '0' + hours;
     var renderMinutes = minutes > 9 ? minutes : '0' + minutes;

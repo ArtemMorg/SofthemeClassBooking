@@ -60,7 +60,8 @@ function planSectionInit(isUserAdmin, loadParameters) {
                     planSectionConnectionLine.attr('class', planSectionShowConnectionLineCssClass + selectedClassRoomId);
 
                 }, function (errorResponse) {
-                    planSectionAdditionalInfo.html(errorResponse);
+                    eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
+                    eventPageDialogWindowError.show();
                 });
 
             }

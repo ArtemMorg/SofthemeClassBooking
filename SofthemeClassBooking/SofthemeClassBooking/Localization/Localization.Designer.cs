@@ -187,6 +187,24 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Произошла ошибка при выполнении запроса. Повторите через некоторое время или перезагрузите страницу..
+        /// </summary>
+        public static string ErrorDefaultBodyMessage {
+            get {
+                return ResourceManager.GetString("ErrorDefaultBodyMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка.
+        /// </summary>
+        public static string ErrorDefaultTitle {
+            get {
+                return ResourceManager.GetString("ErrorDefaultTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Произошла ошибка загрузки диалогового окна.
         /// </summary>
         public static string ErrorDialogWindow {
@@ -264,6 +282,15 @@ namespace SofthemeClassBooking.Localization {
         public static string ErrorIncorrectEmail {
             get {
                 return ResourceManager.GetString("ErrorIncorrectEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дата и (или) время указаны не верно.
+        /// </summary>
+        public static string ErrorInvalidDatetime {
+            get {
+                return ResourceManager.GetString("ErrorInvalidDatetime", resourceCulture);
             }
         }
         

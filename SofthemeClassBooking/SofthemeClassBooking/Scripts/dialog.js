@@ -40,8 +40,15 @@
 
 }
 
-var eventPageDialogWindowError = new DialogWindow({
-    title: 'Error',
-    bodyMessage: "Error was ocured. Try again later.",
-    isError: true
-});
+var eventPageDialogWindowError;
+
+function setDefaultErrorMessage(title, bodyMessage) {
+
+    eventPageDialogWindowError = new DialogWindow({
+        title: title,
+        bodyMessage: bodyMessage,
+        isError: true
+    });
+
+}
+

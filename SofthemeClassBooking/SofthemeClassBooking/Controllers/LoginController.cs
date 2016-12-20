@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Management;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -200,11 +201,20 @@ namespace SofthemeClassBooking.Controllers
         }
         //
         // GET: /Account/Register
+        [HttpGet]
         [Authorize]
         public string GetUserEmail(string id)
         {
 
             return UserManager.FindById(id).Email;
+        }
+
+        [HttpPost]
+        [Authorize]
+        public string GetUserEmail()
+        {
+
+            return UserManager.FindById(User.Identity.GetUserId()).Email;
         }
 
         //--------------------------------------------------------------------

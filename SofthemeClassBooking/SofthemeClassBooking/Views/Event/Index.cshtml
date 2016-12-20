@@ -72,21 +72,28 @@
 
                     <div class="label">@Localization.EventShowAuthor</div>
                     <div class="or">@Localization.Or</div>
-
-                    @Html.TextBoxFor(m => m.Event.Organizer, new { placeholder = Localization.EventSetOrganizerPlaceholder, value = Model.Event.Organizer })
+                    
+                    @if (Model.Event.IsAuthorShown)
+                    {
+                        @Html.TextBoxFor(m => m.Event.Organizer, new { placeholder = Localization.EventSetOrganizerPlaceholder, value = Model.Event.Organizer, disabled = true })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.Event.Organizer, new { placeholder = Localization.EventSetOrganizerPlaceholder, value = Model.Event.Organizer })
+                    }
 
                 </div>
 
             </div>
 
             <div class="description">
-                <span>@eventDescription</span>
+                <span><pre>@eventDescription</pre></span>
             </div>
             <div class="description-edit display-none">
                 @Html.TextAreaFor(m => m.Event.Description, new { placeholder = Localization.EventAdditionalInfoPlaceholder })
             </div>
 
-            @if (@Model.Event.IsParticipantsAllowed)
+            @if (Model.Event.IsParticipantsAllowed && !Model.Event.IsPrivate)
             {
 
                 <div class="participant-add">
@@ -96,6 +103,7 @@
                         <div class="text">@Localization.EventPlanningTakePart<span id="event-participant-count">@participantCount</span> @Localization.People</div>
 
                         <input id="event-new-email-take-part" class="display-none" name="Email" type="text" placeholder="@Localization.ErrorEventAlreadyEnrolledPlaceholder" disabled />
+                        <i id="event-new-remove-myself-submit" class="fa fa-minus fa-lg display-none"></i>
 
                         <div id="event-add-participant-form" class="div-wraper display-none">
 
@@ -273,7 +281,7 @@
 
     </div>
 
-    @if (editAccess && Model.Event.IsParticipantsAllowed)
+    @if (editAccess && Model.Event.IsParticipantsAllowed && !Model.Event.IsPrivate)
     {
         <div class="participant-list">
             <div class="header">

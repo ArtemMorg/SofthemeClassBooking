@@ -75,24 +75,24 @@ namespace SofthemeClassBooking_BLL.Implementation
             }
         }
 
-        public IEnumerable<IEvent> GetBrief()
+        public IEnumerable<IEvent> GetBrief(DateTime dateEventsFrom, DateTime dateEventsTo)
         {
-            var todayDate = DateTime.Now.Date;
             var eventsList = new List<IEvent>();
 
             using (var context = new ClassBookingContext())
             {
-                var eventsBrief = context.Events.Where(e => DbFunctions.TruncateTime(e.BeginingDate) == todayDate)
-                .Select(e => new EventModel()
-                {
-                    Id = e.Id,
-                    Title = e.Title,
-                    ClassRoomId = e.ClassRoomId,
-                    BeginingDate = e.BeginingDate,
-                    EndingDate = e.EndingDate,
-                    IsPrivate = e.IsPrivate,
-                    Description = e.Description.Substring(0, EventSettings.MaxCharactersInBriefDescription)
-                }).ToList();
+                var eventsBrief = context.Events
+                    .Where(e => e.BeginingDate >= dateEventsFrom && e.EndingDate <= dateEventsTo)
+                    .Select(e => new EventModel()
+                    {
+                        Id = e.Id,
+                        Title = e.Title,
+                        ClassRoomId = e.ClassRoomId,
+                        BeginingDate = e.BeginingDate,
+                        EndingDate = e.EndingDate,
+                        IsPrivate = e.IsPrivate,
+                        Description = e.Description.Substring(0, EventSettings.MaxCharactersInBriefDescription)
+                    }).ToList();
 
                 foreach (var eventBrief in eventsBrief)
                 {
@@ -195,14 +195,9 @@ namespace SofthemeClassBooking_BLL.Implementation
         public void Update(IEvent eventModel, IEvent pivotModel)
         {
 
-            if ((DateTime.Compare(eventModel.BeginingDate, pivotModel.BeginingDate) < 0) &&
-                (DateTime.Compare(eventModel.EndingDate, pivotModel.EndingDate) > 0) ||
-                eventModel.ClassRoomId != pivotModel.ClassRoomId)
+            if (ServiceHelper.IsRoomBusy(eventModel))
             {
-                if (ServiceHelper.IsRoomBusy(eventModel))
-                {
-                    throw new RoomIsBusyException();
-                }
+                throw new RoomIsBusyException();
             }
 
             var events = MapService.Map(eventModel);

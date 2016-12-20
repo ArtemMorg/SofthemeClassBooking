@@ -137,9 +137,9 @@ function profileSectionChangeEmailInit() {
 
 function getUserEvents() {
 
-    getEventsBriefByUser().done(function (events) {
-        userEvents = JSON.parse(events);
-        profileEventCountByUser.html(userEvents.length);
-    });
+    postData(ajaxUrl.EventUsersUrl, '', function (events) {
+            userEvents = JSON.parse(events);
+            profileEventCountByUser.html(userEvents.length);
+    })
 
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using SofthemeClassBooking.Helpers;
 using SofthemeClassBooking.Models;
 using SofthemeClassBooking_BOL.Contract.Models;
 using SofthemeClassBooking_BOL.Contract.Services;
@@ -27,13 +28,47 @@ namespace SofthemeClassBooking.Controllers
 
         }
 
-        [HttpGet]
+        [HttpPost]
         [AllowAnonymous]
-        public ActionResult Brief()
+        public ActionResult Brief(DateTime dateEventsFrom, DateTime dateEventsTo)
         {
-            var eventsBriefJson = JsonConvert.SerializeObject(_eventService.GetBrief(), Formatting.None, new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd-HH-mm-ss" });
-            return Json(eventsBriefJson, JsonRequestBehavior.AllowGet);
+            if (DateTimeValidationHelper.IsDateTimeValid(dateEventsFrom, dateEventsTo))
+            {
+                var eventsBriefJson = JsonConvert.SerializeObject(_eventService.GetBrief(dateEventsFrom, dateEventsTo),
+                    Formatting.None, new IsoDateTimeConverter() {DateTimeFormat = "yyyy-MM-dd-HH-mm-ss"});
+                return Json(eventsBriefJson, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                try
+                {
+                    return Json(new {message = Localization.Localization.ErrorInvalidDatetime, success = false});
+                }
+                catch (Exception)
+                {
+                    return Json(new {message = Localization.Localization.ErrorGeneralException, success = false});
+                }
+            }
+
         }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult UserEvents()
+        {
+                var userEvents = JsonConvert.SerializeObject(_eventService.GetByUser(User.Identity.GetUserId()), 
+                                                            Formatting.None, 
+                                                            new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd-HH-mm-ss" });
+            try
+            {
+                return Json(userEvents, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { message = Localization.Localization.ErrorGeneralException, success = false });
+            }
+        }
+
 
         [HttpGet]
         [AllowAnonymous]
@@ -51,15 +86,6 @@ namespace SofthemeClassBooking.Controllers
                 Participants = _participantService.Get(id),
                 Author = author
             });
-        }
-
-
-        [Authorize]
-        [HttpGet]
-        public ActionResult UserEvents()
-        {
-            var userEvents = JsonConvert.SerializeObject(_eventService.GetByUser(User.Identity.GetUserId()), Formatting.None, new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd-HH-mm-ss" });
-            return Json(userEvents, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

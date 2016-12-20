@@ -91,12 +91,17 @@ namespace SofthemeClassBooking_BLL.Implementation
 
         public void Remove(IParticipant paricipantModel)
         {
+            var participants = new Participants();
             using (var context = new ClassBookingContext())
             {
-                var participants = new Participants
+                if (paricipantModel.Id > 0)
                 {
-                    Id = paricipantModel.Id
-                };
+                    participants.Id =  paricipantModel.Id;
+                }
+                else
+                {
+                    participants = context.Participants.FirstOrDefault(p => p.Email == paricipantModel.Email);
+                }
 
                 context.Participants.Attach(participants);
                 context.Participants.Remove(participants);

@@ -345,4 +345,13 @@
   <data name="StageSelect" xml:space="preserve">
     <value>Выберете аудиторию на этаже</value>
   </data>
+  <data name="ErrorInvalidDatetime" xml:space="preserve">
+    <value>Дата и (или) время указаны не верно</value>
+  </data>
+  <data name="ErrorDefaultBodyMessage" xml:space="preserve">
+    <value>Произошла ошибка при выполнении запроса. Повторите через некоторое время или перезагрузите страницу.</value>
+  </data>
+  <data name="ErrorDefaultTitle" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
 </root>

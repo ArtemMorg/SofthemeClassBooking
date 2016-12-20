@@ -70,6 +70,7 @@ function eventmodalCreateNewInit() {
 
     eventmodalPosition.off('click', `#${eventmodalCreateNewSubmit.attr('id')}`);
     eventmodalPosition.off('click', `#${eventmodalCreateNewClose.attr('id')}`);
+    eventmodalPosition.off();
 
     eventmodalPosition.on('click', `#${eventmodalCreateNewClose.attr('id')}`, function () {
         checkCurrentTimeInterval(true);
@@ -127,10 +128,20 @@ function eventmodalCreateNewInit() {
 
         if (eventmodalCreateNewFormTitle.val().length >= 1 && eventmodalCreateNewCorrectDateTime) {
             eventmodalCreateNewSubmit.attr('class', 'save-ready');
+            eventmodalCreateNewTitleError.show();
         } else {
             eventmodalCreateNewSubmit.attr('class', 'save');
+            eventmodalCreateNewTitleError.hide();
         }
 
+    });
+
+    eventmodalPosition.on('click', '#IsAuthorShown-new', function() {
+        if ($("#IsAuthorShown-new").is(':checked')) {
+            $('#event-new-organizer').attr('disabled', true);
+        } else {
+            $('#event-new-organizer').attr('disabled', false);
+        }
     });
 
     eventmodalPosition.on('click', `#${eventmodalCreateNewSubmit.attr('id')}`, function () {
@@ -146,6 +157,7 @@ function eventmodalCreateNewInit() {
         eventmodalCreateNewStatusSection.attr('class', 'status-message display-none');
 
         if (eventmodalCreateNewFormTitle.val().length >= 1) {
+
 
             checkDateTime(eventModalCreateNewDateTimeTargetBegin, eventModalCreateNewDateTimeTargetEnd);
             eventmodalCreateNewErrorMessages.hide();
@@ -173,7 +185,8 @@ function eventmodalCreateNewInit() {
                         eventmodalCreateNewErrorMessage.html(successResponse.message);
 
                     }, function (errorResponse) {
-                        console.log(errorResponse);
+                        eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
+                        eventPageDialogWindowError.show();
                     });
             }
 

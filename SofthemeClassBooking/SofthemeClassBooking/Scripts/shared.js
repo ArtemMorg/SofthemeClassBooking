@@ -9,6 +9,8 @@ var minumumAllowedMinutes = 20;
 
 var defaultDateTimeFormat = "yy-MM-dd-HH-mm";
 
+var defaultYearAddToShor = 2000;
+
 var defaultOneMinute = 1000 * 60;
 var defaultNewEventEndHourOffset = 1;
 var defaultNewEventStartMinutesOffset = 5;
@@ -16,6 +18,16 @@ var defaultNewEventStartMinutesOffset = 5;
 //Shared id for all popups - only 1 at a time
 var singleRoomeventPopupId = 777;
 
+var defaultMaximumBookHour = 19;
+var defaultMaximumBookMinutes = 0;
+
+var defaultMinimumBookHour = 9;
+var defaultMinimumBookMinutes = 0;
+
+var defaultMaximumDurationMinutes = 180;
+
+var defaultHourLeftOffsetEventLoading = 12;
+var defaultHourRightOffsetEventLoading = 12;
 
 var renderDateTimeType = {
     withMonthNames: 0,
@@ -84,7 +96,8 @@ function setEngineUrl(url) {
         ParticipantAddUrl: url.ParticipantAddUrl,
         ParticipantsUrl: url.ParticipantsUrl,
         ParticipantExist: url.ParticipantExist,
-        DialogWindowUrl: url.DialogWindowUrl
+        DialogWindowUrl: url.DialogWindowUrl,
+        UserEmailUrl: url.UserEmailUrl
     };
 
 
@@ -95,6 +108,7 @@ function getClassRooms() {
 }
 
 function getEventsBrief() {
+    
     return loadSection(ajaxUrl.EventsBriefUrl);
 }
 
@@ -130,8 +144,8 @@ function renderSection(url, domElement, domLoadingElement, finallyFunction) {
         }
 
     }, function (errorResponse) {
-        console.log(errorResponse);
-        domElement.html(errorResponse.message);
+        eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
+        eventPageDialogWindowError.show();
         domLoadingElement.hide();
     });
 }
@@ -166,8 +180,9 @@ function addParticipant(participantForm, participantFormDom, isForm) {
             }
 
         },
-        function (message) {
-            console.log(message);
+        function (errorResponse) {
+            eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
+            eventPageDialogWindowError.show();
         });
 }
 

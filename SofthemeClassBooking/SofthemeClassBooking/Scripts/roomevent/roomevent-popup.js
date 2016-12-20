@@ -15,6 +15,7 @@ var roomeventCreateNewCorrectDateTime = true;
 var roomeventPopupCrudCurrentEvent = {};
 var roomeventPopupCrudClassRoomListBox;
 var roomeventPopupCrudClassRoomDom;
+var registeredUserEmail;
 
 var roomeventPopupCrudClassRooms = {};
 
@@ -50,8 +51,17 @@ CRUD Section
 */
 
 
+$(document).off('click', '#IsAuthorShown-modal');
+$(document).on('click', '#IsAuthorShown-modal', function () {
+    if ($("#IsAuthorShown-modal").is(':checked')) {
+        $('#event-modal-organizer').attr('disabled', true);
+    } else {
+        $('#event-modal-organizer').attr('disabled', false);
+    }
+});
+
 function setEventModalModel(id, userId, isAdmin, classRoomId, beginingDate, endingDate) {
-   
+
     roomeventPopupCrudCurrentEvent.id = id;
     roomeventPopupCrudCurrentEvent.userId = userId;
     roomeventPopupCrudCurrentEvent.isAdmin = isAdmin;
@@ -87,11 +97,11 @@ function roomeventPoputCrudInit(mode) {
 
     $(document).off('click', '#event-edit-room-dropdown');
     $(document).on('click', '#event-edit-room-dropdown', listDropDown);
-    
+
     setDateTimeObject(
        roomeventModalCreateNewDateTimeBegin,
        roomeventModalCreateNewDateTimeEnd,
-       roomeventPoputCrudModeEdit?  roomeventPopupCrudCurrentEvent.beginingDate : roomeventModalCreateNewDateTimeTargetBegin,
+       roomeventPoputCrudModeEdit ? roomeventPopupCrudCurrentEvent.beginingDate : roomeventModalCreateNewDateTimeTargetBegin,
        roomeventPoputCrudModeEdit ? roomeventPopupCrudCurrentEvent.endingDate : roomeventModalCreateNewDateTimeTargetEnd,
        roomeventPopupCrudSection,
        {
@@ -130,7 +140,7 @@ function roomeventPoputCrudInit(mode) {
 }
 
 $(document).off('click', '#event-modal-submit');
-$(document).on('click', '#event-modal-submit', function(e) {
+$(document).on('click', '#event-modal-submit', function (e) {
 
     e.preventDefault();
 
@@ -138,8 +148,7 @@ $(document).on('click', '#event-modal-submit', function(e) {
         return;
     }
 
-    if (compareDates(roomeventModalCreateNewDateTimeBegin, dateNow, false, true) < 0) {
-        errorIncorrectDateTime(false);
+    if (!roomeventCreateNewCorrectDateTime) {
         return;
     }
 
@@ -170,7 +179,6 @@ $(document).on('click', '#event-modal-submit', function(e) {
             EndingDate: convertToDateTime(roomeventPopupCrudCurrentEvent.endingDate),
             ClassRoomId: roomeventPopupCrudCurrentEvent.classRoomId
         };
-        console.log(eventmodalCreteNewForm.serialize());
 
         postData(ajaxUrl.EventUpdateUrl,
             {
@@ -183,15 +191,15 @@ $(document).on('click', '#event-modal-submit', function(e) {
 
                 if (successResponse.success) {
                     eventmodalCreateNewIconPlace.html('<i id="status-icon-bad" class="fa fa-calendar-check-o"></i>');
-                    document.getElementById(`${eventmodalCreteNewForm.attr('id')}`).reset();
                 } else {
                     eventmodalCreateNewIconPlace.html('<i id="status-icon-bad" class="fa fa-frown-o"></i>');
                 }
 
                 eventmodalCreateNewErrorMessage.html(successResponse.message);
             },
-            function(errorResponse) {
-                console.log(errorResponse);
+            function (errorResponse) {
+                eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
+                eventPageDialogWindowError.show();
             });
 
     } else {
@@ -204,7 +212,7 @@ $(document).on('click', '#event-modal-submit', function(e) {
                 eventmodalCreteNewForm,
                 defaultAjaxDataType,
                 function (successResponse) {
-                    
+
                     eventmodalCreateNewStatusSection.attr('class', 'status-message display-inline-block');
 
                     if (successResponse.success) {
@@ -217,7 +225,8 @@ $(document).on('click', '#event-modal-submit', function(e) {
                     eventmodalCreateNewErrorMessage.html(successResponse.message);
 
                 }, function (errorResponse) {
-                    console.log(errorResponse);
+                    eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
+                    eventPageDialogWindowError.show();
                 });
     }
 
@@ -237,22 +246,60 @@ function errorIncorrectDateTime(dateValid) {
 
 }
 
+$(document).off('click', '#verbose-remove-participant-submit');
+$(document).on('click','#verbose-remove-participant-submit', function() {
+   
+    var participantModel = {
+        Email: registeredUserEmail
+    }
+
+    postData(ajaxUrl.ParticipantRemoveUrl, participantModel, function (successResponse) {
+        if (successResponse.success) {
+
+            $('#verbose-add-participant-email').attr('disabled', false);
+            $('#verbose-add-participant-form').attr('class', '');
+            $('#event-modal-email-take-part').attr('class', 'display-none');
+            $('#verbose-remove-participant-submit').addClass('display-none');
+            $('#verbose-add-participant-email').val(registeredUserEmail);
+
+            $('#verbose-participant-count').html(parseInt($('#verbose-participant-count').html()) - 1);
+        }
+
+    }, function (errorResponse) {
+        eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
+        eventPageDialogWindowError.show();
+    });
+
+});
+
 function isUserTakePart(url, eventModelId) {
 
+
+    postData(ajaxUrl.UserEmailUrl,
+    '',
+    function (email) {
+        if (email != null) {
+            registeredUserEmail = email;
+            $('#verbose-add-participant-email').val(registeredUserEmail);
+        }
+    });
+    
     postData(
         url,
         { eventId: eventModelId },
         function (successResponse) {
             if (successResponse.success) {
-      
+
                 if (successResponse.message) {
-                    
+                    $('#verbose-remove-participant-submit').removeClass('display-none');
                     $('#event-modal-email-take-part').attr('class', ' ');
                     $('#verbose-add-participant-form').attr('class', 'display-none');
                 } else {
+
                     $('#verbose-add-participant-form').attr('class', '');
                     $('#event-modal-email-take-part').attr('class', 'display-none');
-
+                    $('#verbose-remove-participant-submit').addClass('display-none');
+                    $('#verbose-add-participant-email').val(registeredUserEmail);
                 }
             }
         });
@@ -331,9 +378,9 @@ Event block exists section
 $(document).off('click', `#${roomeventPopupVerboseSubmitId}`);
 $(document).on('click',
         `#${roomeventPopupVerboseSubmitId}`,
-        function() {
+        function () {
 
-            if (! $(`#${roomeventPopupVerboseErrorMessageId}`).hasClass('display-none')) {
+            if (!$(`#${roomeventPopupVerboseErrorMessageId}`).hasClass('display-none')) {
                 $(`#${roomeventPopupVerboseErrorMessageId}`).addClass('display-none');
             }
 
@@ -349,6 +396,12 @@ $(document).on('click',
                     true
                 );
 
+                if (registeredUserEmail.length > 1) {
+                    $('#verbose-remove-participant-submit').removeClass('display-none');
+                }
+                     $('#event-modal-email-take-part').attr('class', ' ');
+                    $('#verbose-add-participant-form').attr('class', 'display-none');
+
             } else {
                 $(`#${roomeventPopupVerboseErrorMessageId}`).removeClass('display-none');
             }
@@ -362,7 +415,7 @@ function roomeventPopupVerboseInit(datetime, datetimeEnd, popupId) {
     isUserTakePart(ajaxUrl.ParticipantExist, popupId);
 
     var dayOfWeek = getDayOfWeek(new Date(datetime.year + '-' + datetime.month + '-' + datetime.day).getDay());
-    $('#event-verbose-date').html(dayNames[dayOfWeek] + ',' + datetime.day + " " + monthNamesAccusative[datetime.month-1]);
+    $('#event-verbose-date').html(dayNames[dayOfWeek] + ',' + datetime.day + " " + monthNamesAccusative[datetime.month - 1]);
 
     var timeBegin = renderTimeMinutes(datetime.hour, datetime.minutes);
     var timeEnd = renderTimeMinutes(datetimeEnd.hour, datetimeEnd.minutes);
@@ -371,12 +424,12 @@ function roomeventPopupVerboseInit(datetime, datetimeEnd, popupId) {
 }
 
 $(document).off('click', '#event-modal-close');
-$(document).on('click', '#event-modal-close', function() {
+$(document).on('click', '#event-modal-close', function () {
     $(`#popups-${singleRoomeventPopupId}`).remove();
 });
 
 $(document).off('click', '.event-button-cancel');
-$(document).on('click','.event-button-cancel', function() {
+$(document).on('click', '.event-button-cancel', function () {
     roomeventDialogWindow.show();
 });
 
@@ -401,7 +454,8 @@ $(document).on('click', '.event-button-change', function (e) {
 
         },
         function (errorResponse) {
-            console.log(errorResponse);
+            eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
+            eventPageDialogWindowError.show();
         });
 
 });
@@ -437,7 +491,7 @@ roomeventPopupInfoInit
 */
 
 function roomeventPopupInfoInit(datetime, datetimeEnd, popupId) {
-    
+
     roomeventPopupModalId = popupId;
 
     var dayOfWeek = getDayOfWeek(new Date(datetime.year + '-' + datetime.month + '-' + datetime.day).getDay());

@@ -110,15 +110,15 @@
 
             <div class="checkbox">
 
-                <input id="IsAuthorShown" name="IsAuthorShown" type="checkbox" value="true">
-                <label for="IsAuthorShown"></label>
-                <input name="IsAuthorShown" type="hidden" value="false">
+                <input id="IsAuthorShown-new" name="IsAuthorShown" type="checkbox" value="true">
+                <label for="IsAuthorShown-new"></label>
+                <input name="IsAuthorShown-new" type="hidden" value="false">
 
             </div>
 
             <div class="text">@Localization.EventShowAuthor</div>
             <div class="text or">@Localization.Or</div>
-            @Html.TextBoxFor(m => m.Organizer, new { placeholder = Localization.EventSetOrganizerPlaceholder })
+            @Html.TextBoxFor(m => m.Organizer, new { placeholder = Localization.EventSetOrganizerPlaceholder, id="event-new-organizer" })
         </div>
 
 
@@ -146,4 +146,5 @@
 
 <script type="text/javascript">
     eventmodalCreateNewInit();
+
 </script>

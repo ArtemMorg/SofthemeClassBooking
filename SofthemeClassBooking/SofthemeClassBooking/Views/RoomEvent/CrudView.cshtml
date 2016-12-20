@@ -18,7 +18,7 @@
     @Html.HiddenFor(m => m.UserId, new { id = "event-modal-userid" })
     @Html.HiddenFor(m => m.BeginingDate, new { id = "event-modal-beginingDate" })
     @Html.HiddenFor(m => m.EndingDate, new { id = "event-modal-endingDate" })
-    @Html.HiddenFor(m => m.ClassRoomId, new {id="event-modal-classRoomId"})
+    @Html.HiddenFor(m => m.ClassRoomId, new { id = "event-modal-classRoomId" })
 
     <div id="event-modal-crud-section" class="event event-create">
         <div class="event-header-edit noselect-text">
@@ -93,15 +93,24 @@
         </div>
 
         <div class="event-body">
-            @Html.TextAreaFor(m => m.Description, new { placeholder = Localization.EventAdditionalInfoPlaceholder, id = "event-modal-description",  @class = "event-edit-description" })
+            @Html.TextAreaFor(m => m.Description, new { placeholder = Localization.EventAdditionalInfoPlaceholder, id = "event-modal-description", @class = "event-edit-description" })
         </div>
 
 
         <div class="event-edit-access">
             <div class="checkbox">
-                <input id="IsParticipantsAllowed-modal" name="IsParticipantsAllowed" type="checkbox" value="true">
+                @if (isEditMode && Model.IsParticipantsAllowed)
+                {
+                    <input id="IsParticipantsAllowed-modal" name="IsParticipantsAllowed" type="checkbox" value="true" checked />
+                }
+                else
+                {
+                    <input id="IsParticipantsAllowed-modal" name="IsParticipantsAllowed" type="checkbox" value="true">
+                }
+
                 <label for="IsParticipantsAllowed-modal"></label>
                 <input name="IsParticipantsAllowed-modal" type="hidden" value="false">
+
             </div>
             <div class="event-edit-label">@Localization.EventRegisterParticipants</div>
 
@@ -111,7 +120,15 @@
                 </div>
 
                 <div class="checkbox-slider">
-                    <input id="IsPrivate-modal" name="IsPrivate" type="checkbox" value="true">
+
+                    @if (isEditMode && Model.IsPrivate)
+                    {
+                        <input id="IsPrivate-modal" name="IsPrivate" type="checkbox" value="true" checked />
+                    }
+                    else
+                    {
+                        <input id="IsPrivate-modal" name="IsPrivate" type="checkbox" value="true">
+                    }
                     <label for="IsPrivate-modal"></label>
                     <input name="IsPrivate-modal" type="hidden" value="false">
                 </div>
@@ -125,17 +142,32 @@
 
         <div class="event-edit-organizers">
             <div class="checkbox">
-                <input id="IsAuthorShown-modal" name="IsAuthorShown" type="checkbox" value="true">
+
+                @if (isEditMode && Model.IsAuthorShown)
+                {
+                    <input id="IsAuthorShown-modal" name="IsAuthorShown" type="checkbox" value="true" checked />
+                }
+                else
+                {
+                    <input id="IsAuthorShown-modal" name="IsAuthorShown" type="checkbox" value="true">
+                }
                 <label for="IsAuthorShown-modal"></label>
                 <input name="IsAuthorShown-modal" type="hidden" value="false">
+
+
             </div>
             <div class="event-edit-label">@Localization.EventShowAuthor</div>
             <div class="event-edit-text-or">@Localization.Or</div>
 
+            @if (isEditMode && Model.IsAuthorShown)
+            {
 
-            @Html.TextBoxFor(m => m.Organizer, new { placeholder = Localization.EventSetOrganizerPlaceholder, id = "event-modal-organizer" })
-
-
+                @Html.TextBoxFor(m => m.Organizer, new { placeholder = Localization.EventSetOrganizerPlaceholder, id = "event-modal-organizer", disabled = true })
+            }
+            else
+            {
+                @Html.TextBoxFor(m => m.Organizer, new { placeholder = Localization.EventSetOrganizerPlaceholder, id = "event-modal-organizer" })
+            }
         </div>
 
         <div class="event-modal-status-section">

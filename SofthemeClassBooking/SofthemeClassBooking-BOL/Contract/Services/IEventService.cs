@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SofthemeClassBooking_BOL.Contract.Models;
 
 namespace SofthemeClassBooking_BOL.Contract.Services
@@ -7,7 +8,7 @@ namespace SofthemeClassBooking_BOL.Contract.Services
         where TModel : IEvent
     {
         TModel Get(int id);
-        IEnumerable<TModel> GetBrief();
+        IEnumerable<TModel> GetBrief(DateTime dateEventsFrom, DateTime dateEventsTo);
 
         IEnumerable<TModel> GetByUser(string id);
         void Update(IEvent eventModel, IEvent pivotModel);

@@ -25,7 +25,6 @@ namespace SofthemeClassBooking.Controllers
         [HttpPost]
         public ActionResult Send(FeedbackModel feedback)
         {
-            feedback = null;
             if (ModelState.IsValid)
             {
                 try

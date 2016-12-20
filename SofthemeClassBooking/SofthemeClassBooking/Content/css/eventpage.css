@@ -123,6 +123,11 @@
         height: 72px;
     }
 
+    .eventpage-info .description pre {
+        height: 60px;
+        overflow: auto;
+    }
+
         .eventpage-info .description .no-description {
             font-style: italic;
         }
@@ -163,7 +168,8 @@
         display: inline-block;
     }
 
-    .eventpage-info .fa-plus {
+    .eventpage-info .fa-plus,
+    .eventpage-info .fa-minus {
         padding-left: 9px;
         padding-right: 14px;
         cursor: pointer;

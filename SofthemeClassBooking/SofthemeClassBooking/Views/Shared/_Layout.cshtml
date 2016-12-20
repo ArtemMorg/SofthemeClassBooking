@@ -37,16 +37,20 @@
             ParticipantRemoveUrl: '@Url.Action("Remove","Participant")',
             ParticipantExist: '@Url.Action("IsTakePart","Participant")',
             ParticipantsUrl: '@Url.Action("Participants","Participant")',
-            DialogWindowUrl: '@Url.Action("DialogWindow","Home")'
+            DialogWindowUrl: '@Url.Action("DialogWindow","Home")',
+            UserEmailUrl: '@Url.Action("GetUserEmail","Login")'
         };
         setEngineUrl(url);
         setCurrentUserId('@User.Identity.GetUserId()');
-
     </script>
 
     @Styles.Render("~/bundles/styles/general")
     @Scripts.Render("~/bundles/scripts/jquery")
    
+    
+    <script>
+        setDefaultErrorMessage('@Localization.ErrorDefaultTitle', '@Localization.ErrorDefaultBodyMessage');
+    </script>
 
     @RenderSection("stylesDeclarationInHeader", required: false)
     @RenderSection("scriptDeclarationInHeader", required: false)
@@ -92,5 +96,7 @@
     </footer>
 
 @RenderSection("scriptDeclarationAfterFooter", required: false)
+    
+
 </body>
 </html>

@@ -99,6 +99,11 @@
     line-height: 15px;
 }
 
+.event-body-verbose {
+    max-height: 100px;
+    overflow: auto ;
+}
+
 .event-creator {
     float: left;
     height: 20px;

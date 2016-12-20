@@ -5,6 +5,7 @@ var eventPageDateTimeBegin;
 var eventPageDateTimeEnd;
 
 var eventpageCorrectDateTime = true;
+var registeredUserEmail;
 
 var eventPageDateTimeBegin = {
     year: dateNow.year,
@@ -75,8 +76,7 @@ function checkRoomIsBusy(id) {
 
         },
         function (errorResponse) {
-            console.log(errorResponse);
-            eventPageDialogWindowError.dialogModel.BodyMessage = errorResponse;
+            eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
             eventPageDialogWindowError.show();
         });
 
@@ -145,13 +145,51 @@ function loadParticipants() {
             $('.participant-section').html(successResponse);
         },
         function (errorResponse) {
-            eventPageDialogWindowError.dialogModel.BodyMessage = errorResponse;
+            eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
             eventPageDialogWindowError.show();
         });
 
 }
 
+$(document).off('click', '#event-new-remove-myself-submit');
+$(document).on('click', '#event-new-remove-myself-submit', function () {
+
+    var participantModel = {
+        Email: registeredUserEmail
+    }
+
+    postData(ajaxUrl.ParticipantRemoveUrl, participantModel, function (successResponse) {
+        if (successResponse.success) {
+
+            $('#event-add-participant-email').attr('disabled', false);
+            $('#event-add-participant-form').attr('class', 'div-wraper');
+            $('#event-new-email-take-part').attr('class', 'display-none');
+            $('#event-new-remove-myself-submit').addClass('display-none');
+            $('#event-add-participant-email').val(registeredUserEmail);
+
+            $('#event-participant-count').html(parseInt($('#event-participant-count').html()) - 1);
+        }
+
+    }, function (errorResponse) {
+        eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
+        eventPageDialogWindowError.show();
+    });
+
+});
+
+
 function isUserTakePart(url, eventModelId) {
+
+
+    postData(ajaxUrl.UserEmailUrl,
+    '',
+    function (email) {
+        if (email != null) {
+            registeredUserEmail = email;
+            $('#event-add-participant-email').val(registeredUserEmail);
+        }
+    });
+
 
     postData(
         url,
@@ -161,10 +199,12 @@ function isUserTakePart(url, eventModelId) {
                 if (successResponse.message) {
                     $('#event-new-email-take-part').attr('class', ' ');
                     $('#event-add-participant-form').attr('class', 'display-none');
+                    $('#event-new-remove-myself-submit').removeClass('display-none');
                 } else {
                     $('#event-add-participant-form').attr('class', 'div-wraper');
                     $('#event-new-email-take-part').attr('class', 'display-none');
-
+                    $('#event-new-remove-myself-submit').addClass('display-none');
+                    $('#event-add-participant-email').val(registeredUserEmail);
                 }
             }
         });
@@ -207,6 +247,13 @@ $(document).on('click', '#event-add-participant-submit', function () {
             },
             false
         );
+
+        if (registeredUserEmail.length > 1) {
+            $('#event-add-participant-form').attr('class', 'display-none');
+        }
+        $('#event-new-email-take-part').attr('class', ' ');
+        $('#event-new-remove-myself-submit').removeClass('display-none');
+
     } else {
         eventPageDateErrorMessage.removeClass('display-none');
     }
@@ -224,8 +271,19 @@ function checkEventTitle() {
     }
 }
 
+$(document).off('keyup', '#Event_Title');
 $(document).on('keyup', '#Event_Title', checkEventTitle);
 
+$(document).off('click', '#IsAuthorShown');
+$(document).on('click', '#IsAuthorShown', function () {
+    if ($("#IsAuthorShown").is(':checked')) {
+        $('#Event_Organizer').attr('disabled', true);
+    } else {
+        $('#Event_Organizer').attr('disabled', false);
+    }
+});
+
+$(document).off('click', '#save-cancel-event');
 $(document).on('click', '#save-cancel-event', function () {
     if (eventPageCurrentMode === eventPageModes.read) {
         eventPageDialogWindow.show();
@@ -239,11 +297,11 @@ $(document).on('click', '#save-cancel-event', function () {
 
         if (compareDates(
             {
-            year: 2000 + eventPageDateTimeBegin.year,
+                year: 2000 + eventPageDateTimeBegin.year,
                 month: eventPageDateTimeBegin.month,
-                    day: eventPageDateTimeBegin.day,
-                        hour: eventPageDateTimeBegin.hour,
-                            minutes: eventPageDateTimeBegin.minutes
+                day: eventPageDateTimeBegin.day,
+                hour: eventPageDateTimeBegin.hour,
+                minutes: eventPageDateTimeBegin.minutes
             },
             dateNow, false, true) < 0 || !eventpageCorrectDateTime) {
             errorIncorrectDateTime(false);
@@ -300,8 +358,8 @@ $(document).on('click', '#save-cancel-event', function () {
                 $('#error-message').html(response.message);
 
             },
-            function (responce) {
-                console.log(responce);
+            function (errorResponse) {
+                eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
                 eventPageDialogWindowError.show();
             });
 
@@ -309,18 +367,18 @@ $(document).on('click', '#save-cancel-event', function () {
     }
 });
 
-
+$(document).off('click', '.participant-remove');
 $(document).on('click', '.participant-remove', function () {
 
     var participantFormDom = $('#event-participant-count');
     var participant = $(this);
-    var data = {
-        id: participant.attr('id').split('-')[1]
+    var participantModel = {
+        Id: participant.attr('id').split('-')[1]
     }
 
-    if (data.id == eventPageCurrentEvent.userId || eventPageCurrentEvent.isAdmin) {
+    if (participantModel.Id == eventPageCurrentEvent.userId || eventPageCurrentEvent.isAdmin) {
 
-        postData(ajaxUrl.ParticipantRemoveUrl, data, function (successResponse) {
+        postData(ajaxUrl.ParticipantRemoveUrl, participantModel, function (successResponse) {
             if (successResponse.success) {
                 participant.parent().remove();
                 participantFormDom.html(parseInt(participantFormDom.html()) - 1);
@@ -330,13 +388,14 @@ $(document).on('click', '.participant-remove', function () {
             }
 
         }, function (errorResponse) {
-            eventPageDialogWindowError.dialogModel.BodyMessage = errorResponse;
+            eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
             eventPageDialogWindowError.show();
         });
 
     }
 });
 
+$(document).off('click', '#change-cancel');
 $(document).on('click', '#change-cancel', function () {
     if (eventPageCurrentMode === eventPageModes.read) {
 
@@ -448,7 +507,8 @@ function cancelEvent() {
     postData(ajaxUrl.EventCancelUrl, data, function () {
 
         window.location.href = ajaxUrl.HomeUrl;
-    }, function () {
+    }, function (errorResponse) {
+        eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
         eventPageDialogWindowError.show();
     });
 }
@@ -469,10 +529,13 @@ function eventpageLoadToSelectRoom() {
         function (result) {
             $('#plan-section').html(result);
             $('#plan-loading').hide();
+        }, function(errorResponse) {
+            eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
+            eventPageDialogWindowError.show();
         });
 
 }
-    
+
 function eventpageLoadSelectedClassRoom() {
     $('#plan-loading').show();
 
@@ -486,5 +549,8 @@ function eventpageLoadSelectedClassRoom() {
             $('#classroom-path').addClass(`plan-room-path-${eventPageCurrentEvent.classRoomId}`);
             $('#eventpage-room-name').html($(`#eventpage-selected-room-${eventPageCurrentEvent.classRoomId}`).val());
             $('#plan-loading').hide();
+        }, function(errorResponse) {
+            eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
+            eventPageDialogWindowError.show();
         });
 }

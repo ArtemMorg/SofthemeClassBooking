@@ -102,9 +102,9 @@ function parseIdFromCalendarSell(longId) {
 
     var splittedLongId = longId.split('-');
     return {
-        month: splittedLongId[0],
-        day: splittedLongId[1],
-        year: splittedLongId[2],
+        month: parseInt(splittedLongId[0]),
+        day: parseInt(splittedLongId[1]),
+        year: parseInt(splittedLongId[2]),
         hour: 0,
         minutes: 0
     }
@@ -180,9 +180,10 @@ $(document).on('click', '.roomevent-calendar-cell', function () {
     }
 
     if (currentCalendarCell.day != dateNow.day) {
-        renderTime(currentMode, { hour: 0, minutes: 0 });
-        renderRooms(currentMode, { hour: 0, minutes: 0 });
-        $('.slider-time').html(renderTimeMinutes(0, 0));
+        currentCalendarCell.hour = defaultMinimumBookHour;
+        renderTime(currentMode, { hour: defaultMinimumBookHour, minutes: 0 });
+        renderRooms(currentMode, { hour: defaultMinimumBookHour, minutes: 0 });
+        $('.slider-time').html(renderTimeMinutes(defaultMinimumBookHour, 0));
     } else {
         renderTime(currentMode);
         renderRooms(currentMode);

@@ -49,6 +49,9 @@ function loadRoomPagePlanSection() {
             if (currentClassRoom.isLocked !== 'True') {
                 loadAdditionalInfo(false);
             }
+        }, function(errorResponse) {
+            eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
+            eventPageDialogWindowError.show();
         });
 
 }
@@ -75,7 +78,8 @@ function loadAdditionalInfo(change) {
         $('#classroom-additional-info-line').show();
 
     }, function (errorResult) {
-        console.log(errorResult);
+        eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
+        eventPageDialogWindowError.show();
     });
 }
 
@@ -107,9 +111,13 @@ $(document).on('click', '#plan-room-edit-close', function () {
 $(document).on('click', '#plan-room-edit-submit', function (e) {
     e.preventDefault();
 
-    postFormData(ajaxUrl.RoomEditUrl, $('#roomChange'), 'json', function (result) {
+    postFormData(ajaxUrl.RoomEditUrl, $('#roomChange'), 'json',
+        function (result) {
         if (currentClassRoom.isLocked !== 'True') {
             loadAdditionalInfo(false);
         }
+    }, function(errorResponse) {
+        eventPageDialogWindowError.BodyMessage += `#${errorResponse.message}`;
+        eventPageDialogWindowError.show();
     });
 });
