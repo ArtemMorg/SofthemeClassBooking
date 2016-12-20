@@ -126,11 +126,11 @@ function eventmodalCreateNewInit() {
 
     eventmodalPosition.on('keyup', `#${eventmodalCreateNewFormTitle.attr('id')}`, function () {
 
-        if (eventmodalCreateNewFormTitle.val().length >= 1 && eventmodalCreateNewCorrectDateTime) {
-            eventmodalCreateNewSubmit.attr('class', 'save-ready');
+        if (eventmodalCreateNewFormTitle.val().length < 1) {
+            eventmodalCreateNewSubmit.attr('class', 'save');
             eventmodalCreateNewTitleError.show();
         } else {
-            eventmodalCreateNewSubmit.attr('class', 'save');
+            eventmodalCreateNewSubmit.attr('class', 'save-ready');
             eventmodalCreateNewTitleError.hide();
         }
 
@@ -162,7 +162,7 @@ function eventmodalCreateNewInit() {
             checkDateTime(eventModalCreateNewDateTimeTargetBegin, eventModalCreateNewDateTimeTargetEnd);
             eventmodalCreateNewErrorMessages.hide();
 
-            if (dateCorrect) {
+            if (eventmodalCreateNewCorrectDateTime) {
 
                 eventmodalCreateNewFormBeginingDate.val(convertToDateTime(eventModalCreateNewDateTimeTargetBegin));
                 eventmodalCreateNewFormEndingDate.val(convertToDateTime(eventModalCreateNewDateTimeTargetEnd));

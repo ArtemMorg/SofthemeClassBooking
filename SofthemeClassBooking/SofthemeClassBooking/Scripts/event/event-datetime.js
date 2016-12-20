@@ -209,7 +209,7 @@ function checkDateTime(datetime, datetimeTo, succesHandler, errorHandler) {
         }
         return true;
     }
-
+    
     if ((compareDates(testDate, datetimeTo, false, true) > 0) ||
         (compareDates(testDate, dateNow, false, true) < 0)) {
 
@@ -219,8 +219,8 @@ function checkDateTime(datetime, datetimeTo, succesHandler, errorHandler) {
         return false;
 
     }
-
-    if (getDurationInMinutes(datetimeTo.hour - testDate.hour, Math.abs(testDate.minutes - minumumAllowedMinutes - datetimeTo.minutes)) > defaultMaximumDurationMinutes) {
+  
+    if (getDurationInMinutes(datetimeTo.hour - datetime.hour, datetimeTo.minutes - datetime.minutes) > defaultMaximumDurationMinutes) {
 
         if (typeof (errorHandler) === "function") {
             errorHandler();
