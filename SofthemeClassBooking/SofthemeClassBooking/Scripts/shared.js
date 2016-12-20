@@ -8,9 +8,7 @@ var checkFunctionInterval;
 var minumumAllowedMinutes = 20;
 
 var defaultDateTimeFormat = "yy-MM-dd-HH-mm";
-
 var defaultYearAddToShor = 2000;
-
 var defaultOneMinute = 1000 * 60;
 var defaultNewEventEndHourOffset = 1;
 var defaultNewEventStartMinutesOffset = 5;
@@ -20,14 +18,18 @@ var singleRoomeventPopupId = 777;
 
 var defaultMaximumBookHour = 19;
 var defaultMaximumBookMinutes = 0;
-
 var defaultMinimumBookHour = 9;
 var defaultMinimumBookMinutes = 0;
-
 var defaultMaximumDurationMinutes = 180;
-
 var defaultHourLeftOffsetEventLoading = 12;
 var defaultHourRightOffsetEventLoading = 12;
+
+var maxRowCalendarSize = 5;
+var maxCellCalendarSize = 7;
+
+var roompageMaxDayCalendarCount = 9;
+var roompageMaxRowCount = 12;
+var roompageMaxHour = 19;
 
 var renderDateTimeType = {
     withMonthNames: 0,

@@ -222,7 +222,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClassroomController.cs" />
-    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\ParticipantController.cs" />
     <Compile Include="Controllers\RoomEventController.cs" />
@@ -373,6 +372,7 @@
     <None Include="Scripts\validation\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\plan\plan-section.js" />
     <Content Include="Scripts\profile\profile.js" />
+    <Content Include="Scripts\roompage\roompage-calendar.js" />
     <Content Include="Scripts\validation\profile.js" />
     <Content Include="Scripts\roomevent\calendar.js" />
     <Content Include="Scripts\roomevent\initialization.js" />
@@ -395,7 +395,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -436,7 +438,6 @@
     <Content Include="Views\Login\ResetPasswordResult.cshtml" />
     <Content Include="Views\Classroom\EditClassRoomInfo.cshtml" />
     <Content Include="Views\Event\InfoVerbose.cshtml" />
-    <Content Include="Views\RoomEvent\Short.cshtml" />
     <Content Include="Views\RoomEvent\CrudView.cshtml" />
     <Content Include="Views\Event\Index.cshtml" />
     <Content Include="Views\Event\Info.cshtml" />
@@ -447,11 +448,9 @@
     <Content Include="Views\Home\DialogWindow.cshtml" />
     <Content Include="Views\Home\MapLink.cshtml" />
     <Content Include="Views\Participant\Participants.cshtml" />
-    <Content Include="Views\Error\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

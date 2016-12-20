@@ -17,6 +17,7 @@
 /// <reference path="roomevent/render.js" />
 /// <reference path="roomevent/roomevent-popup.js" />
 /// <reference path="roompage/roompage.js" />
+/// <reference path="roompage/roompage-calendar.js" />
 /// <reference path="shared.js" />
 /// <reference path="validation/jquery.validate.min.js" />
 /// <reference path="validation/jquery.validate.unobtrusive.min.js" />

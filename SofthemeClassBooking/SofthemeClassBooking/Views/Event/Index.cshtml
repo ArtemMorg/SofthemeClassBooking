@@ -2,6 +2,10 @@
 @using Microsoft.AspNet.Identity
 @model SofthemeClassBooking.Models.EventViewModel
 
+@{
+    ViewBag.Title = Model.Event.Title;
+}
+
 @section stylesDeclarationInHeader {
     @Styles.Render("~/bundles/styles/plan")
     @Styles.Render("~/bundles/styles/event")

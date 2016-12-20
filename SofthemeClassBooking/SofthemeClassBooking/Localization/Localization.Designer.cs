@@ -88,6 +88,15 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Закрыть.
+        /// </summary>
+        public static string ButtonClose {
+            get {
+                return ResourceManager.GetString("ButtonClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Создать.
         /// </summary>
         public static string ButtonCreate {
@@ -111,6 +120,15 @@ namespace SofthemeClassBooking.Localization {
         public static string ButtonLogOut {
             get {
                 return ResourceManager.GetString("ButtonLogOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Открыть.
+        /// </summary>
+        public static string ButtonOpen {
+            get {
+                return ResourceManager.GetString("ButtonOpen", resourceCulture);
             }
         }
         
@@ -705,6 +723,15 @@ namespace SofthemeClassBooking.Localization {
         public static string StageSelect {
             get {
                 return ResourceManager.GetString("StageSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Обратная связь.
+        /// </summary>
+        public static string TitleFeedback {
+            get {
+                return ResourceManager.GetString("TitleFeedback", resourceCulture);
             }
         }
         

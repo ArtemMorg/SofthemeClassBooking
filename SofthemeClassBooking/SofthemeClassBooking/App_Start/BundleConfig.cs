@@ -66,7 +66,9 @@ namespace SofthemeClassBooking
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/roompage").Include(
-                        "~/Scripts/roompage/roompage.js"
+                        "~/Scripts/roompage/roompage.js",
+                        "~/Scripts/roomevent/calendar.js",
+                        "~/Scripts/roompage/roompage-calendar.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/plan").Include(

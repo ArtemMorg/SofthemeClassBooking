@@ -164,22 +164,8 @@ $(document).on('click', '.eventblock-add', function (e) {
 
         },
         function (errorResponse) {
-            console.log(errorResponse);
+            eventPageDialogWindowError.show();
         });
-
-});
-
-$(document).on('click', '.eventblock-lock', function () {
-
-    $('.event-position').remove();
-
-    var currentEventBlock = $(this);
-
-    var eventPrivate = currentEventBlock.attr('data-private');
-    var eventBlockType = currentEventBlock.attr('data-eventblock-type');
-
-    console.log(eventPrivate);
-    console.log(eventBlockType);
 
 });
 
@@ -281,9 +267,6 @@ $(document).on('mouseover', '.roomevent-room-cell-middle', function (e) {
 
     renderEventAdd(currentRoomCellObject);
 
-    //console.log(e.pageX - offset.left);
-
-
 }).on('mouseleave', '.roomevent-room-cell-middle', function () {
     $('.eventblock-add').remove();
 });
@@ -301,7 +284,6 @@ $(document).on('click', '#roomevent-now', function () {
 
 function listNextHour() {
     addValueToDate(currentCalendarCell, { hour: 1 }, true);
-    console.log(currentCalendarCell);
     render();
 }
 
@@ -356,6 +338,11 @@ function renderTime(timeCellCount, resetTime) {
 }
 
 function renderRooms(timeCellCount, resetTime) {
+
+    $('.-busy').each(function (i, obj) {
+        var room = $(this);
+        $(`#${room.attr('id')}`).attr("class", `plan-room-${room.attr('id')}-available plan-room -available`);
+    });
 
     getClassRooms().done(function (rooms) {
 
@@ -634,12 +621,10 @@ function collision(slider) {
 
             var busyClassRoomId = block.attr("data-classroom-id");
             $(`#${busyClassRoomId}`).attr("class", `plan-room-${busyClassRoomId}-available plan-room -available`);
-            console.log("false " + block.attr("data-classroom-id"));
 
         } else {
             var availableRoomId = block.attr("data-classroom-id");
             $(`#${availableRoomId}`).attr("class", `plan-room-${availableRoomId}-busy plan-room -busy`);
-            console.log("true " + block.attr("data-classroom-id"));
             visitedRooms.push(availableRoomId);
         }
     });

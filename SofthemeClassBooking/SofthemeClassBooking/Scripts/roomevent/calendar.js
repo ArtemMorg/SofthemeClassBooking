@@ -23,9 +23,6 @@ function renderCalendar(month) {
 
     var selectedCalendarMonth = month || dateNow.month;
 
-    var maxRowCalendarSize = 5;
-    var maxCellCalendarSize = 7;
-
     var firstDayOfWeekInMonth = getDayOfWeek(new Date(currentCalendarYear + '-' + selectedCalendarMonth + '-01').getDay());
     var maxDayCount = getDaysInMonth(selectedCalendarMonth, currentCalendarYear);
     var maxDayCountLastMonth = getDaysInMonth(selectedCalendarMonth - 1, currentCalendarYear) - firstDayOfWeekInMonth + 1;

@@ -354,4 +354,13 @@
   <data name="ErrorDefaultTitle" xml:space="preserve">
     <value>Ошибка</value>
   </data>
+  <data name="ButtonClose" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="ButtonOpen" xml:space="preserve">
+    <value>Открыть</value>
+  </data>
+  <data name="TitleFeedback" xml:space="preserve">
+    <value>Обратная связь</value>
+  </data>
 </root>

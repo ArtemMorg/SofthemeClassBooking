@@ -4,6 +4,9 @@ var monthNamesAccusative = ["Января", "Февраля", "Марта", "А�
 
 var oneMinute = 1000 * 60;
 var date = new Date();
+var weekendSaturday = 5;
+var weekendSunday = 6;
+
 
 var dateFormats = {
     CShartDateTime: 0
