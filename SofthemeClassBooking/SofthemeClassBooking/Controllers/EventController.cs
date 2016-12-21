@@ -8,6 +8,7 @@ using SofthemeClassBooking.Helpers;
 using SofthemeClassBooking.Models;
 using SofthemeClassBooking_BOL.Contract.Models;
 using SofthemeClassBooking_BOL.Contract.Services;
+using SofthemeClassBooking_BOL.Enum;
 using SofthemeClassBooking_BOL.Models;
 using SofthemeClassBooking_BOL.Exceptions;
 
@@ -32,33 +33,30 @@ namespace SofthemeClassBooking.Controllers
         [AllowAnonymous]
         public ActionResult Brief(DateTime dateEventsFrom, DateTime dateEventsTo)
         {
-            if (DateTimeValidationHelper.IsDateTimeValid(dateEventsFrom, dateEventsTo))
+            if (!DateTimeValidationHelper.IsDateTimeValid(dateEventsFrom, dateEventsTo))
+            {
+                return Json(new { message = Localization.Localization.ErrorInvalidDatetime, success = false });
+            }
+            try
             {
                 var eventsBriefJson = JsonConvert.SerializeObject(_eventService.GetBrief(dateEventsFrom, dateEventsTo),
-                    Formatting.None, new IsoDateTimeConverter() {DateTimeFormat = "yyyy-MM-dd-HH-mm-ss"});
+                    Formatting.None, new IsoDateTimeConverter() { DateTimeFormat = EventSettings.DateTimeToJsonLong });
                 return Json(eventsBriefJson, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                try
-                {
-                    return Json(new {message = Localization.Localization.ErrorInvalidDatetime, success = false});
-                }
-                catch (Exception)
-                {
-                    return Json(new {message = Localization.Localization.ErrorGeneralException, success = false});
-                }
-            }
 
+            }
+            catch (Exception)
+            {
+                return Json(new { message = Localization.Localization.ErrorGeneralException, success = false });
+            }
         }
 
         [Authorize]
         [HttpPost]
         public ActionResult UserEvents()
         {
-                var userEvents = JsonConvert.SerializeObject(_eventService.GetByUser(User.Identity.GetUserId()), 
-                                                            Formatting.None, 
-                                                            new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd-HH-mm-ss" });
+            var userEvents = JsonConvert.SerializeObject(_eventService.GetByUser(User.Identity.GetUserId()),
+                                                        Formatting.None,
+                                                        new IsoDateTimeConverter() { DateTimeFormat = EventSettings.DateTimeToJsonLong });
             try
             {
                 return Json(userEvents, JsonRequestBehavior.AllowGet);
@@ -89,6 +87,25 @@ namespace SofthemeClassBooking.Controllers
         }
 
         [HttpPost]
+        public ActionResult ByClassRoom(int id, DateTime dateEventsFrom, DateTime dateEventsTo)
+        {
+            if (!DateTimeValidationHelper.IsDateTimeValid(dateEventsFrom, dateEventsTo))
+            {
+                return Json(new { message = Localization.Localization.ErrorInvalidDatetime, success = false });
+            }
+            try
+            {
+                var eventsByClassRoom = JsonConvert.SerializeObject(_eventService.GetByClassRoom(id, dateEventsFrom, dateEventsTo),
+                    Formatting.None, new IsoDateTimeConverter() { DateTimeFormat = EventSettings.DateTimeToJsonLong });
+                return Json(eventsByClassRoom, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { message = Localization.Localization.ErrorGeneralException, success = false });
+            }
+        }
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Cancel(int id)
         {
@@ -101,7 +118,7 @@ namespace SofthemeClassBooking.Controllers
                         Id = id
                     });
 
-                    return Json(new {success = true});
+                    return Json(new { success = true });
                 }
             }
             catch (Exception)
@@ -112,25 +129,40 @@ namespace SofthemeClassBooking.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult InfoVerbose(int id)
+        public ActionResult InfoVerbose(int id, bool isPrivate)
         {
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(ApplicationDbContext.Create()));
-            var eventInfo = _eventService.Get(id);
-            eventInfo.Id = id;
 
-            return PartialView(new EventViewModel
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(ApplicationDbContext.Create()));
+
+            try
             {
-                Event = eventInfo,
-                ParticipantCount = _participantService.GetCount(id),
-                Author = userManager.FindById(eventInfo.UserId).UserName
-            });
+
+                var eventInfo = _eventService.Get(id);
+                eventInfo.Id = id;
+
+                if (isPrivate && eventInfo.UserId != User.Identity.GetUserId())
+                {
+                    return Json(new { message = false, success = true });
+                }
+
+                return PartialView(new EventViewModel
+                {
+                    Event = eventInfo,
+                    ParticipantCount = _participantService.GetCount(id),
+                    Author = userManager.FindById(eventInfo.UserId).UserName
+                });
+            }
+            catch (Exception)
+            {
+                return Json(new { message = Localization.Localization.ErrorGeneralException, success = false });
+            }
         }
 
         [HttpGet]
         [Authorize]
         public ActionResult InfoPrivate(int id)
         {
-          
+
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(ApplicationDbContext.Create()));
             var eventInfo = _eventService.Get(id);
 
@@ -139,7 +171,7 @@ namespace SofthemeClassBooking.Controllers
                 return null;
             }
 
-                eventInfo.Id = id;
+            eventInfo.Id = id;
 
             return PartialView(new EventViewModel
             {

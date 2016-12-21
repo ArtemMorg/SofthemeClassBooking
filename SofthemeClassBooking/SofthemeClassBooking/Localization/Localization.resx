@@ -363,4 +363,10 @@
   <data name="TitleFeedback" xml:space="preserve">
     <value>Обратная связь</value>
   </data>
+  <data name="Today" xml:space="preserve">
+    <value>Сегодня</value>
+  </data>
+  <data name="Now" xml:space="preserve">
+    <value>Сейчас</value>
+  </data>
 </root>

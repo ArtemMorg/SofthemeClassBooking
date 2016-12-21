@@ -1,8 +1,6 @@
 ﻿var compareToDate = {};
 var eventNewDateTimeBegin = {};
-
 var defaultAjaxDataType = 'json';
-
 var dateCorrect = true;
 var checkFunctionInterval;
 var minumumAllowedMinutes = 20;
@@ -24,12 +22,29 @@ var defaultMaximumDurationMinutes = 180;
 var defaultHourLeftOffsetEventLoading = 12;
 var defaultHourRightOffsetEventLoading = 12;
 
-var maxRowCalendarSize = 5;
-var maxCellCalendarSize = 7;
+var fisrtTimeCellWidth = 102;
+var timeCellWidth = 122;
+var minutePerPixel = (timeCellWidth / 60);
+var minutesPerPixelVertical = 48 / 60;
 
+var shortRoomEventTable = 5;
+var longRoomEventTable = 8;
+var sliderTimeInterval = 1000 * 60;
+var maxRowCalendarSize = 5;
+
+var roompageCalendarCellBorderWidth = 2;
+var roompageWeekendWidthPx = 40;
+var maxCellCalendarSize = 7;
+var minumumAllowedTimeToBook = 20 * minutePerPixel;
+var timeOffset = 0;
+var eventAddBlockCorrection = 2;
+var shortBlockMinimumTime = 40;
+var eventBlockType = { short: 0, long: 1 };
 var roompageMaxDayCalendarCount = 9;
 var roompageMaxRowCount = 12;
+
 var roompageMaxHour = 19;
+var milisecondsPerDay = 1000 * 60 * 60 * 24;
 
 var renderDateTimeType = {
     withMonthNames: 0,
@@ -92,6 +107,7 @@ function setEngineUrl(url) {
         EventUpdateUrl: url.EventUpdateUrl,
         EventsBriefUrl: url.EventsBriefUrl,
         EventInfo: url.EventInfo,
+        EventByClassRoomUrl: url.EventByClassRoomUrl,
         EventInfoPrivate: url.EventInfoPrivate,
         EventUrl: url.EventUrl,
         EventInfoVerbose: url.EventInfoVerbose,

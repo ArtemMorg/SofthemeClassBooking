@@ -68,7 +68,8 @@ namespace SofthemeClassBooking
             bundles.Add(new ScriptBundle("~/bundles/scripts/roompage").Include(
                         "~/Scripts/roompage/roompage.js",
                         "~/Scripts/roomevent/calendar.js",
-                        "~/Scripts/roompage/roompage-calendar.js"
+                        "~/Scripts/roompage/roompage-calendar.js",
+                        "~/Scripts/roomevent/render.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/plan").Include(
@@ -126,8 +127,11 @@ namespace SofthemeClassBooking
 
             bundles.Add(new StyleBundle("~/bundles/styles/plan").Include(
                     "~/Content/css/plan.css",
-                    "~/Content/css/additionalInfoRoom.css",
-                    "~/Content/css/WeekCalendar.css"
+                    "~/Content/css/additionalInfoRoom.css"
+                    ));
+
+            bundles.Add(new StyleBundle("~/bundles/styles/roompage").Include(
+                     "~/Content/css/roompage-calendar.css"
                     ));
 
             bundles.Add(new StyleBundle("~/bundles/styles/event").Include(

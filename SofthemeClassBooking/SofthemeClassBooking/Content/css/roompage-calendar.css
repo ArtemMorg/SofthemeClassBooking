@@ -1,0 +1,194 @@
+﻿
+.roompage-calendar table {
+    border-spacing: 0;
+    position: relative;
+    margin: 16px 0 0 165px;
+    border: 2px solid #EBEEF7;
+    color: #C0C4CF;
+    position: relative;
+}
+
+    .roompage-calendar table td {
+        position: relative;
+    }
+
+.roompage-calendar-body {
+    height: 50px;
+}
+
+    .roompage-calendar-body td {
+        border: 2px solid #EBEEF7;
+    }
+
+.roompage-calendar-header {
+    width: 950px;
+    margin: 23px 0 0 163px;
+}
+
+    .roompage-calendar-header td,
+    .roompage-calendar-header .td-weekend,
+    .roompage-calendar-header .td-weekday {
+        height: 28px;
+        width: 122px;
+        border: 2px solid #eef0f8;
+    }
+
+    .roompage-calendar-header .td-weekend,
+    .roompage-calendar-body .td-weekend {
+        width: 36px;
+        background-color: #EBEEF7;
+        border: none;
+    }
+
+    .roompage-calendar-header .dayName,
+    .roompage-calendar-header .dayValue,
+    .roompage-calendar-body .time {
+        padding: 8px 0 0 0;
+        display: inline-block;
+        vertical-align: top;
+        font-size: 13px;
+    }
+
+.roompage-calendar-body .time {
+    float: right;
+    font-size: 11px;
+    padding: 6px 12px 0 0;
+}
+
+.roompage-calendar-header .dayName {
+    padding-left: 9px;
+}
+
+.roompage-calendar-header .dayValue {
+    float: right;
+    padding-right: 11px;
+}
+
+.roompage-today .fa-long-arrow-right,
+.roompage-today .fa-long-arrow-left {
+    position: relative;
+    top: 1px;
+}
+
+.roompage-today .fa-long-arrow-right {
+    padding: 0 0 0 5px;
+}
+
+.roompage-today .fa-long-arrow-left {
+    left: -5px;
+}
+
+.roompage-today {
+    height: 117px;
+    font-size: 11px;
+    color: #9FA6B6;
+    width: 950px;
+    margin: 0 auto;
+}
+
+    .roompage-today .text {
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+        cursor: pointer;
+        padding: 22px 0 0 40px;
+    }
+
+.roompage-calendar-header .td-today-up {
+    border-top-color: #C5CAD6;
+    border-right-color: #C5CAD6;
+    border-left-color: #C5CAD6;
+    border-width: 3px 3px 2px 3px;
+}
+
+.roompage-calendar-body .td-today {
+    border-right-color: #C5CAD6;
+    border-left-color: #C5CAD6;
+    border-width: 2px 3px 2px 3px;
+}
+
+.roompage-calendar-body .td-today-down {
+    border-right-color: #C5CAD6;
+    border-left-color: #C5CAD6;
+    border-bottom-color: #C5CAD6;
+    border-width: 2px 3px 3px 3px;
+}
+
+.roompage-calendar-header .fa-caret-left,
+.roompage-calendar-header .fa-caret-right {
+    cursor: pointer;
+    font-size: 35px;
+    color: #9FA6B6;
+}
+
+.roompage-calendar-header .fa-caret-right {
+    position: relative;
+    left: 6px;
+}
+
+    .roompage-calendar-header .fa-caret-left:hover,
+    .roompage-calendar-header .fa-caret-right:hover {
+        color: #4A5158;
+    }
+
+
+.roompage-calendar-header .text {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 36px;
+    width: 900px;
+    font-size: 14px;
+    padding: 0 0 0 7px;
+    text-align: center;
+}
+
+
+.roompage-calendar-header {
+    font-size: 13px;
+}
+
+
+#roompage-slider-static {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+}
+
+.hor-slider-left,
+.hor-slider-right,
+.hor-slider-body {
+    display: inline-block;
+    vertical-align: top;
+    position: absolute;
+}
+
+
+.hor-slider-left {
+    left: -13px;
+    top: -3.1px;
+    background-image: url("/Content/images/today-bottom.png");
+    width: 14px;
+    height: 8px;
+    -ms-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.hor-slider-right {
+    left: 121px;
+    top: -3.1px;
+    background-image: url("/Content/images/today-top.png");
+    width: 14px;
+    height: 8px;
+    -ms-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.hor-slider-body {
+    left: -3px;
+    height: 2px;
+    background-color: #9FA6B6;
+    width: 128px;
+}

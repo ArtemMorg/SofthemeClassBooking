@@ -673,6 +673,15 @@ namespace SofthemeClassBooking.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Сейчас.
+        /// </summary>
+        public static string Now {
+            get {
+                return ResourceManager.GetString("Now", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to или.
         /// </summary>
         public static string Or {
@@ -732,6 +741,15 @@ namespace SofthemeClassBooking.Localization {
         public static string TitleFeedback {
             get {
                 return ResourceManager.GetString("TitleFeedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сегодня.
+        /// </summary>
+        public static string Today {
+            get {
+                return ResourceManager.GetString("Today", resourceCulture);
             }
         }
         

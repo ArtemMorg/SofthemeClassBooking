@@ -14,9 +14,12 @@ namespace SofthemeClassBooking.Controllers
     public class ClassroomController : Controller
     {
         private IClassRoomService<IClassRoom> _classRoomService;
+
         private static object _lock = new object();
         // GET: Classroom
-        public ClassroomController(IClassRoomService<IClassRoom> classRoomService)
+        public ClassroomController(
+            IClassRoomService<IClassRoom> classRoomService,
+            IEventService<IEvent> eventService)
         {
             _classRoomService = classRoomService;
         }

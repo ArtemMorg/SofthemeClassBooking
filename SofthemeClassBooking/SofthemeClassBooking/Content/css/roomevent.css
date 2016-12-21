@@ -287,14 +287,18 @@
     font-size: 11px;
 }
 
-.eventblock-lock .eventblock-time, .eventblock-exist .eventblock-time  {
+.eventblock-lock .eventblock-time, 
+.eventblock-exist .eventblock-time  {
     position: relative;
     width: 100%;
-    color: #979CA3;
     padding: 3px 0 0 0;
     font: 11px/13px Arial;
     text-align: right;
     z-index: 3;
+}
+
+.eventblock-lock .eventblock-time .text  {
+    color: #979CA3 !important;
 }
 
 .eventblock-exist .eventblock-time {
@@ -320,7 +324,37 @@
     text-align: center;
     position: relative;
     display: block;
+}
+
+
+
+.short-time-roompage .fa {
+    display: none;
+}
+
+.roompage-event-lock .fa {
+    position: absolute;
+    color: #FFFFFF;
+    width: 30px;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 46px;
+    display: block;
+}
+
+.short-time-roompage .eventblock-time {
+    left: -8px;
+}
+
+.short-time-roompage .eventblock-time .text {    
+    color: #FFFFFF;
     text-align: center;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 11px;
+    padding: 0 0 0 3px;
 }
 
 .eventblock-exist .text {

@@ -75,6 +75,38 @@ namespace SofthemeClassBooking_BLL.Implementation
             }
         }
 
+        public IEnumerable<IEvent> GetByClassRoom(int id, DateTime dateEventsFrom, DateTime dateEventsTo)
+        {
+            var eventsInClassroom = new List<IEvent>();
+
+            using (var context = new ClassBookingContext())
+            {
+                var events = context.Events
+                    .Where(e => e.BeginingDate >= dateEventsFrom && e.EndingDate <= dateEventsTo &&
+                           e.ClassRoomId == id)
+                    .OrderBy(e => e.BeginingDate)
+                    .Select(e => new EventModel()
+                    {
+                        Id = e.Id,
+                        Title = e.Title,
+                        ClassRoomId = e.ClassRoomId,
+                        BeginingDate = e.BeginingDate,
+                        EndingDate = e.EndingDate,
+                        IsPrivate = e.IsPrivate,
+                        Description = e.Description.Substring(0, EventSettings.MaxCharactersInBriefDescription)
+                    })
+                    .ToList();
+
+                foreach (var eventBrief in events)
+                {
+                    eventsInClassroom.Add(eventBrief);
+                }
+            }
+
+            return eventsInClassroom;
+        }
+
+
         public IEnumerable<IEvent> GetBrief(DateTime dateEventsFrom, DateTime dateEventsTo)
         {
             var eventsList = new List<IEvent>();
@@ -91,6 +123,7 @@ namespace SofthemeClassBooking_BLL.Implementation
                         BeginingDate = e.BeginingDate,
                         EndingDate = e.EndingDate,
                         IsPrivate = e.IsPrivate,
+                        UserId = e.UserId,
                         Description = e.Description.Substring(0, EventSettings.MaxCharactersInBriefDescription)
                     }).ToList();
 

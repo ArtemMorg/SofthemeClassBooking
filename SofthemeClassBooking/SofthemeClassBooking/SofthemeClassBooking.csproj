@@ -279,7 +279,7 @@
     <Content Include="Content\css\reset.css" />
     <Content Include="Content\css\roomevent.css" />
     <Content Include="Content\css\users.css" />
-    <Content Include="Content\css\WeekCalendar.css" />
+    <Content Include="Content\css\roompage-calendar.css" />
     <Content Include="Content\images\addEvent.png" />
     <Content Include="Content\images\addinfo\icon-board.png" />
     <Content Include="Content\images\addinfo\icon-laptop.png" />

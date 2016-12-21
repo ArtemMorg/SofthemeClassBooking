@@ -14,5 +14,6 @@ namespace SofthemeClassBooking_BOL.Contract.Services
         void Update(IEvent eventModel, IEvent pivotModel);
         void RemoveAllEventsFromUser(string id);
         int GetNumberOfEventsByUser(string id);
+        IEnumerable<IEvent> GetByClassRoom(int id, DateTime dateEventsFrom, DateTime dateEventsTo);
     }
 }

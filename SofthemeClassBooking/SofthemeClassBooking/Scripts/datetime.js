@@ -72,6 +72,14 @@ function compareTime(time, timeTo) {
     }
 }
 
+function dateDiffInDays(date, dateFrom) {
+
+    var utc1 = Date.UTC(date.year, date.month + 1, date.day);
+    var utc2 = Date.UTC(dateFrom.year, dateFrom.month + 1, dateFrom.day);
+    return Math.floor((utc2 - utc1) / milisecondsPerDay);
+
+}
+
 function copyDate(dateFrom) {
 
     return {
