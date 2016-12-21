@@ -19,6 +19,12 @@ namespace SofthemeClassBooking
                 constraints: new { lang = @"(\w{2})|(\w(2)-\w(2))" },
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional, lang = "ru" }
             );
+
+            routes.MapRoute(
+               name: "404-PageNotFound",
+               url: "{*url}",
+               defaults: new { controller = "Error", action = "Http404" }
+           );
         }
     }
 }

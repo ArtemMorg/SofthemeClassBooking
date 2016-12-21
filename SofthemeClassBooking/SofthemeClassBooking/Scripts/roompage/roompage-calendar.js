@@ -198,7 +198,7 @@ function renderRoomPageSlider() {
 
     $(`#${roompageSliderId}`).show();
 
-    var sliderOffset = ((10 + dateNow.hour - defaultMinimumBookHour) * 60 + dateNow.minutes)
+    var sliderOffset = ((dateNow.hour - defaultMinimumBookHour) * 60 + dateNow.minutes)
                         * minutesPerPixelVertical + roompageCalendarCellBorderWidth;
 
     $(`#${roompageSliderId}`).css('top', sliderOffset);
@@ -217,7 +217,13 @@ function getEventsByClassRoomId() {
 
     var data = {
         id: currentClassRoom.id,
-        dateEventsFrom: convertToDateTime(roompageDate),
+        dateEventsFrom: convertToDateTime({
+            year: roompageDate.year,
+            month: roompageDate.month,
+            day: roompageDate.day,
+            hour: 0,
+            minutes: 0
+    }),
         dateEventsTo: convertToDateTime(dateRight)
     }
 

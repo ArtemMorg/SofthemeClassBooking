@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Entity;
-using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
-using System.Security.Policy;
 using System.Threading.Tasks;
-using System.Web;
+using System.Web.Configuration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -22,26 +16,33 @@ namespace SofthemeClassBooking
     public class EmailService : IIdentityMessageService
     {
 
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
 
 
-            var client = new SmtpClient("smtp.gmail.com", 587)
+            var client = new SmtpClient()
             {
-                Host = "smtp.gmail.com",
+                Host = WebConfigurationManager.AppSettings["Host"],
                 Port = 587,
-                Credentials = new NetworkCredential("softhemeclassbooking@gmail.com", "softhemeclass"),
+                Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["Email"], WebConfigurationManager.AppSettings["Password"]),
                 EnableSsl = true
             };
-            var mail = new MailMessage("softhemeclassbooking@gmail.com", message.Destination)
+            var mail = new MailMessage(WebConfigurationManager.AppSettings["Email"], message.Destination)
             {
                 Subject = message.Subject,
                 Body = message.Body,
                 IsBodyHtml = true
             };
+            using (client)
+            {
+                using (mail)
+                {
 
+                    await client.SendMailAsync(mail);
 
-            return client.SendMailAsync(mail);
+                }
+            }
+
         }
     }
 

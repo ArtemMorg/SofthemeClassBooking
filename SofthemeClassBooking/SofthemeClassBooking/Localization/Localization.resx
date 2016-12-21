@@ -369,4 +369,40 @@
   <data name="Now" xml:space="preserve">
     <value>Сейчас</value>
   </data>
+  <data name="ConfirmEmail" xml:space="preserve">
+    <value>Подтверждение email</value>
+  </data>
+  <data name="ConfirmEmailMessage" xml:space="preserve">
+    <value>Здравствуйте, {0} &lt;BR/&gt;Спасибо за регистрацию, пожалуйста перейдите по ссылке для того чтобы подтвердить Ваш email  &lt;a href=\"{1}\" title=\"User Email Confirm\"&gt;{1}&lt;/a&gt;</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="Error404" xml:space="preserve">
+    <value>Страничку не найдено :(</value>
+  </data>
+  <data name="InccorrectData" xml:space="preserve">
+    <value>Неверные данные</value>
+  </data>
+  <data name="IncorrectData" xml:space="preserve">
+    <value>Неверные данные</value>
+  </data>
+  <data name="PasswordReset" xml:space="preserve">
+    <value>Сброс пароля</value>
+  </data>
+  <data name="PasswordResetMessage" xml:space="preserve">
+    <value>Для сброса пароля, перейдите по ссылке</value>
+  </data>
+  <data name="PleaseConfirmEmail" xml:space="preserve">
+    <value>Пожалуйста, подтвердите email</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>сбросить</value>
+  </data>
+  <data name="UserWithSuchEmailDoesNotExist" xml:space="preserve">
+    <value>Пользователя с такой электронной почтой не существует!</value>
+  </data>
+  <data name="UserWithThisDataIsExist" xml:space="preserve">
+    <value>Пользователь с такими данными уже существует</value>
+  </data>
 </root>
