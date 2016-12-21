@@ -51,7 +51,9 @@
     <div class="event-users">
         <div class="event-creator">
             <i class="fa fa-user fa-2x"></i>
-            <div class="event-creator-name">@Model.Author</div>
+            <div class="event-creator-name">
+                @(Model.Event.IsAuthorShown? Model.Author : Model.Event.Organizer)
+            </div>
         </div>
 
         <div class="event-participant">

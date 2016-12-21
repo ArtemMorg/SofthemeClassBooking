@@ -3,20 +3,16 @@
 @Scripts.Render("~/bundles/scripts/roomevent")
 
 @{
-    var isUserAdmin = User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]);
-    var isUserCanEdit = isUserAdmin || User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAuthorized"]);
+    var isUserCanEdit = User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]) ||
+                        User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAuthorized"]);
 }
 
 <div class="roomevent-section">
 
-    <!--Left side-->
     <div class="roomevent-left-block noselect-text">
 
-        <!--main part-->
-        <!--header-->
         <div class="roomevent-header">
 
-            <!--switch-->
             <div class="roomevent-header-switch-section ">
                 <div class="roomevent-header-switch">
                     <div class="button">
@@ -26,7 +22,6 @@
                 </div>
             </div>
 
-            <!--Date navigation-->
             <div class="roomevent-header-date-section ">
                 <i id="roomevent-time-before-part" class="fa fa-caret fa-caret-left" aria-hidden="true"></i>
                 <span id="event-date" class="text"></span>
@@ -35,8 +30,6 @@
 
         </div>
 
-        <!--Rows-->
-        <!--Time row-->
         <div id="header-time">
             <div class="roomevent-time-cell roomevent-time-cell-first"></div>
         </div>
@@ -44,9 +37,6 @@
         <div id="room-section"></div>
         <div id="roomevent-navigation" class="roomevent-now"><span id="roomevent-now"></span></div>
     </div>
-
-
-    <!--right block-->
 
     <div class="roomevent-right-block noselect-text">
         <div class="calendar">
@@ -60,11 +50,10 @@
             <div class="roomevent-calendar-today"><span id="roomevent-calendar-today"></span></div>
         </div>
 
-
     </div>
 
 </div>
 
 <script>
-    roomEventInit('@isUserAdmin', '@isUserCanEdit');
+    roomEventInit('@isUserCanEdit');
 </script>

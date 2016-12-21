@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -54,11 +55,11 @@ namespace SofthemeClassBooking.Controllers
         [HttpPost]
         public ActionResult UserEvents()
         {
-            var userEvents = JsonConvert.SerializeObject(_eventService.GetByUser(User.Identity.GetUserId()),
-                                                        Formatting.None,
-                                                        new IsoDateTimeConverter() { DateTimeFormat = EventSettings.DateTimeToJsonLong });
             try
             {
+                var userEvents = JsonConvert.SerializeObject(_eventService.GetByUser(User.Identity.GetUserId()),
+                        Formatting.None,
+                        new IsoDateTimeConverter() { DateTimeFormat = EventSettings.DateTimeToJsonLong });
                 return Json(userEvents, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
@@ -72,18 +73,26 @@ namespace SofthemeClassBooking.Controllers
         [AllowAnonymous]
         public ActionResult Index(int id)
         {
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(ApplicationDbContext.Create()));
-            var eventInfo = _eventService.Get(id);
-            eventInfo.Id = id;
-
-            var author = userManager.FindById(eventInfo.UserId).UserName;
-
-            return View(new EventViewModel
+            try
             {
-                Event = eventInfo,
-                Participants = _participantService.Get(id),
-                Author = author
-            });
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(ApplicationDbContext.Create()));
+                var eventInfo = _eventService.Get(id);
+                eventInfo.Id = id;
+
+                var author = userManager.FindById(eventInfo.UserId).UserName;
+
+                return View(new EventViewModel
+                {
+                    Event = eventInfo,
+                    Participants = _participantService.Get(id),
+                    Author = author
+                });
+            }
+            catch (Exception)
+            {
+                return Json(new { message = Localization.Localization.ErrorGeneralException, success = false });
+            }
+
         }
 
         [HttpPost]
@@ -133,16 +142,17 @@ namespace SofthemeClassBooking.Controllers
         {
 
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(ApplicationDbContext.Create()));
-
             try
             {
-
                 var eventInfo = _eventService.Get(id);
                 eventInfo.Id = id;
 
-                if (isPrivate && eventInfo.UserId != User.Identity.GetUserId())
+                if (isPrivate && !User.IsInRole(WebConfigurationManager.AppSettings["UserRoleAdmin"]))
                 {
-                    return Json(new { message = false, success = true });
+                    if (eventInfo.UserId != User.Identity.GetUserId())
+                    {
+                        return Json(new { message = false, success = true });
+                    }
                 }
 
                 return PartialView(new EventViewModel
@@ -156,39 +166,6 @@ namespace SofthemeClassBooking.Controllers
             {
                 return Json(new { message = Localization.Localization.ErrorGeneralException, success = false });
             }
-        }
-
-        [HttpGet]
-        [Authorize]
-        public ActionResult InfoPrivate(int id)
-        {
-
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(ApplicationDbContext.Create()));
-            var eventInfo = _eventService.Get(id);
-
-            if (User.Identity.GetUserId() != eventInfo.UserId)
-            {
-                return null;
-            }
-
-            eventInfo.Id = id;
-
-            return PartialView(new EventViewModel
-            {
-                Event = eventInfo,
-                ParticipantCount = _participantService.GetCount(id),
-                Author = userManager.FindById(eventInfo.UserId).UserName
-            });
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult Info(int id)
-        {
-            var eventInfo = _eventService.Get(id);
-            eventInfo.Id = id;
-
-            return PartialView(eventInfo);
         }
 
         [HttpGet]

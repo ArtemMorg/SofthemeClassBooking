@@ -75,6 +75,7 @@ function setCurrentUserId(id) {
     currentUserId = id;
 }
 
+$(document).off('click', '#add-event');
 $(document).on('click', '#add-event', function () {
 
     loadSection(ajaxUrl.EventCreateUrl).done(function (result) {
@@ -106,9 +107,7 @@ function setEngineUrl(url) {
         EventCancelUrl: url.EventCancelUrl,
         EventUpdateUrl: url.EventUpdateUrl,
         EventsBriefUrl: url.EventsBriefUrl,
-        EventInfo: url.EventInfo,
         EventByClassRoomUrl: url.EventByClassRoomUrl,
-        EventInfoPrivate: url.EventInfoPrivate,
         EventUrl: url.EventUrl,
         EventInfoVerbose: url.EventInfoVerbose,
         ParticipantAddUrl: url.ParticipantAddUrl,
@@ -134,18 +133,9 @@ function getEventsBriefByUser() {
     return loadSection(ajaxUrl.EventUsersUrl);
 }
 
-function getEventInfoVerbose(eventId) {
-    return loadSection(ajaxUrl.EventInfoVerbose + '/' + eventId);
+function getEventInfoVerbose(eventId,eventPrivate) {
+    return loadSection(ajaxUrl.EventInfoVerbose + '?id=' + eventId + '&isPrivate=' + eventPrivate);
 }
-
-function getEventInfoPrivate(eventId) {
-    return loadSection(ajaxUrl.EventInfoPrivate + '/' + eventId);
-}
-
-function getEventInfo(eventId) {
-    return loadSection(ajaxUrl.EventInfo + '/' + eventId);
-}
-
 
 function renderSection(url, domElement, domLoadingElement, finallyFunction) {
     loadSection(url, function () {
@@ -168,9 +158,9 @@ function renderSection(url, domElement, domLoadingElement, finallyFunction) {
     });
 }
 
-
+$(document).off('click', '.fa-link');
 $(document).on('click', '.fa-link', function () {
-    window.location = ajaxUrl.EventUrl + "/Index/" + $(this).attr('id').split('-')[1];
+    window.location = ajaxUrl.EventUrl + '/' + $(this).attr('id').split('-')[1];
 });
 
 
@@ -203,16 +193,6 @@ function addParticipant(participantForm, participantFormDom, isForm) {
             eventPageDialogWindowError.show();
         });
 }
-
-$(document).on('click', '#add-participant-submit', function () {
-    if ($('#add-participant-email').val().length >= 1) {
-
-        postFormData(ajaxUrl.ParticipantAddUrl, $('#add-participant-form'), 'json', addParticipantSubmitCallback, function (message) {
-            console.log(message);
-        });
-    }
-
-});
 
 function fillClassRoomSelectList(selectDom) {
 

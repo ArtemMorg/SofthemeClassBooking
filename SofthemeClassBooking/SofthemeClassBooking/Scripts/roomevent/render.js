@@ -5,7 +5,6 @@ var roomSection = $('#room-section');
 var roomEventLeftBlock = $('.roomevent-left-block');
 var roomEventHeader = $('.roomevent-header-date-section');
 
-var isUserOwner;
 var firstTimeCellHour;
 var firstTimeCellDate;
 var sliderTimeHour = dateNow.hour;
@@ -14,7 +13,6 @@ var currentMode = shortRoomEventTable;
 var eventBlock;
 var renderClassRooms;
 var renderEvents;
-var isUserAdmin;
 var isUserCanEdit;
 
 
@@ -40,9 +38,8 @@ var roomeventAddStartDateTimePopup = {
 
 };
 
-function setIsUserAdmin(userAdmin, userCanEdit) {
+function setIsUserAdmin(userCanEdit) {
     isUserCanEdit = userCanEdit;
-    isUserAdmin = userAdmin;
 }
 
 function setDateNow() {
@@ -168,10 +165,9 @@ $(document).on('click', '.eventblock-exist, .eventblock-lock', function (e) {
     });
 
 
-    if (eventPrivate === 'true' && isUserAdmin) {
+    if (eventPrivate === 'true') {
 
-
-        getEventInfoVerbose(currentEventId)
+        getEventInfoVerbose(currentEventId, true)
            .done(function (successResponse) {
 
                $(`#${roomeventPoputId}`).html(successResponse);
@@ -181,30 +177,17 @@ $(document).on('click', '.eventblock-exist, .eventblock-lock', function (e) {
 
            });
 
-    } else if (eventPrivate === 'false') {
+    } else {
 
-        //if (parseInt(selectedEventBlockType) === eventBlockType.long) {
-
-        getEventInfoVerbose(currentEventId)
+        getEventInfoVerbose(currentEventId, false)
             .done(function (successResponse) {
                 $(`#${roomeventPoputId}`).html(successResponse);
 
             });
-
-        //} else {
-
-        //    getEventInfo(currentEventId).done(function (successResponse) {
-        //        $(`#${roomeventPoputId}`).html(successResponse);
-        //    });
-        //}
-
     }
-
-
-
-
 });
 
+$(document).off('mouseover', '.roomevent-room-cell-middle');
 $(document).on('mouseover', '.roomevent-room-cell-middle', function (e) {
 
     if (!isUserCanEdit) {
@@ -253,6 +236,7 @@ $(document).on('mouseover', '.roomevent-room-cell-middle', function (e) {
     $('.eventblock-add').remove();
 });
 
+$(document).off('click', '#roomevent-now');
 $(document).on('click', '#roomevent-now', function () {
     resetCurrentCalendarCell();
     renderCalendar(currentCalendarCell.month);
@@ -444,7 +428,7 @@ function renderEventBlock(eventBlock, roomEventCellId) {
 }
 
 function getFreeLeftSpace(roomCellObject) {
- 
+
     if (typeof (roomCellObject.attr('data-inside-event')) === "undefined") {
         return timeCellWidth;
     }
@@ -463,309 +447,307 @@ function getFreeLeftSpace(roomCellObject) {
         return leftOccupied == 0 ? (timeCellWidth - rightOccupied) : 0;
     }
 }
-    function renderEventAdd(currentRoomCellObject) {
-        //clause if mouse over existing event
-        if (currentRoomCellObject.mouseRelativePosition > (timeCellWidth - currentRoomCellObject.dataRightOccupied)) {
+function renderEventAdd(currentRoomCellObject) {
+    //clause if mouse over existing event
+    if (currentRoomCellObject.mouseRelativePosition > (timeCellWidth - currentRoomCellObject.dataRightOccupied)) {
+        return;
+    }
+
+    //clause if current cell fully loaded
+    if ((currentRoomCellObject.dataLeftOccupied != 0) &&
+        (currentRoomCellObject.dataRightOccupied != 0) &&
+        (timeCellWidth -
+        (currentRoomCellObject.dataLeftOccupied + currentRoomCellObject.dataRightOccupied)
+        < minumumAllowedTimeToBook)) {
+        return;
+    }
+
+    //clause if next cell is loaded and not enough space for new event
+    var freeSpaceNextCell = getFreeLeftSpace(currentRoomCellObject.nextId);
+    var freeSpaceLeft = timeCellWidth - currentRoomCellObject.dataRightOccupied;
+    if (minumumAllowedTimeToBook > freeSpaceLeft) {
+        return;
+    }
+
+
+    if (currentRoomCellObject.dataInsideEvent.length > 1) {
+
+        var leftStart = parseInt(currentRoomCellObject.dataInsideEvent[0]);
+        var leftEnd = parseInt(currentRoomCellObject.dataInsideEvent[1]);
+        var rightOffset = leftStart + leftEnd;
+
+        var freeSpace = (timeCellWidth - rightOffset) + freeSpaceNextCell;
+
+        if ((currentRoomCellObject.mouseRelativePosition >= leftStart)
+            && (currentRoomCellObject.mouseRelativePosition <= rightOffset)
+            || (minumumAllowedTimeToBook > leftStart) && (currentRoomCellObject.mouseRelativePosition < leftStart)
+            || minumumAllowedTimeToBook > freeSpace) {
             return;
         }
 
-        //clause if current cell fully loaded
-        if ((currentRoomCellObject.dataLeftOccupied != 0) &&
-            (currentRoomCellObject.dataRightOccupied != 0) &&
-            (timeCellWidth -
-            (currentRoomCellObject.dataLeftOccupied + currentRoomCellObject.dataRightOccupied)
-            < minumumAllowedTimeToBook)) {
-            return;
-        }
+        $('#' + currentRoomCellObject.id).append('<div id="new-' + currentRoomCellObject.id + '" class="eventblock-add">' +
+                '<i class="fa fa-plus fa-2x"></i></div>');
 
-        //clause if next cell is loaded and not enough space for new event
-        var freeSpaceNextCell = getFreeLeftSpace(currentRoomCellObject.nextId);
-        var freeSpaceLeft = timeCellWidth - currentRoomCellObject.dataRightOccupied;
-        if (minumumAllowedTimeToBook > freeSpaceLeft) {
-            return;
-        }
-
-
-        if (currentRoomCellObject.dataInsideEvent.length > 1) {
-
-            var leftStart = parseInt(currentRoomCellObject.dataInsideEvent[0]);
-            var leftEnd = parseInt(currentRoomCellObject.dataInsideEvent[1]);
-            var rightOffset = leftStart + leftEnd;
-
-            var freeSpace = (timeCellWidth - rightOffset) + freeSpaceNextCell;
-
-            if ((currentRoomCellObject.mouseRelativePosition >= leftStart)
-                && (currentRoomCellObject.mouseRelativePosition <= rightOffset)
-                || (minumumAllowedTimeToBook > leftStart) && (currentRoomCellObject.mouseRelativePosition < leftStart)
-                || minumumAllowedTimeToBook > freeSpace) {
-                return;
-            }
-
-            $('#' + currentRoomCellObject.id).append('<div id="new-' + currentRoomCellObject.id + '" class="eventblock-add">' +
-                    '<i class="fa fa-plus fa-2x"></i></div>');
-
-            if (currentRoomCellObject.mouseRelativePosition < leftStart) {
-                $('#new-' + currentRoomCellObject.id)
-                    .css('width', leftStart)
-                    .css('left', 0);
-            } else {
-                var actualWidth = (timeCellWidth - eventAddBlockCorrection) - rightOffset;
-                var width = actualWidth < minumumAllowedTimeToBook ? minumumAllowedTimeToBook : actualWidth;
-                $('#new-' + currentRoomCellObject.id)
-                    .css('width', width)
-                    .css('left', (rightOffset));
-            }
-
+        if (currentRoomCellObject.mouseRelativePosition < leftStart) {
+            $('#new-' + currentRoomCellObject.id)
+                .css('width', leftStart)
+                .css('left', 0);
         } else {
-
-            //check if time is allowed
-
-            $('#' + currentRoomCellObject.id).append('<div id="new-' + currentRoomCellObject.id + '" class="eventblock-add">' +
-            '<i class="fa fa-plus fa-2x"></i></div>');
-
-            var actualWidth = (timeCellWidth - eventAddBlockCorrection) - (currentRoomCellObject.dataLeftOccupied + currentRoomCellObject.dataRightOccupied);
+            var actualWidth = (timeCellWidth - eventAddBlockCorrection) - rightOffset;
             var width = actualWidth < minumumAllowedTimeToBook ? minumumAllowedTimeToBook : actualWidth;
             $('#new-' + currentRoomCellObject.id)
                 .css('width', width)
-                .css('left', currentRoomCellObject.dataLeftOccupied);
+                .css('left', (rightOffset));
         }
 
+    } else {
+
+        //check if time is allowed
+
+        $('#' + currentRoomCellObject.id).append('<div id="new-' + currentRoomCellObject.id + '" class="eventblock-add">' +
+        '<i class="fa fa-plus fa-2x"></i></div>');
+
+        var actualWidth = (timeCellWidth - eventAddBlockCorrection) - (currentRoomCellObject.dataLeftOccupied + currentRoomCellObject.dataRightOccupied);
+        var width = actualWidth < minumumAllowedTimeToBook ? minumumAllowedTimeToBook : actualWidth;
+        $('#new-' + currentRoomCellObject.id)
+            .css('width', width)
+            .css('left', currentRoomCellObject.dataLeftOccupied);
     }
 
+}
 
 
 
-    function renderSliders(timeCellCount) {
-        headerTime.append('<div id="header-time-slider-zone"></div>');
-        $('#header-time-slider-zone').css('width', timeCellWidth * timeCellCount);
 
-        $('#header-time-slider-zone').append(
-        '<div id="slider-static">' +
-        '<div class="slider-up-static"></div>' +
-        '<div class="slider-down-static"></div>' +
-        '<div class="slider-time-static">Сейчас</div>' +
-        '</div>');
+function renderSliders(timeCellCount) {
+    headerTime.append('<div id="header-time-slider-zone"></div>');
+    $('#header-time-slider-zone').css('width', timeCellWidth * timeCellCount);
 
-        $('#header-time-slider-zone').append(
-                '<div id="slider">' +
-                '<div class="slider-up"></div>' +
-                '<div class="slider-down"></div>' +
-                '<div class="slider-time"></div>' +
-                '</div>');
+    $('#header-time-slider-zone').append(
+    '<div id="slider-static">' +
+    '<div class="slider-up-static"></div>' +
+    '<div class="slider-down-static"></div>' +
+    '<div class="slider-time-static">Сейчас</div>' +
+    '</div>');
 
-        $('#slider, #slider-static').css('height', ((renderClassRooms.length * 49) + 35));
-        $('.slider-time').html(renderTimeMinutes(firstTimeCellHour, 0));
+    $('#header-time-slider-zone').append(
+            '<div id="slider">' +
+            '<div class="slider-up"></div>' +
+            '<div class="slider-down"></div>' +
+            '<div class="slider-time"></div>' +
+            '</div>');
 
-        $('#slider').draggable({
-            axis: "x",
-            cursor: 'pointer',
-            grid: [minutePerPixel, 0],
-            containment: "#header-time-slider-zone",
-            drag: function (event, ui) {
+    $('#slider, #slider-static').css('height', ((renderClassRooms.length * 49) + 35));
+    $('.slider-time').html(renderTimeMinutes(firstTimeCellHour, 0));
 
-                var thisObject = $(this);
+    $('#slider').draggable({
+        axis: "x",
+        cursor: 'pointer',
+        grid: [minutePerPixel, 0],
+        containment: "#header-time-slider-zone",
+        drag: function (event, ui) {
 
-                renterSliderTime(thisObject.position().left);
-                collision($('#slider'));
-            }
-        });
+            var thisObject = $(this);
 
-    }
+            renterSliderTime(thisObject.position().left);
+            collision($('#slider'));
+        }
+    });
 
-
-    function collision(slider) {
-
-        var visitedRooms = [];
-
-        $('.eventblock-block').each(function (i, obj) {
-
-            var block = $(this);
-
-            if (include(visitedRooms, block.attr("data-classroom-id"))) {
-                return true;
-            }
-
-            var x1 = slider.offset().left;
-            var y1 = slider.offset().top;
-            var h1 = slider.outerHeight(true);
-            var w1 = slider.outerWidth(true);
-            var b1 = y1 + h1;
-            var r1 = x1 + w1;
-
-            var x2 = block.offset().left;
-            var y2 = block.offset().top;
-            var h2 = block.outerHeight(true);
-            var w2 = block.outerWidth(true);
-            var b2 = y2 + h2;
-            var r2 = x2 + w2;
+}
 
 
-            if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) {
+function collision(slider) {
 
-                var busyClassRoomId = block.attr("data-classroom-id");
-                $(`#${busyClassRoomId}`).attr("class", `plan-room-${busyClassRoomId}-available plan-room -available`);
+    var visitedRooms = [];
 
-            } else {
-                var availableRoomId = block.attr("data-classroom-id");
-                $(`#${availableRoomId}`).attr("class", `plan-room-${availableRoomId}-busy plan-room -busy`);
-                visitedRooms.push(availableRoomId);
-            }
-        });
+    $('.eventblock-block').each(function (i, obj) {
+
+        var block = $(this);
+
+        if (include(visitedRooms, block.attr("data-classroom-id"))) {
+            return true;
+        }
+
+        var x1 = slider.offset().left;
+        var y1 = slider.offset().top;
+        var h1 = slider.outerHeight(true);
+        var w1 = slider.outerWidth(true);
+        var b1 = y1 + h1;
+        var r1 = x1 + w1;
+
+        var x2 = block.offset().left;
+        var y2 = block.offset().top;
+        var h2 = block.outerHeight(true);
+        var w2 = block.outerWidth(true);
+        var b2 = y2 + h2;
+        var r2 = x2 + w2;
 
 
-    }
+        if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) {
 
-    function include(arr, obj) {
-        return (arr.indexOf(obj) != -1);
-    }
+            var busyClassRoomId = block.attr("data-classroom-id");
+            $(`#${busyClassRoomId}`).attr("class", `plan-room-${busyClassRoomId}-available plan-room -available`);
 
-    function renterStaticSliderTime() {
-
-        var navigation;
-
-        if (currentMode == shortRoomEventTable) {
-            navigation = $('.roomevent-now');
         } else {
-            navigation = $('.roomevent-now-large');
+            var availableRoomId = block.attr("data-classroom-id");
+            $(`#${availableRoomId}`).attr("class", `plan-room-${availableRoomId}-busy plan-room -busy`);
+            visitedRooms.push(availableRoomId);
         }
-        $('#roomevent-now').empty();
+    });
 
-        var targetCellId = $('#hour-cell-' + dateNow.year + '-' + dateNow.month + '-' + dateNow.day + '-' + dateNow.hour);
-        var targetCellIdPosition = targetCellId.position();
 
-        if (targetCellIdPosition != undefined) {
+}
 
-            var sliderOffset = (targetCellIdPosition.left - fisrtTimeCellWidth) + (minutePerPixel * dateNow.minutes);
-            $('#slider-static').css('left', sliderOffset);
+function include(arr, obj) {
+    return (arr.indexOf(obj) != -1);
+}
+
+function renterStaticSliderTime() {
+
+    var navigation;
+
+    if (currentMode == shortRoomEventTable) {
+        navigation = $('.roomevent-now');
+    } else {
+        navigation = $('.roomevent-now-large');
+    }
+    $('#roomevent-now').empty();
+
+    var targetCellId = $('#hour-cell-' + dateNow.year + '-' + dateNow.month + '-' + dateNow.day + '-' + dateNow.hour);
+    var targetCellIdPosition = targetCellId.position();
+
+    if (targetCellIdPosition != undefined) {
+
+        var sliderOffset = (targetCellIdPosition.left - fisrtTimeCellWidth) + (minutePerPixel * dateNow.minutes);
+        $('#slider-static').css('left', sliderOffset);
+    } else {
+        navigation.show();
+
+        var compareDatesResult = compareDates(currentCalendarCell, dateNow, false, true);
+
+        if (compareDatesResult < 0) {
+            $('#slider-static').hide();
+            navigation.css('text-align', 'right');
+            $('#roomevent-now').html('Сейчас <i class="fa fa-long-arrow-right" aria-hidden="true"></i>');
         } else {
-            navigation.show();
-
-            var compareDatesResult = compareDates(currentCalendarCell, dateNow, false, true);
-
-            if (compareDatesResult < 0) {
-                $('#slider-static').hide();
-                navigation.css('text-align', 'right');
-                $('#roomevent-now').html('Сейчас <i class="fa fa-long-arrow-right" aria-hidden="true"></i>');
-            } else {
-                $('#slider-static').hide();
-                navigation.css('text-align', 'left');
-                $('#roomevent-now').html('<i class="fa fa-long-arrow-left" aria-hidden="true"></i> Сейчас');
-            }
+            $('#slider-static').hide();
+            navigation.css('text-align', 'left');
+            $('#roomevent-now').html('<i class="fa fa-long-arrow-left" aria-hidden="true"></i> Сейчас');
         }
     }
+}
 
-    function renterSliderTime(leftPosition) {
-        var hours = Math.floor(leftPosition / (minutePerPixel * 60));
-        var renderHours = firstTimeCellHour + hours;
+function renterSliderTime(leftPosition) {
+    var hours = Math.floor(leftPosition / (minutePerPixel * 60));
+    var renderHours = firstTimeCellHour + hours;
 
-        var minutes = Math.floor((leftPosition - (hours * 60 * minutePerPixel)) / minutePerPixel);
+    var minutes = Math.floor((leftPosition - (hours * 60 * minutePerPixel)) / minutePerPixel);
 
-        while (renderHours >= 24) {
-            renderHours -= 24;
+    while (renderHours >= 24) {
+        renderHours -= 24;
+    }
+
+    $('.slider-time').html(renderTimeMinutes(renderHours, minutes));
+    sliderTimeHour = renderHours;
+}
+
+//Functions
+
+
+function setDateHeader(dateTimeParameters) {
+    var dayOfWeek = getDayOfWeek(new Date(currentCalendarCell.year + '-' + currentCalendarCell.month + '-' + currentCalendarCell.day).getDay());
+
+    $('#event-date').html(currentCalendarCell.day + ', ' + dayNames[dayOfWeek]);
+}
+
+
+//events from db:
+//EventBlockViewModel  Id, ClassRoomId, BeginingDate, EndingDate
+function doEventStuff() {
+    calculateEventBlockPosition();
+}
+
+function calculateEventBlockPosition() {
+
+    var events = renderEvents;
+
+    for (var currentEvent = 0; currentEvent < events.length; currentEvent++) {
+
+        var beginingDate = convertToDateObject(events[currentEvent].BeginingDate);
+        var endinggDate = convertToDateObject(events[currentEvent].EndingDate);
+
+        var hourBegin = beginingDate.hour;
+        var hourEnd = endinggDate.hour;
+        var minutesBegin = beginingDate.minutes;
+        var minutesEnd = endinggDate.minutes;
+
+        var hourBeginRelative = hourBegin - firstTimeCellHour;
+        var hourEndRelative = hourEnd - firstTimeCellHour;
+
+        if (hourBeginRelative < 0) {
+            hourBeginRelative += 24;
+        }
+        if (hourEndRelative < 0) {
+            hourEndRelative += 24;
         }
 
-        $('.slider-time').html(renderTimeMinutes(renderHours, minutes));
-        sliderTimeHour = renderHours;
-    }
+        var year = beginingDate.year;
+        var month = beginingDate.month;
+        var day = beginingDate.day;
 
-    //Functions
+        var classRoomId = events[currentEvent].ClassRoomId;
+
+        var hoursDuration = hourEnd - hourBegin;
+
+        var duration = (hourEnd * 60 + minutesEnd) - (hourBegin * 60 + minutesBegin);
+        var leftPosition = minutesBegin * minutePerPixel;
+
+        var width = duration * minutePerPixel;
+
+        var eventBlock = {
+            id: 'eventblock-' + events[currentEvent].Id,
+            left: leftPosition,
+            width: width,
+            classRoomId: events[currentEvent].ClassRoomId,
+            timeStart: renderTimeMinutes(hourBegin, minutesBegin),
+            timeEnd: renderTimeMinutes(hourEnd, minutesEnd),
+            title: events[currentEvent].Title,
+            description: events[currentEvent].Description,
+            blockType: duration < shortBlockMinimumTime ? eventBlockType.short : eventBlockType.long,
+            isPrivate: events[currentEvent].IsPrivate
+
+        };
+        var cellIdFirst = '#' + year + '-' + month + '-' + day + '-' + hourBegin + '-' + classRoomId;
+
+        if ((hourEnd == hourBegin) || ((hoursDuration == 1) && (minutesBegin == 0 && minutesEnd == 0))) {
+
+            $(cellIdFirst).attr('data-inside-event', leftPosition + '-' + width);
+
+            renderEventBlock(eventBlock, cellIdFirst);
+            continue;
 
 
-    function setDateHeader(dateTimeParameters) {
-        var dayOfWeek = getDayOfWeek(new Date(currentCalendarCell.year + '-' + currentCalendarCell.month + '-' + currentCalendarCell.day).getDay());
-
-        $('#event-date').html(currentCalendarCell.day + ', ' + dayNames[dayOfWeek]);
-    }
-
-
-    //events from db:
-    //EventBlockViewModel  Id, ClassRoomId, BeginingDate, EndingDate
-    function doEventStuff() {
-        calculateEventBlockPosition();
-    }
-
-    function calculateEventBlockPosition() {
-
-        var events = renderEvents;
-
-        for (var currentEvent = 0; currentEvent < events.length; currentEvent++) {
-
-            var beginingDate = convertToDateObject(events[currentEvent].BeginingDate);
-            var endinggDate = convertToDateObject(events[currentEvent].EndingDate);
-
-            var hourBegin = beginingDate.hour;
-            var hourEnd = endinggDate.hour;
-            var minutesBegin = beginingDate.minutes;
-            var minutesEnd = endinggDate.minutes;
-
-            var hourBeginRelative = hourBegin - firstTimeCellHour;
-            var hourEndRelative = hourEnd - firstTimeCellHour;
-
-            if (hourBeginRelative < 0) {
-                hourBeginRelative += 24;
+        } else if (hoursDuration > 0) {
+            var dataRightOccupied = timeCellWidth - leftPosition - eventAddBlockCorrection;
+            var dataLeftOccupied = Math.round(width - dataRightOccupied - eventAddBlockCorrection);
+            while (dataLeftOccupied > timeCellWidth) {
+                dataLeftOccupied -= timeCellWidth;
             }
-            if (hourEndRelative < 0) {
-                hourEndRelative += 24;
-            }
 
-            var year = beginingDate.year;
-            var month = beginingDate.month;
-            var day = beginingDate.day;
+            $(cellIdFirst).attr('data-right-occupied', dataRightOccupied);
 
-            var classRoomId = events[currentEvent].ClassRoomId;
+            var cellIdLast = '#' + year + '-' + month + '-' + day + '-' + hourEnd + '-' + classRoomId;
+            $(cellIdLast).attr('data-left-occupied', dataLeftOccupied);
 
-            var hoursDuration = hourEnd - hourBegin;
-
-            var duration = (hourEnd * 60 + minutesEnd) - (hourBegin * 60 + minutesBegin);
-            var leftPosition = minutesBegin * minutePerPixel;
-
-            var width = duration * minutePerPixel;
-
-            var eventBlock = {
-                id: 'eventblock-' + events[currentEvent].Id,
-                left: leftPosition,
-                width: width,
-                classRoomId: events[currentEvent].ClassRoomId,
-                timeStart: renderTimeMinutes(hourBegin, minutesBegin),
-                timeEnd: renderTimeMinutes(hourEnd, minutesEnd),
-                title: events[currentEvent].Title,
-                description: events[currentEvent].Description,
-                blockType: duration < shortBlockMinimumTime ? eventBlockType.short : eventBlockType.long,
-                isPrivate: events[currentEvent].IsPrivate
-
-            };
-            var cellIdFirst = '#' + year + '-' + month + '-' + day + '-' + hourBegin + '-' + classRoomId;
-
-            if ((hourEnd == hourBegin) || ((hoursDuration == 1) && (minutesBegin == 0 && minutesEnd == 0))) {
-
-                $(cellIdFirst).attr('data-inside-event', leftPosition + '-' + width);
-
-                renderEventBlock(eventBlock, cellIdFirst);
-                continue;
-
-
-            } else if (hoursDuration > 0) {
-                var dataRightOccupied = timeCellWidth - leftPosition - eventAddBlockCorrection;
-                var dataLeftOccupied = Math.round(width - dataRightOccupied - eventAddBlockCorrection);
-                while (dataLeftOccupied > timeCellWidth) {
-                    dataLeftOccupied -= timeCellWidth;
-                }
-
-                $(cellIdFirst).attr('data-right-occupied', dataRightOccupied);
-
-                var cellIdLast = '#' + year + '-' + month + '-' + day + '-' + hourEnd + '-' + classRoomId;
-                $(cellIdLast).attr('data-left-occupied', dataLeftOccupied);
-
-                renderEventBlock(eventBlock, cellIdFirst);
-
-            }
+            renderEventBlock(eventBlock, cellIdFirst);
 
         }
 
-
     }
+}
 
-    function activateStaticSlider() {
-        var sliderTime = setInterval(renterStaticSliderTime, sliderTimeInterval);
-        renterStaticSliderTime();
-    }
+function activateStaticSlider() {
+    var sliderTime = setInterval(renterStaticSliderTime, sliderTimeInterval);
+    renterStaticSliderTime();
+}

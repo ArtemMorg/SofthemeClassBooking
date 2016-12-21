@@ -234,11 +234,6 @@
     </Compile>
     <Compile Include="Helpers\DateTimeValidationHelper.cs" />
     <Compile Include="Helpers\LocalizationAttribute.cs" />
-    <Compile Include="Localization\JsLocalication.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JsLocalication.resx</DependentUpon>
-    </Compile>
     <Compile Include="Localization\Localization.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -440,7 +435,6 @@
     <Content Include="Views\Event\InfoVerbose.cshtml" />
     <Content Include="Views\RoomEvent\CrudView.cshtml" />
     <Content Include="Views\Event\Index.cshtml" />
-    <Content Include="Views\Event\Info.cshtml" />
     <Content Include="Views\Home\Profile.cshtml" />
     <Content Include="Views\Home\ChangeUserNameEmail.cshtml" />
     <Content Include="Views\Event\Create.cshtml" />
@@ -467,10 +461,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Localization\JsLocalication.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>JsLocalication.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Localization\Localization.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Localization.Designer.cs</LastGenOutput>

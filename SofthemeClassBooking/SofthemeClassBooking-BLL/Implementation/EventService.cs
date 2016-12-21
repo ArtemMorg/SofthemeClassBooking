@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Linq.Expressions;
 using SofthemeClassBooking_BOL.Contract.Models;
 using SofthemeClassBooking_BOL.Contract.Services;
 using SofthemeClassBooking_BOL.Enum;
@@ -13,7 +12,6 @@ using SofthemeClassBooking_DAL;
 namespace SofthemeClassBooking_BLL.Implementation
 {
    
-
     public class EventService : IEventService<IEvent>
     {
         public void Add(IEvent eventModel)
@@ -49,8 +47,6 @@ namespace SofthemeClassBooking_BLL.Implementation
             }
 
         }
-
-        
 
         public IEnumerable<IEvent> Get()
         {
@@ -156,7 +152,8 @@ namespace SofthemeClassBooking_BLL.Implementation
                                   BeginingDate = e.BeginingDate,
                                   EndingDate = e.EndingDate,
                                   Title = e.Title,
-                                  Description = e.Description
+                                  Description = e.Description,
+                                  IsPrivate = e.IsPrivate
                               }).ToList();
 
 
@@ -228,9 +225,38 @@ namespace SofthemeClassBooking_BLL.Implementation
         public void Update(IEvent eventModel, IEvent pivotModel)
         {
 
-            if (ServiceHelper.IsRoomBusy(eventModel))
+            if (eventModel.ClassRoomId != pivotModel.ClassRoomId)
             {
-                throw new RoomIsBusyException();
+                if (ServiceHelper.IsRoomBusy(eventModel))
+                {
+                    throw new RoomIsBusyException();
+                }
+            }
+
+            if(DateTime.Compare(eventModel.BeginingDate, pivotModel.BeginingDate) < 0)
+            {
+                if (ServiceHelper.IsRoomBusy(new EventModel
+                {
+                    BeginingDate = eventModel.BeginingDate,
+                    EndingDate = pivotModel.BeginingDate,
+                    ClassRoomId = eventModel.ClassRoomId
+                }))
+                {
+                    throw new RoomIsBusyException();
+                }
+            }
+
+            if (DateTime.Compare(eventModel.EndingDate, pivotModel.EndingDate) > 0)
+            {
+                if (ServiceHelper.IsRoomBusy(new EventModel
+                {
+                    BeginingDate = pivotModel.EndingDate,
+                    EndingDate = eventModel.EndingDate,
+                    ClassRoomId = eventModel.ClassRoomId
+                }))
+                {
+                    throw new RoomIsBusyException();
+                }
             }
 
             var events = MapService.Map(eventModel);

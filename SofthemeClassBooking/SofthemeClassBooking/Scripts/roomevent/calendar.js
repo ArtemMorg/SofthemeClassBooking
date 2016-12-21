@@ -108,7 +108,7 @@ function parseIdFromCalendarSell(longId) {
 }
 
 //Click events
-
+$(document).off('click', '#roomevent-calendar-today');
 $(document).on('click', '#roomevent-calendar-today', function () {
     currentCalendarMonth = dateNow.month;
     currentCalendarYear = dateNow.year;
@@ -120,6 +120,7 @@ $(document).on('click', '#roomevent-calendar-today', function () {
     renterStaticSliderTime();
 });
 
+$(document).off('click', '#calendar-month-left');
 $(document).on('click', '#calendar-month-left', function () {
     currentCalendarMonth--;
     if (currentCalendarMonth < 1) {
@@ -129,6 +130,7 @@ $(document).on('click', '#calendar-month-left', function () {
     renderCalendar(currentCalendarMonth);
 });
 
+$(document).off('click', '#calendar-month-right');
 $(document).on('click', '#calendar-month-right', function () {
 
     currentCalendarMonth++;
@@ -157,6 +159,7 @@ currentMonthRender.bind('changeCalendarNavigation', function () {
 
 });
 
+$(document).off('click', '.roomevent-calendar-cell');
 $(document).on('click', '.roomevent-calendar-cell', function () {
 
     var selectedCalendarCell = $(this);
